@@ -35,7 +35,11 @@
     </div>
     <div class="flex gap-5 mr-5">
       <div><font-awesome-icon class="text-[30px]" icon="magnifying-glass" /></div>
-      <div><font-awesome-icon class="text-[30px]" icon="user" /></div>
+      <div>
+        <router-link :to="`${ $store.getters.checkIsAuthenticated ? '/profile' : '/login' }`">
+          <font-awesome-icon class="text-[30px]" icon="user" />
+        </router-link>
+      </div>
       <div class="relative">
         <font-awesome-icon class="text-[30px]" icon="cart-shopping" />
         <sup class="cart-count absolute top-[-5px] right-[-5px]">{{ $store.getters.getCountCartItem }}</sup>

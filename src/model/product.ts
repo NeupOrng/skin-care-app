@@ -46,10 +46,10 @@ class ProductInCart extends Product {
       }
     }
 
-    constructor (init: IProduct) {
+    constructor (init: IProduct, amount = 1) {
       super(init)
       Object.assign(this, init)
-      this.Amount = 1
+      this.Amount = amount
     }
 }
 

@@ -12,6 +12,11 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "Products" */ '../views/Products.vue')
   },
   {
+    path: '/routine/:filter',
+    name: 'routine',
+    component: () => import(/* webpackChunkName: "Routine" */ '../views/Routine.vue')
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import(/* webpackChunkName: "Login" */ '../views/auth/Login.vue')
@@ -24,7 +29,7 @@ const routes: Array<RouteRecordRaw> = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(process.env.BASE_URL),
   routes
 })
 

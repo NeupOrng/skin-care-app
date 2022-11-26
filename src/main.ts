@@ -5,8 +5,8 @@ import store from './store'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import ElementPlus from 'element-plus'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import 'element-plus/dist/index.css'
 import './assets/index.css'
+import 'element-plus/dist/index.css'
 import {
   faMagnifyingGlass,
   faUser,
