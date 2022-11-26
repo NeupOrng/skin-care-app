@@ -10,6 +10,16 @@ const routes: Array<RouteRecordRaw> = [
     path: '/products/:filter',
     name: 'products',
     component: () => import(/* webpackChunkName: "Products" */ '../views/Products.vue')
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import(/* webpackChunkName: "Login" */ '../views/auth/Login.vue')
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: () => import(/* webpackChunkName: "Register" */ '../views/auth/Register.vue')
   }
 ]
 
