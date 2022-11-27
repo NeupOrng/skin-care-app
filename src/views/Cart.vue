@@ -1,14 +1,13 @@
 <template>
-  <div class="routine-page">
-    {{ $route.params.id }}
+  <div>
+    Hello cart
   </div>
 </template>
-
 <script lang="ts">
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'RoutinePage',
+  name: 'CartPage',
   setup () {
     return {}
   }

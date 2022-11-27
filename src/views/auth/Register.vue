@@ -2,7 +2,7 @@
     <div class="register my-5 px-5 flex justify-center">
     <div class="w-[500px]">
       <el-form ref="ruleFormRef" :model="formModel" :rules="rules" label-position="top">
-        <div class="text-2xl font-bold text-black my-5">Login</div>
+        <div class="text-2xl font-bold text-black my-5">Create Account</div>
         <el-form-item prop="FirstName" label="First Name">
           <el-input v-model="formModel.FirstName" placeholder="First Name" />
         </el-form-item>

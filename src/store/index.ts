@@ -11,7 +11,7 @@ interface IState {
 
 export const key: InjectionKey<Store<IState>> = Symbol('Copy From Vuex Doc')
 
-export default createStore<IState>({
+const store = createStore<IState>({
   state: {
     cartItem: [],
     products: [],
@@ -61,6 +61,8 @@ export default createStore<IState>({
   modules: {
   }
 })
+
+export default store
 
 export function useStore (): Store<IState> {
   console.log(key)
