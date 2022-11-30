@@ -1,7 +1,7 @@
 import { createStore, useStore as baseUseStore, Store } from 'vuex'
 import { InjectionKey } from 'vue'
 import { IProduct, Product, ProductInCart } from '@/model/product'
-import { arrowMiddleware } from 'element-plus'
+import cookieHelper from '@/libraries/cookieHelper'
 
 interface IState {
   cartItem: Array<ProductInCart>,
@@ -54,6 +54,13 @@ const store = createStore<IState>({
       } else {
         state.cartItem = state.cartItem.filter((item) => item.Id !== payload.productId)
       }
+    },
+    setToken (state, token: string): void {
+      cookieHelper.setCookie('access-token', token, 3600)
+      state.isAuthenticated = true
+    },
+    setIsAuthenticated (state, isAuth: boolean): void {
+      state.isAuthenticated = isAuth
     }
   },
   actions: {

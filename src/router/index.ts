@@ -1,16 +1,22 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import store from '@/store'
+import cookieHelper from '@/libraries/cookieHelper'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'home',
+    name: 'Home',
     component: () => import(/* webpackChunkName: "Home" */ '../views/Home.vue')
   },
   {
     path: '/products/:filter',
-    name: 'products',
-    component: () => import(/* webpackChunkName: "Products" */ '../views/Products.vue')
+    name: 'Products',
+    component: () => import(/* webpackChunkName: "Products" */ '../views/product/Products.vue')
+  },
+  {
+    path: '/product-detail/:id',
+    name: 'ProductDetail',
+    component: () => import(/* webpackChunkName: "ProductDetail" */ '../views/product/ProductDetail.vue')
   },
   {
     path: '/routine/:id',
@@ -62,10 +68,13 @@ const router = createRouter({
 
 router.beforeEach((to, from) => {
   try {
-    console.log(store.state)
-    // if (!(to.meta.isAuth && store.state.isAuthenticated)) {
-    //   router.push('/login')
-    // }
+    if (to.meta.isAuth) {
+      const token = cookieHelper.getCookie('access-token')
+      if (!token) {
+        store.commit('setIsAuthenticated', false)
+        router.push('/login')
+      }
+    }
   } catch (e) {
     console.error(e)
   }

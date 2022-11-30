@@ -1,14 +1,19 @@
 <template>
-  <navigator />
-  <router-view/>
+  <div class="min-h-screen">
+    <navigator />
+    <router-view/>
+    <footer-component />
+  </div>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
 import Navigator from '@/components/navigator/Navigator.vue'
+import FooterComponent from './components/Footer.vue'
 
 export default defineComponent({
   components: {
-    Navigator
+    Navigator,
+    FooterComponent
   }
 })
 </script>

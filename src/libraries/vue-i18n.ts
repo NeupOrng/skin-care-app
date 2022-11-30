@@ -9,6 +9,13 @@ const langs: Array<string> = [
   'th_TH'
 ]
 
+export enum languages {
+  en = 'English',
+  'km_KH' = 'ខ្មែរ',
+  'ko_KR' = '한국어',
+  'th_TH' = 'แบบไทย'
+}
+
 const defaultLang = cookieHelper.getCookie('alanguage') ?? 'en'
 
 const i18n = createI18n({

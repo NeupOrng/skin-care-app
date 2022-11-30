@@ -145,9 +145,8 @@
 .cart-count {
   background: #0088cc;
   color: white;
-  width: 15px;
-  height: 15px;
-  padding-top: 2px;
+  padding: 5px;
+  height: 20px;
   border-radius: 10px;
   display: flex;
   justify-content: center;

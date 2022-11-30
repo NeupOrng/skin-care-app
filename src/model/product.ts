@@ -1,3 +1,5 @@
+import { addAccountingFormat } from '@/libraries/helpers/numberHelper'
+
 interface IProduct {
     Name: string,
     Id: number,
@@ -17,8 +19,12 @@ class Product implements IProduct {
     Discount: number;
     Categories: Array<string>;
 
-    get DiscountForDisplay (): number {
-      return this.Price - (this.Price * this.Discount)
+    get PriceForDisplay (): string {
+      return addAccountingFormat(this.Price)
+    }
+
+    get DiscountForDisplay (): string {
+      return addAccountingFormat(this.Price - (this.Price * this.Discount / 100))
     }
 
     constructor (init: IProduct) {

@@ -18,7 +18,9 @@ import {
   faChevronLeft
 } from '@fortawesome/free-solid-svg-icons'
 import {
-  faFacebook
+  faFacebook,
+  faSquareFacebook,
+  faTwitter
 } from '@fortawesome/free-brands-svg-icons'
 
 library.add(
@@ -29,9 +31,10 @@ library.add(
   faBars,
   faXmark,
   faChevronRight,
-  faChevronLeft
+  faChevronLeft,
+  faSquareFacebook,
+  faTwitter
 )
-
 createApp(App)
   .use(store)
   .use(router)
