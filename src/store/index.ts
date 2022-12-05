@@ -2,6 +2,7 @@ import { createStore, useStore as baseUseStore, Store } from 'vuex'
 import { InjectionKey } from 'vue'
 import { IProduct, Product, ProductInCart } from '@/model/product'
 import cookieHelper from '@/libraries/cookieHelper'
+import { addAccountingFormat } from '@/libraries/helpers/numberHelper'
 
 interface IState {
   cartItem: Array<ProductInCart>,
@@ -15,7 +16,7 @@ const store = createStore<IState>({
   state: {
     cartItem: [],
     products: [],
-    isAuthenticated: false
+    isAuthenticated: true
   },
   getters: {
     getCountCartItem (state): number {
@@ -30,6 +31,16 @@ const store = createStore<IState>({
     },
     checkIsAuthenticated (state): boolean {
       return state.isAuthenticated
+    },
+    getAllCartItems (state): Array<ProductInCart> {
+      return state.cartItem
+    },
+    getTotalPrice (state): string {
+      let totalPrice = 0
+      state.cartItem.forEach((item) => {
+        totalPrice += Number(item.TotalPrice)
+      })
+      return addAccountingFormat(totalPrice)
     }
   },
   mutations: {
@@ -44,16 +55,8 @@ const store = createStore<IState>({
         state.cartItem.find((item) => item.Id === productObj.Id)?.addAmount(payload.amount)
       }
     },
-    removeCartItem (state, payload: { productId: number, amount: number }): void {
-      const productObj = state.cartItem.find((item) => item.Id === payload.productId)
-      if (Number(productObj?.Amount) > 1) {
-        productObj?.substractAmount(payload.amount)
-        if (Number(productObj?.Amount) <= 0) {
-          state.cartItem = state.cartItem.filter((item) => item.Id !== payload.productId)
-        }
-      } else {
-        state.cartItem = state.cartItem.filter((item) => item.Id !== payload.productId)
-      }
+    removeCartItem (state, productId: number): void {
+      state.cartItem = state.cartItem.filter((item) => item.Id !== productId)
     },
     setToken (state, token: string): void {
       cookieHelper.setCookie('access-token', token, 3600)

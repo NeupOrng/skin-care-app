@@ -45,6 +45,10 @@ class ProductInCart extends Product {
       this.Amount += amount
     }
 
+    get TotalPrice (): string {
+      return addAccountingFormat(Number(this.DiscountForDisplay) * Number(this.Amount))
+    }
+
     substractAmount (amount: number): void {
       this.Amount -= amount
       if (this.Amount < 0) {

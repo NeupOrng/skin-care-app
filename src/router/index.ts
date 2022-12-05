@@ -19,11 +19,6 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "ProductDetail" */ '../views/product/ProductDetail.vue')
   },
   {
-    path: '/routine/:id',
-    name: 'routine',
-    component: () => import(/* webpackChunkName: "Routine" */ '../views/Routine.vue')
-  },
-  {
     path: '/login',
     name: 'login',
     component: () => import(/* webpackChunkName: "Login" */ '../views/auth/Login.vue')
@@ -41,7 +36,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/profile',
     name: 'profile',
-    component: () => import(/* webpackChunkName: "Profile" */ '../views/Profile.vue'),
+    component: () => import(/* webpackChunkName: "Profile" */ '../views/auth/Profile.vue'),
     meta: {
       isAuth: true
     }
@@ -49,7 +44,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/blog/:blogId',
     name: 'blog',
-    component: () => import(/* webpackChunkName: "Blog" */ '../views/Blog.vue')
+    component: () => import(/* webpackChunkName: "Blog" */ '../views/blog/Blogs.vue')
   },
   {
     path: '/cart',
@@ -66,18 +61,18 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach((to, from) => {
-  try {
-    if (to.meta.isAuth) {
-      const token = cookieHelper.getCookie('access-token')
-      if (!token) {
-        store.commit('setIsAuthenticated', false)
-        router.push('/login')
-      }
-    }
-  } catch (e) {
-    console.error(e)
-  }
-})
+// router.beforeEach((to, from) => {
+//   try {
+//     if (to.meta.isAuth) {
+//       const token = cookieHelper.getCookie('access-token')
+//       if (!token) {
+//         store.commit('setIsAuthenticated', false)
+//         router.push('/login')
+//       }
+//     }
+//   } catch (e) {
+//     console.error(e)
+//   }
+// })
 
 export default router

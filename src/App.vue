@@ -1,13 +1,15 @@
 <template>
-  <div class="min-h-screen">
+  <div class="min-h-[100vh] relative">
     <navigator />
-    <router-view/>
-    <footer-component />
+    <div class="flex flex-col justify-between body-container">
+      <router-view/>
+      <footer-component />
+    </div>
   </div>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import Navigator from '@/components/navigator/Navigator.vue'
+import Navigator from '@/components/Navigator.vue'
 import FooterComponent from './components/Footer.vue'
 
 export default defineComponent({
@@ -26,16 +28,8 @@ export default defineComponent({
   text-align: center;
   color: #2c3e50;
 }
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.body-container {
+  width: 100vw;
+  min-height: calc(100vh - 60px);
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="w-[100vw] bg-[#0088cc] mt-auto">
+  <div class="w-[100vw] bg-[#0088cc] relative mt-auto">
     <div class="footer-top-container ">
       <div class="flex flex-col items-start" v-for="(content, i) in footerContent" :key="i">
         <span class="font-bold content-title mb-3">

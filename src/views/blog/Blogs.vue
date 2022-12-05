@@ -1,13 +1,13 @@
 <template>
   <div>
-    Hello profile
+    Hello blog
   </div>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'ProfilePage',
+  name: 'BlogPage',
   setup () {
     return {}
   }

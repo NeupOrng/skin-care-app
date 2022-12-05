@@ -1,5 +1,5 @@
 <template>
-  <div class="desktop-nav flex items-center justify-between px-5 z-10 bg-white w-full">
+  <div class="desktop-nav flex h-[60px] items-center mt-auto justify-between px-5 z-10 bg-white w-full">
     <div class="mx-5 my-5 top-0 left-0">
       <router-link to="/">
         <span class="font-bold text-2xl">
@@ -33,22 +33,30 @@
         </div>
       </div>
     </div>
-    <div class="flex gap-5 mr-5">
-      <div>
-        <font-awesome-icon class="text-[30px]" icon="magnifying-glass" />
+    <div class="flex h-[30px] items-center gap-5 mr-5">
+      <div class="w-[25vw] flex justify-end items-center">
+        <el-input class="custom-input" v-model="searchModel" v-if="isSearch">
+          <template #append>
+            <font-awesome-icon @click="onSearchIconClick" class="text-[20px] cursor-pointer" icon="magnifying-glass" />
+          </template>
+        </el-input>
+        <font-awesome-icon v-else @click="onSearchIconClick" class="text-[20px] cursor-pointer"
+          icon="magnifying-glass" />
       </div>
       <div>
-        <router-link :to="`${$store.getters.checkIsAuthenticated ? '/profile' : '/login'}`">
-          <font-awesome-icon class="text-[30px]" icon="user" />
+        <router-link to="/profile">
+          <font-awesome-icon class="text-[20px] cursor-pointer" icon="user" />
         </router-link>
       </div>
-      <div class="relative">
-        <font-awesome-icon class="text-[30px]" icon="cart-shopping" />
-        <sup class="cart-count absolute top-[-5px] right-[-5px]">{{ $store.getters.getCountCartItem }}</sup>
+      <div class="relative cursor-pointer">
+        <router-link to="/cart">
+          <font-awesome-icon class="text-[20px]" icon="cart-shopping" />
+        <sup class="cart-count absolute top-[-10px] right-[-10px]">{{ $store.getters.getCountCartItem }}</sup>
+        </router-link>
       </div>
     </div>
   </div>
-  <div class="mobile-nav relative">
+  <div class="mobile-nav h-[60px] relative z-10">
     <div class="flex items-center justify-between px-3 z-10 bg-white w-full">
       <div class="my-3">
         <router-link to="/">
@@ -57,41 +65,50 @@
           </span>
         </router-link>
       </div>
-      <div class="flex gap-5">
-        <div>
-          <font-awesome-icon class="text-[20px]" icon="magnifying-glass" />
+      <div class="flex gap-5 items-center">
+        <div class="w-[50vw] flex justify-end items-center">
+          <el-input class="custom-input" v-model="searchModel" v-if="isSearch">
+            <template #append>
+              <font-awesome-icon @click="onSearchIconClick" class="text-[20px] cursor-pointer"
+                icon="magnifying-glass" />
+            </template>
+          </el-input>
+          <font-awesome-icon v-else @click="onSearchIconClick" class="text-[20px] cursor-pointer"
+            icon="magnifying-glass" />
         </div>
         <div>
           <router-link :to="`${$store.getters.checkIsAuthenticated ? '/profile' : '/login'}`">
-            <font-awesome-icon class="text-[20px]" icon="user" />
+            <font-awesome-icon class="text-[20px] cursor-pointer" icon="user" />
           </router-link>
         </div>
-        <div class="relative">
+        <div class="relative cursor-pointer">
           <font-awesome-icon class="text-[20px]" icon="cart-shopping" />
-          <sup class="cart-count absolute top-[-7px] right-[-7px]"><span>{{ $store.getters.getCountCartItem
-          }}</span></sup>
+          <sup class="cart-count absolute top-[-7px] right-[-7px]"><span>{{ $store.getters.getCountCartItem }}</span></sup>
         </div>
-        <div @click="mobileDropDownToggle = !mobileDropDownToggle" class="w-[35px] flex justify-center items-center">
+        <div @click="mobileDropDownToggle = !mobileDropDownToggle" class="w-[35px] flex justify-center items-center cursor-pointer">
           <font-awesome-icon v-if="mobileDropDownToggle" class="text-[20px]" icon="xmark" />
           <font-awesome-icon v-else class="text-[20px]" icon="bars" />
         </div>
       </div>
     </div>
     <transition>
-      <ul v-if="mobileDropDownToggle">
+      <ul class="bg-white border-b-[1px] shadow-md shadow-black" v-if="mobileDropDownToggle">
         <li v-if="historyList.length > 0" class="w-[100vw] h-[50px]">
           <div @click="backNavList" class="flex items-center pl-5 border-t-[1px] h-full justify-start">
-            <span class="border-r-[1px] h-[50px] flex pr-5 items-center"><font-awesome-icon icon="chevron-left" /></span>
+            <span class="border-r-[1px] h-[50px] flex pr-5 items-center">
+              <font-awesome-icon icon="chevron-left" />
+            </span>
           </div>
         </li>
         <li v-for="(navItem, index) in navListForRender" :key="index" class="w-[100vw] h-[50px]">
-          <div
-            class="flex items-center pl-5 border-t-[1px] h-full justify-start"
-          >
-            <router-link :to="navItem.HyperLink" v-if="!navItem.hasOwnProperty('Children')" @click="mobileDropDownToggle = false">{{ navItem.Text }}</router-link>
+          <div class="flex items-center pl-5 border-t-[1px] h-full justify-start">
+            <router-link :to="navItem.HyperLink" v-if="!navItem.hasOwnProperty('Children')"
+              @click="mobileDropDownToggle = false">{{ navItem.Text }}</router-link>
             <div v-else @click="openNavList(navItem.Children)" class="flex justify-between w-[100vw] pr-5">
               <span class="flex items-center">{{ navItem.Text }}</span>
-              <span class="border-l-[1px] h-[50px] flex pl-5 items-center"><font-awesome-icon icon="chevron-right" /></span>
+              <span class="border-l-[1px] h-[50px] flex pl-5 items-center">
+                <font-awesome-icon icon="chevron-right" />
+              </span>
             </div>
           </div>
         </li>
@@ -106,6 +123,31 @@
   color: black;
   height: fit-content;
   padding-bottom: 2px;
+}
+
+.custom-input {
+  height: 35px;
+  border: 1px solid black;
+  border-radius: 5px;
+
+  .el-input-group__append {
+    background: none;
+    box-shadow: none;
+    color: black;
+    padding: 5px;
+  }
+
+  .el-input__wrapper {
+    box-shadow: none;
+  }
+
+  .el-input__wrapper.is-focus {
+    box-shadow: none;
+  }
+
+  .el-input__wrapper:hover {
+    box-shadow: none;
+  }
 }
 
 .nav-item:hover {
@@ -129,6 +171,7 @@
 
   ul {
     padding-left: 5px;
+    background-color: white;
 
     li {
       font-size: 14px;
@@ -145,7 +188,8 @@
 .cart-count {
   background: #0088cc;
   color: white;
-  padding: 5px;
+  padding: 3px;
+  font-size: 11pxs;
   height: 20px;
   border-radius: 10px;
   display: flex;
@@ -195,33 +239,33 @@ export default defineComponent({
         Children: [
           {
             Text: 'Triple-Cleanse',
-            HyperLink: '/routine/triple-cleanse',
+            HyperLink: '/products/triple-cleanse',
             Children: [
               {
                 Text: 'Oil Cleaners',
-                HyperLink: '/routine/oil-cleaners'
+                HyperLink: '/products/oil-cleaners'
               },
               {
                 Text: 'Water Based Cleaners',
-                HyperLink: '/routine/water-based-cleaners'
+                HyperLink: '/products/water-based-cleaners'
               },
               {
                 Text: 'Cleansing Water',
-                HyperLink: '/routine/cleansing water'
+                HyperLink: '/products/cleansing water'
               }
             ]
           },
           {
             Text: 'Exfoliators',
-            HyperLink: '/routine/exfoliators',
+            HyperLink: '/products/exfoliators',
             Children: [
               {
                 Text: 'Physical Exfoliators',
-                HyperLink: '/routine/physical-exfoliators'
+                HyperLink: '/products/physical-exfoliators'
               },
               {
                 Text: 'Chemical Exfoliators',
-                HyperLink: '/routine/chemical-exfoliators'
+                HyperLink: '/products/chemical-exfoliators'
               }
             ]
           }
@@ -235,6 +279,8 @@ export default defineComponent({
     const navListForRender = ref(_.cloneDeep(navList.value))
     const mobileDropDownToggle = ref(false)
     const historyList = ref<Array<Array<INavigationData>>>([])
+    const isSearch = ref(true)
+    const searchModel = ref('')
     watch(mobileDropDownToggle, (newVal) => {
       if (!newVal) {
         navListForRender.value = navList.value
@@ -253,13 +299,22 @@ export default defineComponent({
       }
       historyList.value.pop()
     }
+    const onSearchIconClick = () => {
+      isSearch.value = !isSearch.value
+    }
+    watch(isSearch, () => {
+      searchModel.value = ''
+    })
     return {
       navList,
       mobileDropDownToggle,
       navListForRender,
       historyList,
       openNavList,
-      backNavList
+      backNavList,
+      isSearch,
+      onSearchIconClick,
+      searchModel
     }
   }
 })

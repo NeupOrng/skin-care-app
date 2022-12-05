@@ -59,7 +59,7 @@ export default defineComponent({
   name: 'ProductDetailPage',
   setup () {
     const product = ref<Product>(new Product(fakeProducts[0]))
-    const amount = ref(0)
+    const amount = ref(1)
     const { commit } = useStore()
     const addToCart = () => {
       const temObject: IProduct = product.value
