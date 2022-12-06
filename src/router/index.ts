@@ -20,35 +20,40 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/login',
-    name: 'login',
+    name: 'Login',
     component: () => import(/* webpackChunkName: "Login" */ '../views/auth/Login.vue')
   },
   {
     path: '/forget-password',
-    name: 'forgetPassword',
+    name: 'ForgetPassword',
     component: () => import(/* webpackChunkName: "ForgetPassword" */ '../views/auth/ForgetPassword.vue')
   },
   {
     path: '/register',
-    name: 'register',
+    name: 'Register',
     component: () => import(/* webpackChunkName: "Register" */ '../views/auth/Register.vue')
   },
   {
     path: '/profile',
-    name: 'profile',
+    name: 'Profile',
     component: () => import(/* webpackChunkName: "Profile" */ '../views/auth/Profile.vue'),
     meta: {
       isAuth: true
     }
   },
   {
-    path: '/blog/:blogId',
-    name: 'blog',
-    component: () => import(/* webpackChunkName: "Blog" */ '../views/blog/Blogs.vue')
+    path: '/blogs',
+    name: 'Blogs',
+    component: () => import(/* webpackChunkName: "Blogs" */ '../views/blog/Blogs.vue')
+  },
+  {
+    path: '/blog-detail/:id',
+    name: 'BlogDetail',
+    component: () => import(/* webpackChunkName: "BlogDetail" */ '../views/blog/BlogDetail.vue')
   },
   {
     path: '/cart',
-    name: 'cart',
+    name: 'Cart',
     component: () => import(/* webpackChunkName: "Cart" */ '../views/Cart.vue'),
     meta: {
       isAuth: true

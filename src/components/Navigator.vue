@@ -34,7 +34,7 @@
       </div>
     </div>
     <div class="flex h-[30px] items-center gap-5 mr-5">
-      <div class="w-[25vw] flex justify-end items-center">
+      <div class="w-[20vw] flex justify-end items-center">
         <el-input class="custom-input" v-model="searchModel" v-if="isSearch">
           <template #append>
             <font-awesome-icon @click="onSearchIconClick" class="text-[20px] cursor-pointer" icon="magnifying-glass" />
@@ -66,7 +66,7 @@
         </router-link>
       </div>
       <div class="flex gap-5 items-center">
-        <div class="w-[50vw] flex justify-end items-center">
+        <div class="w-[30vw] flex justify-end items-center">
           <el-input class="custom-input" v-model="searchModel" v-if="isSearch">
             <template #append>
               <font-awesome-icon @click="onSearchIconClick" class="text-[20px] cursor-pointer"
@@ -82,8 +82,10 @@
           </router-link>
         </div>
         <div class="relative cursor-pointer">
-          <font-awesome-icon class="text-[20px]" icon="cart-shopping" />
-          <sup class="cart-count absolute top-[-7px] right-[-7px]"><span>{{ $store.getters.getCountCartItem }}</span></sup>
+          <router-link to="/cart">
+            <font-awesome-icon class="text-[20px]" icon="cart-shopping" />
+            <sup class="cart-count absolute top-[-7px] right-[-7px]"><span>{{ $store.getters.getCountCartItem }}</span></sup>
+          </router-link>
         </div>
         <div @click="mobileDropDownToggle = !mobileDropDownToggle" class="w-[35px] flex justify-center items-center cursor-pointer">
           <font-awesome-icon v-if="mobileDropDownToggle" class="text-[20px]" icon="xmark" />
@@ -102,8 +104,14 @@
         </li>
         <li v-for="(navItem, index) in navListForRender" :key="index" class="w-[100vw] h-[50px]">
           <div class="flex items-center pl-5 border-t-[1px] h-full justify-start">
-            <router-link :to="navItem.HyperLink" v-if="!navItem.hasOwnProperty('Children')"
-              @click="mobileDropDownToggle = false">{{ navItem.Text }}</router-link>
+            <router-link
+              class="w-[100vw] flex flex-col justify-center items-start h-full"
+              :to="navItem.HyperLink"
+              v-if="!navItem.hasOwnProperty('Children')"
+              @click="mobileDropDownToggle = false"
+            >
+              <span class="my-auto">{{ navItem.Text }}</span>
+            </router-link>
             <div v-else @click="openNavList(navItem.Children)" class="flex justify-between w-[100vw] pr-5">
               <span class="flex items-center">{{ navItem.Text }}</span>
               <span class="border-l-[1px] h-[50px] flex pl-5 items-center">
@@ -273,13 +281,13 @@ export default defineComponent({
       },
       {
         Text: 'Blog',
-        HyperLink: '/blog'
+        HyperLink: '/blogs'
       }
     ])
     const navListForRender = ref(_.cloneDeep(navList.value))
     const mobileDropDownToggle = ref(false)
     const historyList = ref<Array<Array<INavigationData>>>([])
-    const isSearch = ref(true)
+    const isSearch = ref(false)
     const searchModel = ref('')
     watch(mobileDropDownToggle, (newVal) => {
       if (!newVal) {

@@ -80,7 +80,7 @@
   }
 
   .product-render-container {
-    padding: 5px 10vw;
+    padding: 5px 5vw;
     min-height: calc(100vh - 72.99px - 82.99px - 53.98px - 157.99px - 114.43px);
     grid-template-columns: 1fr 1fr;
   }

@@ -40,6 +40,8 @@ class Product implements IProduct {
 
 class ProductInCart extends Product {
     Amount: number;
+    IsEditing: boolean;
+    AmountModel: number;
 
     addAmount (amount: number): void {
       this.Amount += amount
@@ -47,6 +49,14 @@ class ProductInCart extends Product {
 
     get TotalPrice (): string {
       return addAccountingFormat(Number(this.DiscountForDisplay) * Number(this.Amount))
+    }
+
+    updateAmount (): void {
+      this.Amount = this.AmountModel
+    }
+
+    cancelEditAmount (): void {
+      this.AmountModel = this.Amount
     }
 
     substractAmount (amount: number): void {
@@ -60,6 +70,8 @@ class ProductInCart extends Product {
       super(init)
       Object.assign(this, init)
       this.Amount = amount
+      this.IsEditing = false
+      this.AmountModel = amount
     }
 }
 

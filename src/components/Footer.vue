@@ -41,7 +41,7 @@
   @media only screen and (max-width: 750px) {
   .footer-top-container {
     flex-direction: column;
-    padding: 25px 10vw;
+    padding: 25px 5vw;
     .content-title {
       margin-top: 25px;
     }

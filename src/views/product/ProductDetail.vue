@@ -54,6 +54,7 @@ import fakeProducts from '@/libraries/fakeData/products'
 import { IProduct, Product } from '@/model/product'
 import { defineComponent, ref } from 'vue'
 import { useStore } from 'vuex'
+import router from '@/router'
 
 export default defineComponent({
   name: 'ProductDetailPage',
@@ -64,6 +65,7 @@ export default defineComponent({
     const addToCart = () => {
       const temObject: IProduct = product.value
       commit('addCartItem', { product: temObject, amount: amount.value })
+      router.push('/cart')
     }
     return {
       product,

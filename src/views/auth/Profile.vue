@@ -4,7 +4,7 @@
       <span class="font-bold text-3xl">{{ $t('my_account' )}}</span>
       <span class="cursor-pointer">{{ $t('log_out') }}</span>
     </div>
-    <div class="w-full flex items-center justify-between">
+    <div class="profile-body">
       <div class="w-fit flex flex-col items-start">
         <span class="font-bold text-xl mb-5">{{ $t('order_history') }}</span>
         <div>{{$t("You_haven't_placed_any_orders_yet.")}}</div>
@@ -31,10 +31,21 @@ export default defineComponent({
 .profile-page {
   padding: 10px 10vw 20px;
 }
-
+.profile-body {
+  width: 100%;
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+}
 @media only screen and (max-width: 750px) {
   .profile-page {
     padding: 0 10vw;
+  }
+  .profile-body {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 50px;
   }
 }
 </style>
