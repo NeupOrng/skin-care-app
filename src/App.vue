@@ -2,7 +2,7 @@
   <div class="min-h-[100vh] relative">
     <navigator />
     <div class="flex flex-col justify-between body-container">
-      <router-view/>
+      <router-view />
       <footer-component />
     </div>
   </div>

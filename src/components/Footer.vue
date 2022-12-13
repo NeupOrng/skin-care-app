@@ -1,21 +1,37 @@
 <template>
   <div class="w-[100vw] bg-[#0088cc] relative mt-auto">
     <div class="footer-top-container ">
-      <div class="flex flex-col items-start" v-for="(content, i) in footerContent" :key="i">
+      <div
+        class="flex flex-col items-start"
+        v-for="(content, i) in footerContent"
+        :key="i"
+      >
         <span class="font-bold content-title mb-3">
           {{ content.Text }}
         </span>
         <ul class="flex flex-col justify-start items-start ">
-          <li class="text-white hover:text-[#e6e6e6]" v-for="(item, j) in content.Contents" :key="j">
-            <router-link :to="item.HyperLink" >{{ item.Text }}</router-link>
+          <li
+            class="text-white hover:text-[#e6e6e6]"
+            v-for="(item, j) in content.Contents"
+            :key="j"
+          >
+            <router-link :to="item.HyperLink">
+              {{ item.Text }}
+            </router-link>
           </li>
         </ul>
       </div>
     </div>
     <div class="border-t-[1px] text-white footer-bottom-container">
       <div class="flex gap-5 px-5 mb-5">
-        <a href="facebook.com"><font-awesome-icon class="text-[30px]" :icon="['fab', 'square-facebook']" /></a>
-        <a href="facebook.com"><font-awesome-icon class="text-[30px]" :icon="['fab', 'twitter']" /></a>
+        <a href="facebook.com"><font-awesome-icon
+          class="text-[30px]"
+          :icon="['fab', 'square-facebook']"
+        /></a>
+        <a href="facebook.com"><font-awesome-icon
+          class="text-[30px]"
+          :icon="['fab', 'twitter']"
+        /></a>
       </div>
       <span class="text-sm">© 2022, SoKoSkins</span>
     </div>

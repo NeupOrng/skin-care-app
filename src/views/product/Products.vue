@@ -8,7 +8,9 @@
         <div class="flex items-center gap-2">
           <span>{{ $t('filter_by') }}</span>
           <el-select v-model="filterByModel">
-            <el-option value="all_products">{{ $t('all_products') }}</el-option>
+            <el-option value="all_products">
+              {{ $t('all_products') }}
+            </el-option>
           </el-select>
         </div>
       </div>
@@ -16,19 +18,26 @@
     </div>
     <span class="outer-total-product text-sm italic">{{ `${products.length} ${$t('products')}` }}</span>
     <div class="product-render-container">
-      <router-link class="product-item" v-for="(product, index) in products" :key="index"
-        :to="`/product-detail/${product.Id}`">
-        <div class="product-item-image">
-          <img :src="product.ImagePath" />
+      <router-link
+        class="product-item"
+        v-for="(product, index) in products"
+        :key="index"
+        :to="`/product-detail/${product.id}`"
+      >
+        <div class="product-item-image p-3">
+          <img :src="product.product_image[0].image_path_for_display">
         </div>
         <div class="product-item-content flex flex-col">
-          <span class="product-name">{{ product.Name }}</span>
+          <span class="product-name">{{ product.name_en }}</span>
           <div class="inline font-bold">
-            <span :class="`${product.Discount > 0 ? 'line-through' : ''} text-[#69727B]`">
-              ${{ product.PriceForDisplay }}
+            <span :class="`${product.discount > 0 ? 'line-through' : ''} text-[#69727B]`">
+              ${{ product.price_for_display }}
             </span>
-            <span v-if="product.Discount > 0" class="mx-2 text-[#197bbd]">
-              ${{ product.DiscountForDisplay }}
+            <span
+              v-if="product.discount > 0"
+              class="mx-2 text-[#197bbd]"
+            >
+              ${{ product.discount_for_display }}
             </span>
           </div>
         </div>
@@ -87,7 +96,7 @@
 }
 </style>
 <script lang="ts">
-import fakeProducts from '@/libraries/fakeData/products'
+import apiService from '@/libraries/apiService'
 import { Product } from '@/model/product'
 import { defineComponent, ref } from 'vue'
 
@@ -95,7 +104,11 @@ export default defineComponent({
   name: 'ProductPage',
   setup () {
     const filterByModel = ref('all_products')
-    const products = ref<Array<Product>>(fakeProducts.map((item) => new Product(item)))
+    const products = ref<Array<Product>>([])
+    const getAllProduct = async () => {
+      products.value = await apiService.getAllProduct()
+    }
+    getAllProduct()
     return {
       filterByModel,
       products

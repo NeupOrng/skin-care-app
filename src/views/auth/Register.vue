@@ -1,36 +1,92 @@
 <template>
-    <div class="register my-5 px-5 flex justify-center">
+  <div class="register my-5 px-5 flex justify-center">
     <div class="w-[500px]">
-      <el-form ref="ruleFormRef" :model="formModel" :rules="rules" label-position="top">
-        <div class="text-2xl font-bold text-black my-5">Create Account</div>
-        <el-form-item prop="FirstName" label="First Name">
-          <el-input v-model="formModel.FirstName" placeholder="First Name" />
+      <el-form
+        ref="ruleFormRef"
+        :model="formModel"
+        :rules="rules"
+        label-position="top"
+      >
+        <div class="text-2xl font-bold text-black my-5">
+          Create Account
+        </div>
+        <el-form-item
+          prop="FirstName"
+          label="First Name"
+        >
+          <el-input
+            v-model="formModel.FirstName"
+            placeholder="First Name"
+          />
         </el-form-item>
-        <el-form-item prop="LastName" label="Last Name">
-          <el-input v-model="formModel.LastName" placeholder="Last Name" />
+        <el-form-item
+          prop="LastName"
+          label="Last Name"
+        >
+          <el-input
+            v-model="formModel.LastName"
+            placeholder="Last Name"
+          />
         </el-form-item>
-        <el-form-item prop="Email" label="Email">
-          <el-input v-model="formModel.Email" placeholder="Email" />
+        <el-form-item
+          prop="Email"
+          label="Email"
+        >
+          <el-input
+            v-model="formModel.Email"
+            placeholder="Email"
+          />
         </el-form-item>
-        <el-form-item prop="SkinType" label="Your Current Skin Type">
-          <el-input v-model="formModel.SkinType" placeholder="Skin Type" />
+        <el-form-item
+          prop="SkinType"
+          label="Your Current Skin Type"
+        >
+          <el-input
+            v-model="formModel.SkinType"
+            placeholder="Skin Type"
+          />
         </el-form-item>
-        <el-form-item prop="SkinConcern" label="Your Current Skin Concern(s)">
-          <el-input v-model="formModel.SKinConcern" placeholder="Skin Concern" />
+        <el-form-item
+          prop="SkinConcern"
+          label="Your Current Skin Concern(s)"
+        >
+          <el-input
+            v-model="formModel.SKinConcern"
+            placeholder="Skin Concern"
+          />
         </el-form-item>
-        <el-form-item prop="Password" label="Password">
-          <el-input type="password" v-model="formModel.Password" placeholder="Password" />
+        <el-form-item
+          prop="Password"
+          label="Password"
+        >
+          <el-input
+            type="password"
+            v-model="formModel.Password"
+            placeholder="Password"
+          />
         </el-form-item>
-        <el-form-item prop="ConfirmPassword" label="Confirm Password">
-          <el-input type="password" v-model="formModel.ConfirmPassword" placeholder="Confirm Password" />
+        <el-form-item
+          prop="ConfirmPassword"
+          label="Confirm Password"
+        >
+          <el-input
+            type="password"
+            v-model="formModel.ConfirmPassword"
+            placeholder="Confirm Password"
+          />
         </el-form-item>
         <div class="flex flex-col items-center justify-center">
-          <el-button type="primary" @click="submitForm(ruleFormRef)">CREATE</el-button>
+          <el-button
+            type="primary"
+            @click="submitForm(ruleFormRef)"
+          >
+            CREATE
+          </el-button>
         </div>
       </el-form>
     </div>
   </div>
-  </template>
+</template>
 
 <script lang="ts">
 import { FormInstance } from 'element-plus'

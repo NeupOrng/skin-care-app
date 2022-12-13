@@ -18,10 +18,18 @@
           {{ item.Date }}
         </span>
         <div class="w-full flex justify-start">
-          <img class="object-fit" :src="item.Thumbnail" />
+          <img
+            class="object-fit"
+            :src="item.Thumbnail"
+          >
         </div>
-        <router-link class="my-5" :to="`/blog-detail/${item.Id}`">
-          <el-button plain>{{ $t('read_more') }}</el-button>
+        <router-link
+          class="my-5"
+          :to="`/blog-detail/${item.Id}`"
+        >
+          <el-button plain>
+            {{ $t('read_more') }}
+          </el-button>
         </router-link>
       </div>
     </div>

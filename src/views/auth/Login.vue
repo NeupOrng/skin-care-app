@@ -1,18 +1,47 @@
 <template>
   <div class="login my-5 px-5 flex justify-center">
     <div class="w-[500px]">
-      <el-form ref="ruleFormRef" :model="formModel" :rules="rules" label-position="top">
-        <div class="text-2xl font-bold text-black my-5">Login</div>
-        <el-form-item prop="Email" label="Email">
-          <el-input v-model="formModel.Email" placeholder="Email" />
+      <el-form
+        ref="ruleFormRef"
+        :model="formModel"
+        :rules="rules"
+        label-position="top"
+      >
+        <div class="text-2xl font-bold text-black my-5">
+          Login
+        </div>
+        <el-form-item
+          prop="Email"
+          label="Email"
+        >
+          <el-input
+            v-model="formModel.Email"
+            placeholder="Email"
+          />
         </el-form-item>
-        <el-form-item prop="Password" label="Password">
-          <el-input type="password" v-model="formModel.Password" placeholder="Password" />
+        <el-form-item
+          prop="Password"
+          label="Password"
+        >
+          <el-input
+            type="password"
+            v-model="formModel.Password"
+            placeholder="Password"
+          />
         </el-form-item>
         <div class="flex flex-col items-center justify-center gap-3">
-          <router-link to="/forget-password"><span class="text-sm">Forget Password</span></router-link>
-          <el-button type="primary" @click="submitForm(ruleFormRef)">SIGN IN</el-button>
-          <router-link to="/register"><span class="text-sm">Create Account</span></router-link>
+          <router-link to="/forget-password">
+            <span class="text-sm">Forget Password</span>
+          </router-link>
+          <el-button
+            type="primary"
+            @click="submitForm(ruleFormRef)"
+          >
+            SIGN IN
+          </el-button>
+          <router-link to="/register">
+            <span class="text-sm">Create Account</span>
+          </router-link>
         </div>
       </el-form>
     </div>

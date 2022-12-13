@@ -3,10 +3,13 @@
     <div class="w-full flex flex-col items-center justify-center py-[25px]">
       <span class="font-bold text-2xl">{{ blog.Title }}</span>
       <span class="text-sm my-5">
-          {{ blog.Date }}
-        </span>
+        {{ blog.Date }}
+      </span>
     </div>
-    <div class="text-left pb-5" v-html="blog.Content"></div>
+    <div
+      class="text-left pb-5"
+      v-html="blog.Content"
+    />
   </div>
 </template>
 <script lang="ts">

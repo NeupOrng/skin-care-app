@@ -1,127 +1,216 @@
 <template>
-  <div class="desktop-nav flex h-[60px] items-center mt-auto justify-between px-5 z-10 bg-white w-full">
-    <div class="mx-5 my-5 top-0 left-0">
-      <router-link to="/">
-        <span class="font-bold text-2xl">
-          SOKOSKINS
-        </span>
-      </router-link>
-    </div>
-    <div class="flex gap-5 max-w-1/2">
-      <div class="flex items-center" v-for="(navItem, index) in navList" :key="index">
-        <div class="flex items-center" v-if="navItem.hasOwnProperty('Children')">
-          <el-dropdown>
-            <router-link :to="navItem.HyperLink">
-              <span class="nav-item">{{ navItem.Text }}</span>
-            </router-link>
-            <template #dropdown>
-              <div class="max-w-[600px] p-5 flex gap-3">
-                <div class="drop-down-list" v-for="(item, i) in navItem.Children" :key="i">
-                  <router-link :to="item.HyperLink"><span class="title">{{ item.Text }}</span></router-link>
-                  <ul v-if="item.hasOwnProperty('Children')" class="gap-1 flex mt-1 flex-col">
-                    <li v-for="(innerItem, j) in item.Children" :key="j">
-                      <router-link :to="innerItem.HyperLink">{{ innerItem.Text }}</router-link>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </template>
-          </el-dropdown>
-        </div>
-        <div v-else>
-          <router-link :to="navItem.HyperLink"><span class="nav-item">{{ navItem.Text }}</span></router-link>
-        </div>
-      </div>
-    </div>
-    <div class="flex h-[30px] items-center gap-5 mr-5">
-      <div class="w-[20vw] flex justify-end items-center">
-        <el-input class="custom-input" v-model="searchModel" v-if="isSearch">
-          <template #append>
-            <font-awesome-icon @click="onSearchIconClick" class="text-[20px] cursor-pointer" icon="magnifying-glass" />
-          </template>
-        </el-input>
-        <font-awesome-icon v-else @click="onSearchIconClick" class="text-[20px] cursor-pointer"
-          icon="magnifying-glass" />
-      </div>
-      <div>
-        <router-link to="/profile">
-          <font-awesome-icon class="text-[20px] cursor-pointer" icon="user" />
-        </router-link>
-      </div>
-      <div class="relative cursor-pointer">
-        <router-link to="/cart">
-          <font-awesome-icon class="text-[20px]" icon="cart-shopping" />
-        <sup class="cart-count absolute top-[-10px] right-[-10px]">{{ $store.getters.getCountCartItem }}</sup>
-        </router-link>
-      </div>
-    </div>
-  </div>
-  <div class="mobile-nav h-[60px] relative z-10">
-    <div class="flex items-center justify-between px-3 z-10 bg-white w-full">
-      <div class="my-3">
+  <div>
+    <div class="desktop-nav flex h-[60px] items-center mt-auto justify-between px-5 z-10 bg-white w-full">
+      <div class="mx-5 my-5 top-0 left-0">
         <router-link to="/">
           <span class="font-bold text-2xl">
             SOKOSKINS
           </span>
         </router-link>
       </div>
-      <div class="flex gap-5 items-center">
-        <div class="w-[30vw] flex justify-end items-center">
-          <el-input class="custom-input" v-model="searchModel" v-if="isSearch">
+      <div class="flex gap-5 max-w-1/2">
+        <div
+          class="flex items-center"
+          v-for="(navItem, index) in navList"
+          :key="index"
+        >
+          <div
+            class="flex items-center"
+            v-if="navItem.hasOwnProperty('Children')"
+          >
+            <el-dropdown>
+              <router-link :to="navItem.HyperLink">
+                <span class="nav-item">{{ navItem.Text }}</span>
+              </router-link>
+              <template #dropdown>
+                <div class="max-w-[600px] p-5 flex gap-3">
+                  <div
+                    class="drop-down-list"
+                    v-for="(item, i) in navItem.Children"
+                    :key="i"
+                  >
+                    <router-link :to="item.HyperLink">
+                      <span class="title">{{ item.Text }}</span>
+                    </router-link>
+                    <ul
+                      v-if="item.hasOwnProperty('Children')"
+                      class="gap-1 flex mt-1 flex-col"
+                    >
+                      <li
+                        v-for="(innerItem, j) in item.Children"
+                        :key="j"
+                      >
+                        <router-link :to="innerItem.HyperLink">
+                          {{ innerItem.Text }}
+                        </router-link>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </template>
+            </el-dropdown>
+          </div>
+          <div v-else>
+            <router-link :to="navItem.HyperLink">
+              <span class="nav-item">{{ navItem.Text }}</span>
+            </router-link>
+          </div>
+        </div>
+      </div>
+      <div class="flex h-[30px] items-center gap-5 mr-5">
+        <div class="w-[20vw] flex justify-end items-center">
+          <el-input
+            class="custom-input"
+            v-model="searchModel"
+            v-if="isSearch"
+          >
             <template #append>
-              <font-awesome-icon @click="onSearchIconClick" class="text-[20px] cursor-pointer"
-                icon="magnifying-glass" />
+              <font-awesome-icon
+                @click="onSearchIconClick"
+                class="text-[20px] cursor-pointer"
+                icon="magnifying-glass"
+              />
             </template>
           </el-input>
-          <font-awesome-icon v-else @click="onSearchIconClick" class="text-[20px] cursor-pointer"
-            icon="magnifying-glass" />
+          <font-awesome-icon
+            v-else
+            @click="onSearchIconClick"
+            class="text-[20px] cursor-pointer"
+            icon="magnifying-glass"
+          />
         </div>
         <div>
-          <router-link :to="`${$store.getters.checkIsAuthenticated ? '/profile' : '/login'}`">
-            <font-awesome-icon class="text-[20px] cursor-pointer" icon="user" />
+          <router-link to="/profile">
+            <font-awesome-icon
+              class="text-[20px] cursor-pointer"
+              icon="user"
+            />
           </router-link>
         </div>
         <div class="relative cursor-pointer">
           <router-link to="/cart">
-            <font-awesome-icon class="text-[20px]" icon="cart-shopping" />
-            <sup class="cart-count absolute top-[-7px] right-[-7px]"><span>{{ $store.getters.getCountCartItem }}</span></sup>
+            <font-awesome-icon
+              class="text-[20px]"
+              icon="cart-shopping"
+            />
+            <sup class="cart-count absolute top-[-10px] right-[-10px]">{{ $store.getters.getCountCartItem }}</sup>
           </router-link>
-        </div>
-        <div @click="mobileDropDownToggle = !mobileDropDownToggle" class="w-[35px] flex justify-center items-center cursor-pointer">
-          <font-awesome-icon v-if="mobileDropDownToggle" class="text-[20px]" icon="xmark" />
-          <font-awesome-icon v-else class="text-[20px]" icon="bars" />
         </div>
       </div>
     </div>
-    <transition>
-      <ul class="bg-white border-b-[1px] shadow-md shadow-black" v-if="mobileDropDownToggle">
-        <li v-if="historyList.length > 0" class="w-[100vw] h-[50px]">
-          <div @click="backNavList" class="flex items-center pl-5 border-t-[1px] h-full justify-start">
-            <span class="border-r-[1px] h-[50px] flex pr-5 items-center">
-              <font-awesome-icon icon="chevron-left" />
+    <div class="mobile-nav h-[60px] relative z-10">
+      <div class="flex items-center justify-between px-3 z-10 bg-white w-full">
+        <div class="my-3">
+          <router-link to="/">
+            <span class="font-bold text-2xl">
+              SOKOSKINS
             </span>
-          </div>
-        </li>
-        <li v-for="(navItem, index) in navListForRender" :key="index" class="w-[100vw] h-[50px]">
-          <div class="flex items-center pl-5 border-t-[1px] h-full justify-start">
-            <router-link
-              class="w-[100vw] flex flex-col justify-center items-start h-full"
-              :to="navItem.HyperLink"
-              v-if="!navItem.hasOwnProperty('Children')"
-              @click="mobileDropDownToggle = false"
+          </router-link>
+        </div>
+        <div class="flex gap-5 items-center">
+          <div class="w-[30vw] flex justify-end items-center">
+            <el-input
+              class="custom-input"
+              v-model="searchModel"
+              v-if="isSearch"
             >
-              <span class="my-auto">{{ navItem.Text }}</span>
+              <template #append>
+                <font-awesome-icon
+                  @click="onSearchIconClick"
+                  class="text-[20px] cursor-pointer"
+                  icon="magnifying-glass"
+                />
+              </template>
+            </el-input>
+            <font-awesome-icon
+              v-else
+              @click="onSearchIconClick"
+              class="text-[20px] cursor-pointer"
+              icon="magnifying-glass"
+            />
+          </div>
+          <div>
+            <router-link :to="`${$store.getters.checkIsAuthenticated ? '/profile' : '/login'}`">
+              <font-awesome-icon
+                class="text-[20px] cursor-pointer"
+                icon="user"
+              />
             </router-link>
-            <div v-else @click="openNavList(navItem.Children)" class="flex justify-between w-[100vw] pr-5">
-              <span class="flex items-center">{{ navItem.Text }}</span>
-              <span class="border-l-[1px] h-[50px] flex pl-5 items-center">
-                <font-awesome-icon icon="chevron-right" />
+          </div>
+          <div class="relative cursor-pointer">
+            <router-link to="/cart">
+              <font-awesome-icon
+                class="text-[20px]"
+                icon="cart-shopping"
+              />
+              <sup class="cart-count absolute top-[-7px] right-[-7px]"><span>{{ $store.getters.getCountCartItem
+              }}</span></sup>
+            </router-link>
+          </div>
+          <div
+            @click="mobileDropDownToggle = !mobileDropDownToggle"
+            class="w-[35px] flex justify-center items-center cursor-pointer"
+          >
+            <font-awesome-icon
+              v-if="mobileDropDownToggle"
+              class="text-[20px]"
+              icon="xmark"
+            />
+            <font-awesome-icon
+              v-else
+              class="text-[20px]"
+              icon="bars"
+            />
+          </div>
+        </div>
+      </div>
+      <transition>
+        <ul
+          class="bg-white border-b-[1px] shadow-md shadow-black"
+          v-if="mobileDropDownToggle"
+        >
+          <li
+            v-if="historyList.length > 0"
+            class="w-[100vw] h-[50px]"
+          >
+            <div
+              @click="backNavList"
+              class="flex items-center pl-5 border-t-[1px] h-full justify-start"
+            >
+              <span class="border-r-[1px] h-[50px] flex pr-5 items-center">
+                <font-awesome-icon icon="chevron-left" />
               </span>
             </div>
-          </div>
-        </li>
-      </ul>
-    </transition>
+          </li>
+          <li
+            v-for="(navItem, index) in navListForRender"
+            :key="index"
+            class="w-[100vw] h-[50px]"
+          >
+            <div class="flex items-center pl-5 border-t-[1px] h-full justify-start">
+              <router-link
+                class="w-[100vw] flex flex-col justify-center items-start h-full"
+                :to="navItem.HyperLink"
+                v-if="!navItem.hasOwnProperty('Children')"
+                @click="mobileDropDownToggle = false"
+              >
+                <span class="my-auto">{{ navItem.Text }}</span>
+              </router-link>
+              <div
+                v-else
+                @click="openNavList(navItem.Children)"
+                class="flex justify-between w-[100vw] pr-5"
+              >
+                <span class="flex items-center">{{ navItem.Text }}</span>
+                <span class="border-l-[1px] h-[50px] flex pl-5 items-center">
+                  <font-awesome-icon icon="chevron-right" />
+                </span>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </transition>
+    </div>
   </div>
 </template>
 <style lang="scss">

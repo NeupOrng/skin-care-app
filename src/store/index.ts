@@ -22,7 +22,7 @@ const store = createStore<IState>({
     getCountCartItem (state): number {
       let itemCount = 0
       state.cartItem.forEach((item) => {
-        itemCount += item.Amount
+        itemCount += item.amount
       })
       return itemCount
     },
@@ -49,14 +49,14 @@ const store = createStore<IState>({
     },
     addCartItem (state, payload: { product: IProduct, amount: number }): void {
       const productObj = new ProductInCart(payload.product, payload.amount)
-      if (!(state.cartItem.some((item) => item.Id === productObj.Id))) {
+      if (!(state.cartItem.some((item) => item.id === productObj.id))) {
         state.cartItem.push(productObj)
       } else {
-        state.cartItem.find((item) => item.Id === productObj.Id)?.addAmount(payload.amount)
+        state.cartItem.find((item) => item.id === productObj.id)?.addAmount(payload.amount)
       }
     },
     removeCartItem (state, productId: number): void {
-      state.cartItem = state.cartItem.filter((item) => item.Id !== productId)
+      state.cartItem = state.cartItem.filter((item) => item.id !== productId)
     },
     setToken (state, token: string): void {
       cookieHelper.setCookie('access-token', token, 3600)

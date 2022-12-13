@@ -1,8 +1,7 @@
 
 export interface IApiResponse<T = any> {
-  Data: T,
-  Message: string,
-  ErrorCode: number
+  data: T,
+  status: string
 }
 
 export interface IAxiosResponse<T = any> {

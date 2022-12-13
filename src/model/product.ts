@@ -1,78 +1,121 @@
 import { addAccountingFormat } from '@/libraries/helpers/numberHelper'
 
-interface IProduct {
-    Name: string,
-    Id: number,
-    ImagePath: string,
-    Description: string,
-    Price: number,
-    Categories: Array<string>,
-    Discount: number
+interface IProductImage {
+  id: number,
+  'image_path': string,
+  'created_at': string,
+  'updated_at': string,
+  'status_id': number
 }
 
+class ProductImage implements IProductImage {
+  'id': number;
+  'image_path': string;
+  'created_at': string;
+  'updated_at': string;
+  'status_id': number;
+
+  get 'image_path_for_display' (): string {
+    return `${process.env.VUE_APP_ENDPOINT}/${this.image_path}`
+  }
+
+  constructor (init: IProductImage) {
+    Object.assign(this, init)
+  }
+}
+
+interface IProduct {
+  id: number,
+  'name_en': string,
+  'name_kh': string,
+  description: string,
+  stock: number,
+  discount: number,
+  'sub_name': string,
+  price: number,
+  'product_type_id': number,
+  'best_selling': number,
+  'created_at': string,
+  'updated_at': string,
+  'status_id': number,
+  'product_image': Array<IProductImage>
+}
+
+// interface IProduct {
+//   Name: string,
+//   Id: number,
+//   ImagePath: string,
+//   Description: string,
+//   Price: number,
+//   Categories: Array<string>,
+//   Discount: number
+// }
+
 class Product implements IProduct {
-    Name: string;
-    Id: number;
-    ImagePath: string;
-    Description: string;
-    Price: number;
-    Discount: number;
-    Categories: Array<string>;
+  id = -1;
+  'name_en' = '';
+  'name_kh' = '';
+  description = '';
+  stock = 0;
+  discount = 0;
+  'sub_name' = '';
+  price = 0;
+  'product_type_id' = 0;
+  'best_selling' = 0;
+  'created_at' = '';
+  'updated_at' = '';
+  'status_id' = 0;
+  'product_image': Array<IProductImage> = [];
 
-    get PriceForDisplay (): string {
-      return addAccountingFormat(this.Price)
-    }
+  get 'price_for_display' (): string {
+    return addAccountingFormat(this.price)
+  }
 
-    get DiscountForDisplay (): string {
-      return addAccountingFormat(this.Price - (this.Price * this.Discount / 100))
-    }
+  get 'discount_for_display' (): string {
+    return addAccountingFormat(this.price - (this.price * this.discount / 100))
+  }
 
-    constructor (init: IProduct) {
-      this.Name = init.Name
-      this.Id = init.Id
-      this.ImagePath = init.ImagePath
-      this.Description = init.Description
-      this.Price = init.Price
-      this.Discount = init.Discount
-      this.Categories = init.Categories
-    }
+  constructor (init: IProduct) {
+    Object.assign(this, init)
+    this.product_image = init.product_image.map((item) => new ProductImage(item))
+  }
 }
 
 class ProductInCart extends Product {
-    Amount: number;
-    IsEditing: boolean;
-    AmountModel: number;
+  amount: number;
+  'is_editing': boolean;
+  'amount_model': number;
 
-    addAmount (amount: number): void {
-      this.Amount += amount
-    }
+  addAmount (amount: number): void {
+    this.amount += amount
+  }
 
-    get TotalPrice (): string {
-      return addAccountingFormat(Number(this.DiscountForDisplay) * Number(this.Amount))
-    }
+  get TotalPrice (): string {
+    return addAccountingFormat(Number(this.discount_for_display) * Number(this.amount))
+  }
 
-    updateAmount (): void {
-      this.Amount = this.AmountModel
-    }
+  updateAmount (): void {
+    this.amount = this.amount_model
+  }
 
-    cancelEditAmount (): void {
-      this.AmountModel = this.Amount
-    }
+  cancelEditAmount (): void {
+    this.amount_model = this.amount
+  }
 
-    substractAmount (amount: number): void {
-      this.Amount -= amount
-      if (this.Amount < 0) {
-        this.Amount = 0
-      }
+  substractAmount (amount: number): void {
+    this.amount -= amount
+    if (this.amount < 0) {
+      this.amount = 0
     }
+  }
 
-    constructor (init: IProduct, amount = 1) {
-      super(init)
-      Object.assign(this, init)
-      this.Amount = amount
-      this.IsEditing = false
-      this.AmountModel = amount
-    }
+  constructor (init: IProduct, amount = 1) {
+    super(init)
+    Object.assign(this, init)
+    this.amount = amount
+    this.is_editing = false
+    this.amount_model = amount
+  }
 }
 
 export {

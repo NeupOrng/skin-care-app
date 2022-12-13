@@ -1,15 +1,37 @@
 <template>
   <div class="login my-5 px-5 flex justify-center">
     <div class="w-[500px]">
-      <el-form ref="ruleFormRef" :model="formModel" :rules="rules" label-position="top">
-        <div class="text-2xl font-bold text-black my-5">RESET YOUR PASSWORD</div>
-        <div class="text-md my-2">We will send you an email to reset your password.</div>
-        <el-form-item prop="Email" label="Email">
-          <el-input v-model="formModel.Email" placeholder="Email" />
+      <el-form
+        ref="ruleFormRef"
+        :model="formModel"
+        :rules="rules"
+        label-position="top"
+      >
+        <div class="text-2xl font-bold text-black my-5">
+          RESET YOUR PASSWORD
+        </div>
+        <div class="text-md my-2">
+          We will send you an email to reset your password.
+        </div>
+        <el-form-item
+          prop="Email"
+          label="Email"
+        >
+          <el-input
+            v-model="formModel.Email"
+            placeholder="Email"
+          />
         </el-form-item>
         <div class="flex flex-col items-center justify-center gap-3">
-          <el-button type="primary" @click="submitForm(ruleFormRef)">{{ $t('submit') }}</el-button>
-          <router-link to="/login"><span class="text-sm">Cancel</span></router-link>
+          <el-button
+            type="primary"
+            @click="submitForm(ruleFormRef)"
+          >
+            {{ $t('submit') }}
+          </el-button>
+          <router-link to="/login">
+            <span class="text-sm">Cancel</span>
+          </router-link>
         </div>
       </el-form>
     </div>
