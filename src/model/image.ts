@@ -6,7 +6,7 @@ interface IImage {
   'status_id': number
 }
 
-class Image implements IImage {
+class ImageDto implements IImage {
   'id': number;
   'image_path': string;
   'created_at': string;
@@ -24,5 +24,5 @@ class Image implements IImage {
 
 export {
   IImage,
-  Image
+  ImageDto
 }

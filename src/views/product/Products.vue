@@ -106,7 +106,7 @@ export default defineComponent({
     const filterByModel = ref('all_products')
     const products = ref<Array<Product>>([])
     const getAllProduct = async () => {
-      products.value = await apiService.getAllProduct()
+      products.value = await apiService.getAllProducts()
     }
     getAllProduct()
     return {

@@ -1,5 +1,5 @@
 import { addAccountingFormat } from '@/libraries/helpers/numberHelper'
-import { IImage, Image } from './image'
+import { IImage, ImageDto } from './image'
 
 interface IProduct {
   id: number,
@@ -54,7 +54,7 @@ class Product implements IProduct {
 
   constructor (init: IProduct) {
     Object.assign(this, init)
-    this.product_image = init.product_image.map((item) => new Image(item))
+    this.product_image = init.product_image.map((item) => new ImageDto(item))
   }
 }
 

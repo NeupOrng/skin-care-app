@@ -9,23 +9,23 @@
         class="w-full flex flex-col items-start pb-5 py-5 border-b-[1px]"
         :key="index"
       >
-        <router-link :to="`/blog-detail/${item.Id}`">
+        <router-link :to="`/blog-detail/${item.id}`">
           <span class="font-bold text-xl">
-            {{ item.Title }}
+            {{ item.title }}
           </span>
         </router-link>
         <span class="text-sm my-5">
-          {{ item.Date }}
+          {{ item.updated_at }}
         </span>
         <div class="w-full flex justify-start">
           <img
             class="object-fit"
-            :src="item.Thumbnail"
+            :src="item.blog_image[0].image_path_for_display"
           >
         </div>
         <router-link
           class="my-5"
-          :to="`/blog-detail/${item.Id}`"
+          :to="`/blog-detail/${item.id}`"
         >
           <el-button plain>
             {{ $t('read_more') }}
@@ -37,13 +37,17 @@
 </template>
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import fakeBlogs from '@/libraries/fakeData/blogs'
 import { IBlog } from '@/model/blog'
+import apiService from '@/libraries/apiService'
 
 export default defineComponent({
   name: 'BlogPage',
   setup () {
-    const blogs = ref<Array<IBlog>>(fakeBlogs)
+    const blogs = ref<Array<IBlog>>([])
+    const getAllBlog = async () => {
+      blogs.value = await apiService.getAllBlogs()
+    }
+    getAllBlog()
     return {
       blogs
     }

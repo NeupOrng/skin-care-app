@@ -1,4 +1,5 @@
 import { IApiResponse, IAxiosPromise } from '@/model/api/apiResponse'
+import { IBlog } from '@/model/blog'
 import { IProduct } from '@/model/product'
 import axios from 'axios'
 
@@ -9,7 +10,10 @@ const axiosInstance = axios.create({
 })
 
 export default {
-  getAllProduct (): IAxiosPromise<Array<IProduct>> {
+  getAllProducts (): IAxiosPromise<Array<IProduct>> {
     return axiosInstance.get('/v1/product/rrp_product')
+  },
+  getAllBlogs (): IAxiosPromise<Array<IBlog>> {
+    return axiosInstance.get('/v1/blog/rrp_blog')
   }
 }

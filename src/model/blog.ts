@@ -1,27 +1,29 @@
+import { IImage, ImageDto } from './image'
+
 interface IBlog {
-  Content: string,
-  Id: number,
-  Title: string,
-  Tags: Array<string>,
-  Date: string,
-  Thumbnail: string
+  'id': number,
+  'title': string,
+  'subtitle': string,
+  'description': string,
+  'created_at': string,
+  'updated_at': string,
+  'status_id': number,
+  'blog_image': Array<IImage>
 }
 
 class Blog implements IBlog {
-  Content: string;
-  Title: string;
-  Tags: Array<string>;
-  Id: number;
-  Date: string;
-  Thumbnail: string;
+  'id': number;
+  'title': string;
+  'subtitle': string;
+  'description': string;
+  'created_at': string;
+  'updated_at': string;
+  'status_id': number;
+  'blog_image': Array<ImageDto>;
 
   constructor (init: IBlog) {
-    this.Content = init.Content
-    this.Title = init.Title
-    this.Tags = init.Tags
-    this.Date = init.Date
-    this.Thumbnail = init.Thumbnail
-    this.Id = init.Id
+    Object.assign(this, init)
+    this.blog_image = init.blog_image.map((item) => new ImageDto(item))
   }
 }
 
