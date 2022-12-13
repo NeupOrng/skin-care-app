@@ -1,28 +1,5 @@
 import { addAccountingFormat } from '@/libraries/helpers/numberHelper'
-
-interface IProductImage {
-  id: number,
-  'image_path': string,
-  'created_at': string,
-  'updated_at': string,
-  'status_id': number
-}
-
-class ProductImage implements IProductImage {
-  'id': number;
-  'image_path': string;
-  'created_at': string;
-  'updated_at': string;
-  'status_id': number;
-
-  get 'image_path_for_display' (): string {
-    return `${process.env.VUE_APP_ENDPOINT}/${this.image_path}`
-  }
-
-  constructor (init: IProductImage) {
-    Object.assign(this, init)
-  }
-}
+import { IImage, Image } from './image'
 
 interface IProduct {
   id: number,
@@ -38,7 +15,7 @@ interface IProduct {
   'created_at': string,
   'updated_at': string,
   'status_id': number,
-  'product_image': Array<IProductImage>
+  'product_image': Array<IImage>
 }
 
 // interface IProduct {
@@ -65,7 +42,7 @@ class Product implements IProduct {
   'created_at' = '';
   'updated_at' = '';
   'status_id' = 0;
-  'product_image': Array<IProductImage> = [];
+  'product_image': Array<IImage> = [];
 
   get 'price_for_display' (): string {
     return addAccountingFormat(this.price)
@@ -77,7 +54,7 @@ class Product implements IProduct {
 
   constructor (init: IProduct) {
     Object.assign(this, init)
-    this.product_image = init.product_image.map((item) => new ProductImage(item))
+    this.product_image = init.product_image.map((item) => new Image(item))
   }
 }
 
