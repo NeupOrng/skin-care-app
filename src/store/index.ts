@@ -3,10 +3,13 @@ import { InjectionKey } from 'vue'
 import { IProduct, Product, ProductInCart } from '@/model/product'
 import cookieHelper from '@/libraries/cookieHelper'
 import { addAccountingFormat } from '@/libraries/helpers/numberHelper'
+import { IProductType } from '@/model/productType'
+import apiService from '@/libraries/apiService'
 
 interface IState {
   cartItem: Array<ProductInCart>,
   products: Array<IProduct>,
+  productTypes: Array<IProductType>,
   isAuthenticated: boolean
 }
 
@@ -16,6 +19,7 @@ const store = createStore<IState>({
   state: {
     cartItem: [],
     products: [],
+    productTypes: [],
     isAuthenticated: true
   },
   getters: {
@@ -38,9 +42,12 @@ const store = createStore<IState>({
     getTotalPrice (state): string {
       let totalPrice = 0
       state.cartItem.forEach((item) => {
-        totalPrice += Number(item.TotalPrice)
+        totalPrice += Number(item.total_price)
       })
       return addAccountingFormat(totalPrice)
+    },
+    getAllProductTypes (state): Array<IProductType> {
+      return state.productTypes
     }
   },
   mutations: {
@@ -64,9 +71,16 @@ const store = createStore<IState>({
     },
     setIsAuthenticated (state, isAuth: boolean): void {
       state.isAuthenticated = isAuth
+    },
+    setProductTypes (state, productTypes: Array<IProductType>): void {
+      state.productTypes = productTypes
     }
   },
   actions: {
+    async getAllProductTypes () {
+      const productType = await apiService.getAllProductType()
+      this.commit('setProductTypes', productType)
+    }
   },
   modules: {
   }

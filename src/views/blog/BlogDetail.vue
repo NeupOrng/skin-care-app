@@ -14,7 +14,6 @@
 </template>
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-// import fakeBlogs from '@/libraries/fakeData/blogs'
 import { IBlog } from '@/model/blog'
 
 export default defineComponent({

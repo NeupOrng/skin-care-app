@@ -12,9 +12,10 @@ class ImageDto implements IImage {
   'created_at': string;
   'updated_at': string;
   'status_id': number;
+  'is_loading' = true;
 
   get 'image_path_for_display' (): string {
-    return `${process.env.VUE_APP_ENDPOINT}/${this.image_path}`
+    return `${process.env.VUE_APP_ENDPOINT}${this.image_path}`
   }
 
   constructor (init: IImage) {

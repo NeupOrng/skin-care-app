@@ -1,5 +1,5 @@
 <template>
-  <div class="product-page">
+  <div class="product-page" v-loading="isLoading">
     <div class="w-[100vw] py-[25px] flex items-center justify-center border-b-[1px]">
       <span class="font-bold text-2xl">{{ $t($route.params.filter) }}</span>
     </div>
@@ -17,15 +17,18 @@
       <span class="inner-total-product text-sm italic">{{ `${products.length} ${$t('products')}` }}</span>
     </div>
     <span class="outer-total-product text-sm italic">{{ `${products.length} ${$t('products')}` }}</span>
-    <div class="product-render-container">
+    <div class="product-render-container gap-3">
       <router-link
         class="product-item"
         v-for="(product, index) in products"
         :key="index"
         :to="`/product-detail/${product.id}`"
       >
-        <div class="product-item-image p-3">
-          <img :src="product.product_image[0].image_path_for_display">
+        <div class="product-item-image relative aspect-square p-1">
+          <img :src="product.product_image[0].image_path_for_display" @load="onImageLoad(product.product_image[0])">
+          <div
+            :class="`absolute w-full aspect-square top-0 left-0 bg-blue-50 transition duration-300 ease-out ${product.product_image[0].is_loading ? '' : 'opacity-0'}`">
+          </div>
         </div>
         <div class="product-item-content flex flex-col">
           <span class="product-name">{{ product.name_en }}</span>
@@ -97,6 +100,7 @@
 </style>
 <script lang="ts">
 import apiService from '@/libraries/apiService'
+import { IImage, ImageDto } from '@/model/image'
 import { Product } from '@/model/product'
 import { defineComponent, ref } from 'vue'
 
@@ -104,14 +108,22 @@ export default defineComponent({
   name: 'ProductPage',
   setup () {
     const filterByModel = ref('all_products')
+    const isLoading = ref(false)
     const products = ref<Array<Product>>([])
     const getAllProduct = async () => {
+      isLoading.value = true
       products.value = await apiService.getAllProducts()
+      isLoading.value = false
+    }
+    const onImageLoad = (image: ImageDto) => {
+      image.is_loading = false
     }
     getAllProduct()
     return {
       filterByModel,
-      products
+      products,
+      isLoading,
+      onImageLoad
     }
   }
 })

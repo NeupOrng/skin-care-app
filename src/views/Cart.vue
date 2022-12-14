@@ -30,12 +30,12 @@
           <div class="w-[100px] h-[100px]">
             <img
               class="max-w-full"
-              :src="item.ImagePath"
+              :src="item.product_image[0].image_path_for_display"
             >
           </div>
           <div class="flex flex-col justify-between h-full py-3 items-start">
             <div class="text-md text-left">
-              {{ item.Name }}
+              {{ item.name_en }}
             </div>
             <el-button @click="removeItemFromCart(item.Id)">
               {{ $t('remove') }}
@@ -43,7 +43,7 @@
           </div>
         </div>
         <div class="flex items-center justify-center">
-          ${{ item.DiscountForDisplay }}
+          ${{ item.discount_for_display }}
         </div>
         <div class="flex items-center flex flex-col justify-center items-center">
           <el-input-number
@@ -51,11 +51,11 @@
             class="custom-input-number"
             controls-position="right"
             :min="0"
-            v-model="item.Amount"
+            v-model="item.amount"
           />
         </div>
         <div class="flex items-center justify-end px-5">
-          ${{ item.TotalPrice }}
+          ${{ item.total_price }}
         </div>
       </div>
       <div class="py-[20px] px-5 gap-[80px] flex items-center justify-end">
@@ -98,21 +98,21 @@
             <div class="w-[100px] h-[100px]">
               <img
                 class="max-w-full"
-                :src="item.ImagePath"
+                :src="item.product_image[0].image_path_for_display"
               >
             </div>
             <div class="flex justify-start h-full py-3 items-start">
               <div class="text-md text-left">
-                {{ item.Name }} (x{{ item.Amount }})
+                {{ item.name_en }} (x{{ item.amount }})
               </div>
             </div>
           </div>
           <div class="flex flex-col items-end justify-center">
-            <span>${{ item.DiscountForDisplay }}</span>
+            <span>${{ item.discount_for_display }}</span>
             <el-button
               type="danger"
               @click="onCancel(item)"
-              v-if="item.IsEditing"
+              v-if="item.is_editing"
             >
               {{ $t('cancel') }}
             </el-button>
@@ -126,7 +126,7 @@
           </div>
         </div>
         <div
-          v-if="item.IsEditing"
+          v-if="item.is_editing"
           class="flex justify-between pt-3"
         >
           <el-button
@@ -135,7 +135,7 @@
           >
             {{ $t('remove') }}
           </el-button>
-          <el-input-number v-model="item.AmountModel" />
+          <el-input-number v-model="item.amount_model" />
           <el-button
             type="primary"
             @click="onUpdate(item)"

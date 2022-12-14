@@ -67,7 +67,7 @@ class ProductInCart extends Product {
     this.amount += amount
   }
 
-  get TotalPrice (): string {
+  get 'total_price' (): string {
     return addAccountingFormat(Number(this.discount_for_display) * Number(this.amount))
   }
 

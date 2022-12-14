@@ -11,11 +11,18 @@
 import { defineComponent } from 'vue'
 import Navigator from '@/components/Navigator.vue'
 import FooterComponent from './components/Footer.vue'
+import { useStore } from 'vuex'
 
 export default defineComponent({
   components: {
     Navigator,
     FooterComponent
+  },
+  setup () {
+    const { dispatch, state } = useStore()
+    dispatch('getAllProductTypes')
+    console.log(state)
+    return {}
   }
 })
 </script>
