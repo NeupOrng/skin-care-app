@@ -16,6 +16,14 @@ export default {
     const responseProduct = getResponse(apiCalling.getProductById(id))
     return responseProduct.then((res) => new Product(res.data))
   },
+  getProductByFilter (key: string): Promise<Array<Product>> {
+    const response = getResponse(apiCalling.getProductByFilter(key))
+    return response.then((res) => res.data.map((item: IProduct) => new Product(item)))
+  },
+  getProductByProductType (typeId: string): Promise<Array<Product>> {
+    const response = getResponse(apiCalling.getProductByProductType(typeId))
+    return response.then((res) => res.data.map((item: IProduct) => new Product(item)))
+  },
   getAllProductType (): Promise<Array<IProductType>> {
     const response = getResponse(apiCalling.getAllProductType())
     return response.then((res) => res.data)

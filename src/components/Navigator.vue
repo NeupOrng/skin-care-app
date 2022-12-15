@@ -328,7 +328,7 @@ export default defineComponent({
       },
       {
         Text: 'Best',
-        HyperLink: '/products/best'
+        HyperLink: '/products/bestSelling'
       },
       {
         Text: 'Routine',

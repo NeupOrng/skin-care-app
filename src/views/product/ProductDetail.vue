@@ -1,5 +1,8 @@
 <template>
-  <div class="product-detail-page gap-5" v-loading="isLoading">
+  <div
+    class="product-detail-page gap-5"
+    v-loading="isLoading"
+  >
     <div class="product-detail-content">
       <div class="w-full flex justify-center items-start">
         <img
@@ -14,7 +17,8 @@
           :key="index"
           @click="onImageClick(image)"
         >
-          <img :class="`object-fit ${activeImage.id === image.id ? '' : 'contrast-50'}`"
+          <img
+            :class="`object-fit ${activeImage.id === image.id ? '' : 'contrast-50'}`"
             :src="image.image_path_for_display"
           >
         </div>
@@ -37,7 +41,10 @@
       </div>
       <div class="w-full flex flex-col items-start justify-center mb-5">
         <span class="my-2 ">{{ $t('quantity ') }}</span>
-        <el-input-number :min="0" v-model="amount" />
+        <el-input-number
+          :min="0"
+          v-model="amount"
+        />
       </div>
       <el-button
         class="w-full mb-5"

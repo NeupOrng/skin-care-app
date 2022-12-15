@@ -1,16 +1,26 @@
 <template>
-  <div class="product-page" v-loading="isLoading">
+  <div
+    class="product-page"
+    v-loading="isLoading"
+  >
     <div class="w-[100vw] py-[25px] flex items-center justify-center border-b-[1px]">
-      <span class="font-bold text-2xl">{{ $t($route.params.filter) }}</span>
+      <span class="font-bold text-2xl">{{ $t(filterKey) }}</span>
     </div>
     <div class="w-[100vw] py-[10px] px-[10vw] flex items-center product-filter border-b-[1px] border-t-[1px]">
       <div class="flex items-center">
         <div class="flex items-center gap-2">
-          <span>{{ $t('filter_by') }}</span>
+          <span>{{ $t('filter') }}</span>
           <el-select v-model="filterByModel">
-            <el-option value="all_products">
-              {{ $t('all_products') }}
-            </el-option>
+            <el-option
+              value="0"
+              :label="$t('all')"
+            />
+            <el-option
+              v-for="(item, index) in $store.state.productTypes"
+              :key="index"
+              :value="item.id"
+              :label="item.name_en"
+            />
           </el-select>
         </div>
       </div>
@@ -25,10 +35,13 @@
         :to="`/product-detail/${product.id}`"
       >
         <div class="product-item-image relative aspect-square p-1">
-          <img :src="product.product_image[0].image_path_for_display" @load="onImageLoad(product.product_image[0])">
+          <img
+            :src="product.product_image[0].image_path_for_display"
+            @load="onImageLoad(product.product_image[0])"
+          >
           <div
-            :class="`absolute w-full aspect-square top-0 left-0 bg-blue-50 transition duration-300 ease-out ${product.product_image[0].is_loading ? '' : 'opacity-0'}`">
-          </div>
+            :class="`absolute w-full aspect-square top-0 left-0 bg-blue-50 transition duration-300 ease-out ${product.product_image[0].is_loading ? '' : 'opacity-0'}`"
+          />
         </div>
         <div class="product-item-content flex flex-col">
           <span class="product-name">{{ product.name_en }}</span>
@@ -99,15 +112,24 @@
 }
 </style>
 <script lang="ts">
+/* eslint-disable */ 
 import apiService from '@/libraries/apiService'
 import { IImage, ImageDto } from '@/model/image'
 import { Product } from '@/model/product'
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, toRef, watch, watchEffect } from 'vue'
+import { useRoute } from 'vue-router'
 
 export default defineComponent({
   name: 'ProductPage',
-  setup () {
-    const filterByModel = ref('all_products')
+  props: {
+    filterKey: {
+      type: String,
+      default: ''
+    }
+  },
+  setup (props) {
+    const filterByModel = ref('0')
+    const filterKey = ref('')
     const isLoading = ref(false)
     const products = ref<Array<Product>>([])
     const getAllProduct = async () => {
@@ -115,10 +137,44 @@ export default defineComponent({
       products.value = await apiService.getAllProducts()
       isLoading.value = false
     }
+    const getProductByFilterKey = async (key: string) => {
+      isLoading.value = true
+      products.value = await apiService.getProductByFilter(key)
+      isLoading.value = false
+    }
+    const getProductByProductType = async (id: string) => {
+      isLoading.value = true
+      products.value = await apiService.getProductByProductType(id)
+      isLoading.value = false
+    }
     const onImageLoad = (image: ImageDto) => {
       image.is_loading = false
     }
-    getAllProduct()
+
+
+    const filter = toRef(props, 'filterKey')
+    watch(filter, (newVal) => {
+      if (newVal === 'bestSelling') {
+        getProductByFilterKey('bestSelling')
+      } else {
+        getAllProduct()
+      }
+    })
+    if (filter.value === 'bestSelling') {
+      getProductByFilterKey('bestSelling')
+    } else {
+      getAllProduct()
+    }
+
+
+
+    watch(filterByModel, (newVal) => {
+      if (newVal === '0') {
+        getAllProduct()
+      } else {
+        getProductByProductType(newVal)
+      }
+    })
     return {
       filterByModel,
       products,

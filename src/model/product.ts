@@ -18,16 +18,6 @@ interface IProduct {
   'product_image': Array<IImage>
 }
 
-// interface IProduct {
-//   Name: string,
-//   Id: number,
-//   ImagePath: string,
-//   Description: string,
-//   Price: number,
-//   Categories: Array<string>,
-//   Discount: number
-// }
-
 class Product implements IProduct {
   id = -1;
   'name_en' = '';

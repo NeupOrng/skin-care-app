@@ -20,6 +20,9 @@ export default {
   getProductByFilter (filterKey: string): IAxiosPromise<Array<IProduct>> {
     return axiosInstance.get(`/v1/product/rrp_product?filter=${filterKey}`)
   },
+  getProductByProductType (typeId: string): IAxiosPromise<Array<IProduct>> {
+    return axiosInstance.get(`/v1/product/rrp_product?productType=${typeId}`)
+  },
   getAllProductType (): IAxiosPromise<Array<IProductType>> {
     return axiosInstance.get('/v1/product_type/rrp_product_type')
   },

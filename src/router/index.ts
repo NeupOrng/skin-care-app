@@ -11,7 +11,8 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/products/:filter',
     name: 'Products',
-    component: () => import(/* webpackChunkName: "Products" */ '../views/product/Products.vue')
+    component: () => import(/* webpackChunkName: "Products" */ '../views/product/Products.vue'),
+    props: (route) => ({ filterKey: route.params.filter })
   },
   {
     path: '/product-detail/:id',
