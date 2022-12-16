@@ -1,5 +1,8 @@
 <template>
-  <div class="home" v-loading="isLoading">
+  <div
+    class="home"
+    v-loading="isLoading"
+  >
     <el-carousel
       class="banner"
       :loop="true"
@@ -30,12 +33,13 @@
           :key="index"
           :to="`/product-detail/${product.id}`"
         >
-          <div class="product-item-image">
+          <div class="product-item-image relative">
             <img
               :src="product.product_image[0].image_path_for_display"
               @load="onImageLoad(product.product_image[0])"
             >
             <div
+              v-if="product.product_image[0].is_loading"
               :class="`absolute w-full aspect-square top-0 left-0 bg-blue-50 transition duration-300 ease-out ${product.product_image[0].is_loading ? '' : 'opacity-0'}`"
             />
           </div>
@@ -67,12 +71,13 @@
           :key="index"
           :to="`/product-detail/${product.id}`"
         >
-          <div class="product-item-image">
+          <div class="product-item-image relative">
             <img
               :src="product.product_image[0].image_path_for_display"
               @load="onImageLoad(product.product_image[0])"
             >
             <div
+              v-if="product.product_image[0].is_loading"
               :class="`absolute w-full aspect-square top-0 left-0 bg-blue-50 transition duration-300 ease-out ${product.product_image[0].is_loading ? '' : 'opacity-0'}`"
             />
           </div>

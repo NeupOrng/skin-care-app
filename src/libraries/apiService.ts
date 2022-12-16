@@ -1,4 +1,5 @@
-import { IAxiosPromise } from '@/model/api/apiResponse'
+import { IApiResponse, IAxiosPromise } from '@/model/api/apiResponse'
+import { ILoginRequest, ILoginResponse } from '@/model/auth'
 import { Blog, IBlog } from '@/model/blog'
 import { IProduct, Product } from '@/model/product'
 import { IProductType } from '@/model/productType'
@@ -40,5 +41,8 @@ export default {
       return new Blog(res.data)
     })
     return blog
+  },
+  postLogin (payload: ILoginRequest): Promise<IApiResponse<ILoginResponse>> {
+    return getResponse(apiCalling.postLogin(payload))
   }
 }

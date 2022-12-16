@@ -1,5 +1,8 @@
 <template>
-  <div class="blog-detail" v-loading="isLoading">
+  <div
+    class="blog-detail"
+    v-loading="isLoading"
+  >
     <div class="w-full flex flex-col items-center justify-center py-[25px]">
       <span class="font-bold text-2xl">{{ blog?.title }}</span>
       <span class="text-sm my-5">

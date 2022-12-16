@@ -1,5 +1,5 @@
 import { createI18n } from 'vue-i18n'
-import cookieHelper from './cookieHelper'
+import cookieHelper from './helpers/cookieHelper'
 
 // name should be same as lang filename, and it is case sensitive.
 const langs: Array<string> = [

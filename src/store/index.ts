@@ -1,16 +1,18 @@
 import { createStore, useStore as baseUseStore, Store } from 'vuex'
 import { InjectionKey } from 'vue'
 import { IProduct, Product, ProductInCart } from '@/model/product'
-import cookieHelper from '@/libraries/cookieHelper'
+import cookieHelper from '@/libraries/helpers/cookieHelper'
 import { addAccountingFormat } from '@/libraries/helpers/numberHelper'
 import { IProductType } from '@/model/productType'
 import apiService from '@/libraries/apiService'
+import { IToken, IUser } from '@/model/auth'
 
 interface IState {
   cartItem: Array<ProductInCart>,
   products: Array<IProduct>,
   productTypes: Array<IProductType>,
-  isAuthenticated: boolean
+  isAuthenticated: boolean,
+  user: IUser,
 }
 
 export const key: InjectionKey<Store<IState>> = Symbol('Copy From Vuex Doc')
@@ -20,7 +22,27 @@ const store = createStore<IState>({
     cartItem: [],
     products: [],
     productTypes: [],
-    isAuthenticated: true
+    isAuthenticated: true,
+    user: {
+      id: 0,
+      email: '',
+      fullname: '',
+      phone_number: '',
+      facebook: '',
+      location: '',
+      lat: '',
+      lng: '',
+      updated_at: '',
+      status_id: 0,
+      user_type_id: 0,
+      userType: {
+        id: 0,
+        name: '',
+        status_id: 0,
+        created_at: '',
+        updated_at: ''
+      }
+    }
   },
   getters: {
     getCountCartItem (state): number {
@@ -34,6 +56,10 @@ const store = createStore<IState>({
       return state.products
     },
     checkIsAuthenticated (state): boolean {
+      const token = cookieHelper.getCookie('access-token')
+      if (!token) {
+        state.isAuthenticated = false
+      }
       return state.isAuthenticated
     },
     getAllCartItems (state): Array<ProductInCart> {
@@ -65,8 +91,9 @@ const store = createStore<IState>({
     removeCartItem (state, productId: number): void {
       state.cartItem = state.cartItem.filter((item) => item.id !== productId)
     },
-    setToken (state, token: string): void {
-      cookieHelper.setCookie('access-token', token, 3600)
+    setToken (state, token: IToken): void {
+      cookieHelper.setCookie('access-token', token.token, 3600)
+      cookieHelper.setCookie('refresh-token', token.refreshToken, 3600 * 24 * 30)
       state.isAuthenticated = true
     },
     setIsAuthenticated (state, isAuth: boolean): void {
@@ -74,6 +101,9 @@ const store = createStore<IState>({
     },
     setProductTypes (state, productTypes: Array<IProductType>): void {
       state.productTypes = productTypes
+    },
+    setUser (state, user: IUser): void {
+      state.user = user
     }
   },
   actions: {

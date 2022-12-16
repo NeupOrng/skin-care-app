@@ -1,4 +1,5 @@
 import { IApiResponse, IAxiosPromise } from '@/model/api/apiResponse'
+import { ILoginRequest, ILoginResponse } from '@/model/auth'
 import { IBlog } from '@/model/blog'
 import { IProduct } from '@/model/product'
 import { IProductType } from '@/model/productType'
@@ -31,5 +32,8 @@ export default {
   },
   getBlogById (id: string): IAxiosPromise<IBlog> {
     return axiosInstance.get(`/v1/blog/rrp_blog/${id}`)
+  },
+  postLogin (payload: ILoginRequest): IAxiosPromise<ILoginResponse> {
+    return axiosInstance.post('/v1/login', payload)
   }
 }

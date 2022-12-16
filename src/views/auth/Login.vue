@@ -34,6 +34,7 @@
             <span class="text-sm">Forget Password</span>
           </router-link>
           <el-button
+            :loading="isProcessing"
             type="primary"
             @click="submitForm(ruleFormRef)"
           >
@@ -51,11 +52,17 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue'
 import { FormInstance } from 'element-plus'
+import { ILoginRequest } from '@/model/auth'
+import apiService from '@/libraries/apiService'
+import { useStore } from 'vuex'
+import { notification, notificationType } from '@/libraries/helpers/notificationHelper'
+import router from '@/router'
 
 export default defineComponent({
   name: 'LoginView',
   setup () {
     const ruleFormRef = ref<FormInstance>()
+    const isProcessing = ref(false)
     const formModel = reactive({
       Email: '',
       Password: ''
@@ -83,12 +90,23 @@ export default defineComponent({
       Email: [{ validator: emailValidator, trigger: 'blur' }],
       Password: [{ validator: passwordValidator, tigger: 'blur' }]
     })
-    const onSubmit = () => {
-      window.alert(`
-        login success
-        ${formModel.Email}
-        ${formModel.Password}
-      `)
+    const { commit } = useStore()
+    const onSubmit = async () => {
+      isProcessing.value = true
+      const request: ILoginRequest = {
+        email: formModel.Email,
+        password: formModel.Password
+      }
+      const response = await apiService.postLogin(request)
+      if (response.status === 'success') {
+        commit('setUser', response.data.user)
+        commit('setToken', response.data.accessToken)
+        notification(notificationType.Success, 'Success')
+        router.push('/')
+      } else {
+        notification(notificationType.Error, 'email or password incorrect')
+      }
+      isProcessing.value = false
     }
     const submitForm = (formEl: FormInstance | undefined) => {
       if (!formEl) return
@@ -102,7 +120,8 @@ export default defineComponent({
       formModel,
       ruleFormRef,
       rules,
-      submitForm
+      submitForm,
+      isProcessing
     }
   }
 })

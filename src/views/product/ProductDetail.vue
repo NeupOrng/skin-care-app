@@ -12,7 +12,7 @@
       </div>
       <div class="grid gap-2 py-2">
         <div
-          class="w-[50px] h-[50px] flex items-center justify-center cursor-pointer"
+          class="w-[50px] h-[50px] flex flex-row items-center justify-center cursor-pointer"
           v-for="(image, index) in product.product_image"
           :key="index"
           @click="onImageClick(image)"

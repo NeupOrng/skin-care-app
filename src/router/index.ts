@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import store from '@/store'
-import cookieHelper from '@/libraries/cookieHelper'
+import cookieHelper from '@/libraries/helpers/cookieHelper'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -67,18 +67,18 @@ const router = createRouter({
   routes
 })
 
-// router.beforeEach((to, from) => {
-//   try {
-//     if (to.meta.isAuth) {
-//       const token = cookieHelper.getCookie('access-token')
-//       if (!token) {
-//         store.commit('setIsAuthenticated', false)
-//         router.push('/login')
-//       }
-//     }
-//   } catch (e) {
-//     console.error(e)
-//   }
-// })
+router.beforeEach((to, from) => {
+  try {
+    if (to.meta.isAuth) {
+      const token = cookieHelper.getCookie('access-token')
+      if (!token) {
+        store.commit('setIsAuthenticated', false)
+        router.push('/login')
+      }
+    }
+  } catch (e) {
+    console.error(e)
+  }
+})
 
 export default router
