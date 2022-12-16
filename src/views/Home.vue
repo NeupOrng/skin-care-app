@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home" v-loading="isLoading">
     <el-carousel
       class="banner"
       :loop="true"
@@ -26,24 +26,30 @@
       <div class="products-container gap-[2vw]">
         <router-link
           class="product-item"
-          v-for="(product, index) in products"
+          v-for="(product, index) in newProducts"
           :key="index"
-          :to="`/product-detail/${product.Id}`"
+          :to="`/product-detail/${product.id}`"
         >
           <div class="product-item-image">
-            <img :src="product.ImagePath">
+            <img
+              :src="product.product_image[0].image_path_for_display"
+              @load="onImageLoad(product.product_image[0])"
+            >
+            <div
+              :class="`absolute w-full aspect-square top-0 left-0 bg-blue-50 transition duration-300 ease-out ${product.product_image[0].is_loading ? '' : 'opacity-0'}`"
+            />
           </div>
           <div class="product-item-content flex flex-col">
-            <span class="product-name">{{ product.Name }}</span>
+            <span class="product-name">{{ product.name_en }}</span>
             <div class="inline font-bold">
-              <span :class="`${product.Discount > 0 ? 'line-through' : ''} text-[#69727B]`">
-                ${{ product.PriceForDisplay }}
+              <span :class="`${product.discount_for_display > 0 ? 'line-through' : ''} text-[#69727B]`">
+                ${{ product.price_for_display }}
               </span>
               <span
-                v-if="product.Discount > 0"
+                v-if="product.discount > 0"
                 class="mx-2 text-[#197bbd]"
               >
-                ${{ product.DiscountForDisplay }}
+                ${{ product.discount_for_display }}
               </span>
             </div>
           </div>
@@ -57,24 +63,30 @@
       <div class="products-container gap-[2vw]">
         <router-link
           class="product-item"
-          v-for="(product, index) in products"
+          v-for="(product, index) in bestSellingProducts"
           :key="index"
-          :to="`/product-detail/${product.Id}`"
+          :to="`/product-detail/${product.id}`"
         >
           <div class="product-item-image">
-            <img :src="product.ImagePath">
+            <img
+              :src="product.product_image[0].image_path_for_display"
+              @load="onImageLoad(product.product_image[0])"
+            >
+            <div
+              :class="`absolute w-full aspect-square top-0 left-0 bg-blue-50 transition duration-300 ease-out ${product.product_image[0].is_loading ? '' : 'opacity-0'}`"
+            />
           </div>
           <div class="product-item-content flex flex-col">
-            <span class="product-name">{{ product.Name }}</span>
+            <span class="product-name">{{ product.name_en }}</span>
             <div class="inline font-bold">
-              <span :class="`${product.Discount > 0 ? 'line-through' : ''} text-[#69727B]`">
-                ${{ product.PriceForDisplay }}
+              <span :class="`${product.discount_for_display > 0 ? 'line-through' : ''} text-[#69727B]`">
+                ${{ product.price_for_display }}
               </span>
               <span
-                v-if="product.Discount > 0"
+                v-if="product.discount > 0"
                 class="mx-2 text-[#197bbd]"
               >
-                ${{ product.DiscountForDisplay }}
+                ${{ product.discount_for_display }}
               </span>
             </div>
           </div>
@@ -136,6 +148,8 @@
 </style>
 
 <script lang="ts">
+import apiService from '@/libraries/apiService'
+import { ImageDto } from '@/model/image'
 import { IProduct, Product } from '@/model/product'
 import { ElCarousel, ElCarouselItem } from 'element-plus'
 import { defineComponent, ref } from 'vue'
@@ -150,27 +164,43 @@ export default defineComponent({
       'https://cdn.shopify.com/s/files/1/0020/8184/9444/files/PCmain_banner.jpg?v=1658821083'
     ])
     const { commit } = useStore()
-    // const addCart = () => {
-    //   const temObject: IProduct = {
-    //     Id: 1,
-    //     Name: 'Sun Protection',
-    //     Description: 'protect skin from uv',
-    //     ImagePath: '',
-    //     Price: 1,
-    //     Discount: 0,
-    //     Categories: ['cream']
-    //   }
-    //   commit('addCartItem', { product: temObject, amount: 1 })
-    // }
-    // const removeCart = () => {
-    //   commit('removeCartItem', { productId: 1, amount: 1 })
-    // }
-    // const products = ref<Array<Product>>(fakeProducts.map((item) => new Product(item)).slice(0, 5))
+    const isLoading = ref(false)
+    const newProducts = ref<Array<Product>>([])
+    const bestSellingProducts = ref<Array<Product>>([])
+    const getNewProduct = async () => {
+      isLoading.value = true
+      const products = await apiService.getAllProducts()
+      if (products.length > 5) {
+        newProducts.value = products.slice(0, 5)
+      } else {
+        newProducts.value = products
+      }
+      isLoading.value = false
+    }
+
+    const getBestSellingProduct = async () => {
+      isLoading.value = true
+      const products = await apiService.getProductByFilter('bestSelling')
+      if (products.length > 5) {
+        bestSellingProducts.value = products.splice(0, 5)
+      } else {
+        bestSellingProducts.value = products
+      }
+      isLoading.value = false
+    }
+
+    const onImageLoad = (image: ImageDto) => {
+      image.is_loading = false
+    }
+
+    getBestSellingProduct()
+    getNewProduct()
     return {
-      banners
-      // addCart,
-      // removeCart,
-      // products
+      banners,
+      bestSellingProducts,
+      newProducts,
+      isLoading,
+      onImageLoad
     }
   }
 })

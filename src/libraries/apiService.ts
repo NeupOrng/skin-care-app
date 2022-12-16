@@ -32,5 +32,13 @@ export default {
     const responseBlogs = getResponse(apiCalling.getAllBlogs())
     const blogs = responseBlogs.then((res) => res.data.map((item: IBlog) => new Blog(item)))
     return blogs
+  },
+  getBlogById (id: string): Promise<Blog> {
+    const responseBlog = getResponse(apiCalling.getBlogById(id))
+    const blog = responseBlog.then((res) => {
+      console.log(res.data)
+      return new Blog(res.data)
+    })
+    return blog
   }
 }

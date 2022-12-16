@@ -28,5 +28,8 @@ export default {
   },
   getAllBlogs (): IAxiosPromise<Array<IBlog>> {
     return axiosInstance.get('/v1/blog/rrp_blog')
+  },
+  getBlogById (id: string): IAxiosPromise<IBlog> {
+    return axiosInstance.get(`/v1/blog/rrp_blog/${id}`)
   }
 }
