@@ -10,7 +10,7 @@
           :src="activeImage.image_path_for_display"
         >
       </div>
-      <div class="grid gap-2 py-2">
+      <div class="flex gap-2 py-2">
         <div
           class="w-[50px] h-[50px] flex flex-row items-center justify-center cursor-pointer"
           v-for="(image, index) in product.product_image"
