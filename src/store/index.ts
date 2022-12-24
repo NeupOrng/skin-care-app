@@ -6,6 +6,7 @@ import { addAccountingFormat } from '@/libraries/helpers/numberHelper'
 import { IProductType } from '@/model/productType'
 import apiService from '@/libraries/apiService'
 import { IToken, IUser } from '@/model/auth'
+import { IPoster } from '@/model/poster'
 
 interface IState {
   cartItem: Array<ProductInCart>,
@@ -13,6 +14,7 @@ interface IState {
   productTypes: Array<IProductType>,
   isAuthenticated: boolean,
   user: IUser,
+  poster: IPoster
 }
 
 export const key: InjectionKey<Store<IState>> = Symbol('Copy From Vuex Doc')
@@ -42,6 +44,14 @@ const store = createStore<IState>({
         created_at: '',
         updated_at: ''
       }
+    },
+    poster: {
+      id: 0,
+      description: '',
+      created_at: '',
+      updated_at: '',
+      status_id: 0,
+      poster_image: []
     }
   },
   getters: {
@@ -74,6 +84,9 @@ const store = createStore<IState>({
     },
     getAllProductTypes (state): Array<IProductType> {
       return state.productTypes
+    },
+    getPoster (state): IPoster {
+      return state.poster
     }
   },
   mutations: {
@@ -104,12 +117,21 @@ const store = createStore<IState>({
     },
     setUser (state, user: IUser): void {
       state.user = user
+    },
+    setPoster (state, poster: IPoster): void {
+      state.poster = poster
     }
   },
   actions: {
     async getAllProductTypes () {
       const productType = await apiService.getAllProductType()
       this.commit('setProductTypes', productType)
+    },
+    async getPoster () {
+      const poster = await apiService.getAllPoster()
+      if (poster.length) {
+        this.commit('setPoster', poster[0])
+      }
     }
   },
   modules: {

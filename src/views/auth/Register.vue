@@ -7,37 +7,69 @@
         :rules="rules"
         label-position="top"
       >
-        <div class="text-2xl font-bold text-black my-5">Create Account</div>
-        <el-form-item prop="FullName" label="FullName">
-          <el-input v-model="formModel.FullName" placeholder="FullName" />
+        <div class="text-2xl font-bold text-black my-5">
+          Create Account
+        </div>
+        <el-form-item
+          prop="FullName"
+          label="FullName"
+        >
+          <el-input
+            v-model="formModel.FullName"
+            placeholder="FullName"
+          />
         </el-form-item>
-        <el-form-item prop="Email" label="Email">
-          <el-input v-model="formModel.Email" placeholder="Email" />
+        <el-form-item
+          prop="Email"
+          label="Email"
+        >
+          <el-input
+            v-model="formModel.Email"
+            placeholder="Email"
+          />
         </el-form-item>
-        <el-form-item prop="Facebook" label="Facebook">
-          <el-input v-model="formModel.Facebook" placeholder="Facebook" />
+        <el-form-item
+          prop="Facebook"
+          label="Facebook"
+        >
+          <el-input
+            v-model="formModel.Facebook"
+            placeholder="Facebook"
+          />
         </el-form-item>
-        <el-form-item prop="PhoneNumber" label="Phone Number">
+        <el-form-item
+          prop="PhoneNumber"
+          label="Phone Number"
+        >
           <el-input
             v-model="formModel.PhoneNumber"
             placeholder="Phone Number"
             type="number"
           />
         </el-form-item>
-        <el-form-item prop="Location" label="Detail Location">
+        <el-form-item
+          prop="Location"
+          label="Detail Location"
+        >
           <el-input
             v-model="formModel.Location"
             placeholder="Detail Location"
           />
         </el-form-item>
-        <el-form-item prop="Password" label="Password">
+        <el-form-item
+          prop="Password"
+          label="Password"
+        >
           <el-input
             type="password"
             v-model="formModel.Password"
             placeholder="Password"
           />
         </el-form-item>
-        <el-form-item prop="ConfirmPassword" label="Confirm Password">
+        <el-form-item
+          prop="ConfirmPassword"
+          label="Confirm Password"
+        >
           <el-input
             type="password"
             v-model="formModel.ConfirmPassword"
@@ -64,7 +96,10 @@
           </PlaceSearch>
         </div> -->
         <div class="flex flex-col items-center justify-center">
-          <el-button type="primary" @click="submitForm(ruleFormRef)">
+          <el-button
+            type="primary"
+            @click="submitForm(ruleFormRef)"
+          >
             CREATE
           </el-button>
         </div>
@@ -74,77 +109,78 @@
 </template>
 
 <script lang="ts">
-import { FormInstance } from "element-plus";
-import { defineComponent, ref, reactive } from "vue";
-import { RouterLink } from "vue-router";
-import { ISignUpRequest } from "@/model/auth";
-import apiService from "@/libraries/apiService";
+import { FormInstance } from 'element-plus'
+import { defineComponent, ref, reactive } from 'vue'
+import { RouterLink } from 'vue-router'
+import { ISignUpRequest } from '@/model/auth'
+import apiService from '@/libraries/apiService'
 import {
   notification,
-  notificationType,
-} from "@/libraries/helpers/notificationHelper";
-import router from "@/router";
-import { useStore } from "vuex";
+  notificationType
+} from '@/libraries/helpers/notificationHelper'
+import router from '@/router'
+import { useStore } from 'vuex'
 
+/* eslint-disable */
 export default defineComponent({
-  name: "RegisterView",
-  setup() {
-    const ruleFormRef = ref<FormInstance>();
-    const isProcessing = ref(false);
+  name: 'RegisterView',
+  setup () {
+    const ruleFormRef = ref<FormInstance>()
+    const isProcessing = ref(false)
     const formModel = reactive({
-      Email: "",
-      FullName: "",
-      Location: "",
-      PhoneNumber: "",
-      Facebook: "",
-      Lat: "",
-      Lng: "",
-      Password: "",
-      ConfirmPassword: "",
-    });
+      Email: '',
+      FullName: '',
+      Location: '',
+      PhoneNumber: '',
+      Facebook: '',
+      Lat: '',
+      Lng: '',
+      Password: '',
+      ConfirmPassword: ''
+    })
     const emailValidator = (rule: any, value: any, callback: any) => {
-      if (formModel.Email === "") {
-        callback(new Error("Email is required"));
+      if (formModel.Email === '') {
+        callback(new Error('Email is required'))
         // eslint-disable-next-line
       } else if (
         !formModel.Email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
       ) {
-        callback(new Error("Email format invalid"));
+        callback(new Error('Email format invalid'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     const passwordValidator = (rule: any, value: any, callback: any) => {
-      if (formModel.Password === "") {
-        callback(new Error("Password is required"));
+      if (formModel.Password === '') {
+        callback(new Error('Password is required'))
       } else if (
         formModel.Password.length < 4 ||
         formModel.Password.length > 8
       ) {
-        callback(new Error("Password length need to be between 4 to 8"));
+        callback(new Error('Password length need to be between 4 to 8'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     const confirmPasswordValidator = (rule: any, value: any, callback: any) => {
       if (formModel.Password !== formModel.ConfirmPassword) {
-        callback(new Error("Confirm Password is different from Password"));
-      } else if (formModel.ConfirmPassword === "") {
-        callback(new Error("Confirm Password is required"));
+        callback(new Error('Confirm Password is different from Password'))
+      } else if (formModel.ConfirmPassword === '') {
+        callback(new Error('Confirm Password is required'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     const rules = reactive({
-      Email: [{ validator: emailValidator, trigger: "blur" }],
-      Password: [{ validator: passwordValidator, tigger: "blur" }],
+      Email: [{ validator: emailValidator, trigger: 'blur' }],
+      Password: [{ validator: passwordValidator, tigger: 'blur' }],
       ConfirmPassword: [
-        { validator: confirmPasswordValidator, trigger: "blur" },
-      ],
-    });
-    const { commit } = useStore();
+        { validator: confirmPasswordValidator, trigger: 'blur' }
+      ]
+    })
+    const { commit } = useStore()
     const onSubmit = async () => {
-      isProcessing.value = true;
+      isProcessing.value = true
       const request: ISignUpRequest = {
         email: formModel.Email,
         password: formModel.Password,
@@ -153,32 +189,32 @@ export default defineComponent({
         location: formModel.Location,
         lat: formModel.Lat,
         lng: formModel.Lng,
-        facebook: formModel.Facebook,
-      };
-      const response = await apiService.postSignUp(request);
-      console.log(response);
-      if (response.status === "success") {
-        commit("setUser", response.data.user);
-        commit("setToken", response.data.accessToken);
-        notification(notificationType.Success, "Success");
-        router.push("/");
-      } else {
-        notification(notificationType.Error, "User is already exist");
+        facebook: formModel.Facebook
       }
-      isProcessing.value = false;
-    };
+      const response = await apiService.postSignUp(request)
+      console.log(response)
+      if (response.status === 'success') {
+        commit('setUser', response.data.user)
+        commit('setToken', response.data.accessToken)
+        notification(notificationType.Success, 'Success')
+        router.push('/')
+      } else {
+        notification(notificationType.Error, 'User is already exist')
+      }
+      isProcessing.value = false
+    }
     const submitForm = (formEl: FormInstance | undefined) => {
-      if (!formEl) return;
+      if (!formEl) return
       formEl.validate((valid) => {
         if (valid) {
-          onSubmit();
+          onSubmit()
         }
-      });
-    };
+      })
+    }
     const getMapData = (place: any) => {
-      console.log(place);
-      place = place;
-    };
+      console.log(place)
+      place = place
+    }
 
     return {
       formModel,
@@ -187,30 +223,30 @@ export default defineComponent({
       submitForm,
       isProcessing,
       ready: false,
-      fallbackProcedure: "gps", //gps | geolocation | address | manually
-      zoom: 17, //Default Zoom
+      fallbackProcedure: 'gps', // gps | geolocation | address | manually
+      zoom: 17, // Default Zoom
       geolocation: {
         // If GPS and Find by address fails then, map will be positioned by a default geolocation
         lat: 31.73858,
         lng: -35.98628,
-        zoom: 2,
+        zoom: 2
       },
       address: {
-        query: "Albania, Tirane", //If GPS fails, Find by address is triggered
-        zoom: 10,
+        query: 'Albania, Tirane', // If GPS fails, Find by address is triggered
+        zoom: 10
       },
       manually: {
-        address_description: "21 Dhjetori, Tirana, Albania",
-        city: "Tirana",
-        country: "Albania",
+        address_description: '21 Dhjetori, Tirana, Albania',
+        city: 'Tirana',
+        country: 'Albania',
         lat: 41.3267905,
         lng: 19.8060475,
-        state: "Tirana County",
-        zip_code: "",
-        zoom: 17,
+        state: 'Tirana County',
+        zip_code: '',
+        zoom: 17
       },
-      place: {},
-    };
-  },
-});
+      place: {}
+    }
+  }
+})
 </script>

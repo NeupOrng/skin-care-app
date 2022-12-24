@@ -3,14 +3,15 @@
     class="home"
     v-loading="isLoading"
   >
-  <el-carousel
+    <el-carousel
       class="poster"
       :loop="true"
       interval="2000"
       :pause-on-hover="true"
+      height="31.25vw"
     >
       <el-carousel-item
-        v-for="(item, index) in allPoster[0].poster_image"
+        v-for="(item, index) in $store.getters.getPoster.poster_image"
         :key="index"
       >
         <div class="w-full flex justify-center items-center">
@@ -18,12 +19,12 @@
             class="max-w-full max-h-full"
             :src="item.image_path_for_display"
             @load="onImageLoad(item)"
-            :alt="poster ${index}"
+            :alt="`poster ${index}`"
           >
         </div>
       </el-carousel-item>
     </el-carousel>
-    <div class="w-[100vw] flex flex-col items-center product-show-container">
+    <div class="w-[100vw] flex flex-col items-center product-show-container" v-if="newProducts.length > 0">
       <div class="text-xl font-bold text-black uppercase">
         {{ $t('new_arrivals') }}
       </div>
@@ -61,9 +62,9 @@
         </router-link>
       </div>
     </div>
-    <div class="w-[100vw] flex flex-col items-center product-show-container">
+    <div class="w-[100vw] flex flex-col items-center product-show-container" v-if="bestSellingProducts.length > 0">
       <div class="text-xl font-bold text-black uppercase">
-        {{ $t('must_try') }}
+        {{ $t('best_selling') }}
       </div>
       <div class="products-container gap-[2vw]">
         <router-link
@@ -174,7 +175,7 @@ export default defineComponent({
     const isLoading = ref(false)
     const newProducts = ref<Array<Product>>([])
     const bestSellingProducts = ref<Array<Product>>([])
-    const allPoster = ref<Array<IPoster>>([])
+    const allPoster = ref<IPoster>()
     const getNewProduct = async () => {
       isLoading.value = true
       const products = await apiService.getAllProducts()
@@ -196,25 +197,17 @@ export default defineComponent({
       }
       isLoading.value = false
     }
-    const getNewPoster = async () => {
-      isLoading.value = true
-      const poster = await apiService.getAllPoster()
-      allPoster.value = poster
-      isLoading.value = false
-    }
     const onImageLoad = (image: ImageDto) => {
       image.is_loading = false
     }
 
     getBestSellingProduct()
     getNewProduct()
-    getNewPoster()
     return {
       banners,
       bestSellingProducts,
       newProducts,
       isLoading,
-      allPoster,
       onImageLoad
     }
   }

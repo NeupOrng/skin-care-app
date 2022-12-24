@@ -36,7 +36,10 @@
                       v-if="item.hasOwnProperty('Children')"
                       class="gap-1 flex mt-1 flex-col"
                     >
-                      <li v-for="(innerItem, j) in item.Children" :key="j">
+                      <li
+                        v-for="(innerItem, j) in item.Children"
+                        :key="j"
+                      >
                         <router-link :to="innerItem.HyperLink">
                           {{ innerItem.Text }}
                         </router-link>
@@ -56,7 +59,11 @@
       </div>
       <div class="flex h-[30px] items-center gap-5 mr-5">
         <div class="w-[20vw] flex justify-end items-center">
-          <el-input class="custom-input" v-model="searchModel" v-if="isSearch">
+          <el-input
+            class="custom-input"
+            v-model="searchModel"
+            v-if="isSearch"
+          >
             <template #append>
               <font-awesome-icon
                 @click="onSearchIconClick"
@@ -82,7 +89,10 @@
         </div>
         <div class="relative cursor-pointer">
           <router-link to="/cart">
-            <font-awesome-icon class="text-[20px]" icon="cart-shopping" />
+            <font-awesome-icon
+              class="text-[20px]"
+              icon="cart-shopping"
+            />
             <sup class="cart-count absolute top-[-10px] right-[-10px]">{{
               $store.getters.getCountCartItem
             }}</sup>
@@ -93,12 +103,12 @@
     <div class="mobile-nav h-[60px] relative z-10">
       <div class="flex items-center justify-between px-3 z-10 bg-white w-full">
         <div class="my-3">
-          <router-link to="/">
+          <router-link to="/" v-if="!isSearch">
             <span class="font-bold text-2xl"> SOKOSKINS </span>
           </router-link>
         </div>
         <div class="flex gap-5 items-center">
-          <div class="w-[30vw] flex justify-end items-center">
+          <div :class="`${isSearch ? 'w-[55vw] my-[10.5px]' : 'w-fit'} flex justify-end items-center`">
             <el-input
               class="custom-input"
               v-model="searchModel"
@@ -119,14 +129,18 @@
               icon="magnifying-glass"
             />
           </div>
-          <div @click="ProfileDropDownToggle = !ProfileDropDownToggle">
+          <div @click="onProfilecClick">
             <font-awesome-icon
               v-if="ProfileDropDownToggle"
               @click="mobileDropDownToggle = false"
               class="text-[20px]"
               icon="user"
             />
-            <font-awesome-icon v-else class="text-[20px]" icon="user" />
+            <font-awesome-icon
+              v-else
+              class="text-[20px]"
+              icon="user"
+            />
           </div>
           <!-- <div>
             <router-link :to="`${$store.getters.checkIsAuthenticated ? '/profile' : '/login'}`">
@@ -138,14 +152,15 @@
           </div> -->
           <div class="relative cursor-pointer">
             <router-link to="/cart">
-              <font-awesome-icon class="text-[20px]" icon="cart-shopping" />
-              <sup class="cart-count absolute top-[-7px] right-[-7px]"
-                ><span>{{ $store.getters.getCountCartItem }}</span></sup
-              >
+              <font-awesome-icon
+                class="text-[20px]"
+                icon="cart-shopping"
+              />
+              <sup class="cart-count absolute top-[-7px] right-[-7px]"><span>{{ $store.getters.getCountCartItem }}</span></sup>
             </router-link>
           </div>
           <div
-            @click="mobileDropDownToggle = !mobileDropDownToggle"
+            @click="onHamburgerClick"
             class="w-[35px] flex justify-center items-center cursor-pointer"
           >
             <font-awesome-icon
@@ -154,7 +169,11 @@
               class="text-[20px]"
               icon="xmark"
             />
-            <font-awesome-icon v-else class="text-[20px]" icon="bars" />
+            <font-awesome-icon
+              v-else
+              class="text-[20px]"
+              icon="bars"
+            />
           </div>
         </div>
       </div>
@@ -163,7 +182,10 @@
           class="bg-white border-b-[1px] shadow-md shadow-black"
           v-if="mobileDropDownToggle"
         >
-          <li v-if="historyList.length > 0" class="w-[100vw] h-[50px]">
+          <li
+            v-if="historyList.length > 0"
+            class="w-[100vw] h-[50px]"
+          >
             <div
               @click="backNavList"
               class="flex items-center pl-5 border-t-[1px] h-full justify-start"
@@ -208,7 +230,10 @@
           class="bg-white border-b-[1px] shadow-md shadow-black"
           v-if="ProfileDropDownToggle"
         >
-          <li v-if="historyList1.length > 0" class="w-[100vw] h-[50px]">
+          <li
+            v-if="historyList1.length > 0"
+            class="w-[100vw] h-[50px]"
+          >
             <div
               @click="backNavList1"
               class="flex items-center pl-5 border-t-[1px] h-full justify-start"
@@ -352,22 +377,22 @@
 }
 </style>
 <script lang="ts">
-import { defineComponent, ref, watch} from "vue";
-import INavigationData from "@/model/navigation";
-import ProfileDropDownToggle from "@/model/profile";
-import _ from "lodash";
+import { defineComponent, ref, watch } from 'vue'
+import INavigationData from '@/model/navigation'
+import ProfileDropDownToggle from '@/model/profile'
+import _ from 'lodash'
 
 export default defineComponent({
-  name: "NavigatorComponent",
-  setup() {
+  name: 'NavigatorComponent',
+  setup () {
     const navList = ref<Array<INavigationData>>([
       {
-        Text: "New",
-        HyperLink: "/products/new",
+        Text: 'New',
+        HyperLink: '/products/new'
       },
       {
-        Text: "Best",
-        HyperLink: "/products/bestSelling",
+        Text: 'Best',
+        HyperLink: '/products/bestSelling'
       },
       // {
       //   Text: 'Routine',
@@ -408,75 +433,88 @@ export default defineComponent({
       //   ]
       // },
       {
-        Text: "Blog",
-        HyperLink: "/blogs",
-      },
-    ]);
+        Text: 'Blog',
+        HyperLink: '/blogs'
+      }
+    ])
     const navList1 = ref<Array<ProfileDropDownToggle>>([
       {
-        Text: "Account Detail",
-        HyperLink: "/profile",
+        Text: 'Account Detail',
+        HyperLink: '/profile'
       },
       {
-        Text: "Order History",
-        HyperLink: "#",
+        Text: 'Order History',
+        HyperLink: '#'
       },
       {
-        Text: "Logout",
-        HyperLink: "#",
-      },
-    ]);
-    const navListForRender = ref(_.cloneDeep(navList.value));
-    const navListForRender1 = ref(_.cloneDeep(navList1.value));
-    const mobileDropDownToggle = ref(false);
-    const ProfileDropDownToggle = ref(false);
-    const historyList = ref<Array<Array<INavigationData>>>([]);
-    const historyList1 = ref<Array<Array<ProfileDropDownToggle>>>([]);
-    const isSearch = ref(false);
-    const searchModel = ref("");
+        Text: 'Logout',
+        HyperLink: '#'
+      }
+    ])
+    const navListForRender = ref(_.cloneDeep(navList.value))
+    const navListForRender1 = ref(_.cloneDeep(navList1.value))
+    const mobileDropDownToggle = ref(false)
+    const ProfileDropDownToggle = ref(false)
+    const historyList = ref<Array<Array<INavigationData>>>([])
+    const historyList1 = ref<Array<Array<ProfileDropDownToggle>>>([])
+    const isSearch = ref(false)
+    const searchModel = ref('')
     watch(mobileDropDownToggle, (newVal) => {
       if (!newVal) {
-        navListForRender.value = navList.value;
-        historyList.value = [];
-        console.log(navListForRender);
-        console.log(historyList);
+        navListForRender.value = navList.value
+        historyList.value = []
+        console.log(navListForRender)
+        console.log(historyList)
       }
-    });
+    })
     watch(ProfileDropDownToggle, (newVal) => {
       if (!newVal) {
-        navListForRender1.value = navList1.value;
-        historyList1.value = [];
+        navListForRender1.value = navList1.value
+        historyList1.value = []
       }
-    });
+    })
     const openNavList = (navItem: Array<INavigationData>) => {
-      historyList.value.push(navListForRender.value);
-      navListForRender.value = navItem;
-    };
+      historyList.value.push(navListForRender.value)
+      navListForRender.value = navItem
+    }
     const backNavList = () => {
       if (historyList.value.length < 2) {
-        navListForRender.value = navList.value;
+        navListForRender.value = navList.value
       } else {
         navListForRender.value =
-          historyList.value[historyList.value.length - 2];
+          historyList.value[historyList.value.length - 2]
       }
-      historyList.value.pop();
-    };
+      historyList.value.pop()
+    }
     const backNavList1 = () => {
       if (historyList1.value.length < 2) {
-        navListForRender1.value = navList1.value;
+        navListForRender1.value = navList1.value
       } else {
         navListForRender1.value =
-          historyList1.value[historyList1.value.length - 2];
+          historyList1.value[historyList1.value.length - 2]
       }
-      historyList1.value.pop();
-    };
+      historyList1.value.pop()
+    }
     const onSearchIconClick = () => {
-      isSearch.value = !isSearch.value;
-    };
+      isSearch.value = !isSearch.value
+    }
     watch(isSearch, () => {
-      searchModel.value = "";
-    });
-    
+      searchModel.value = ''
+    })
+    const onProfilecClick = () => {
+      if (mobileDropDownToggle.value) {
+        mobileDropDownToggle.value = false
+      }
+      ProfileDropDownToggle.value = !ProfileDropDownToggle.value
+    }
+
+    const onHamburgerClick = () => {
+      if (ProfileDropDownToggle.value) {
+        ProfileDropDownToggle.value = false
+      }
+      mobileDropDownToggle.value = !mobileDropDownToggle.value
+    }
+
     return {
       navList,
       navList1,
@@ -492,7 +530,9 @@ export default defineComponent({
       isSearch,
       onSearchIconClick,
       searchModel,
-    };
-  },
-});
+      onProfilecClick,
+      onHamburgerClick
+    }
+  }
+})
 </script>

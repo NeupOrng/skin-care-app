@@ -21,6 +21,7 @@ export default defineComponent({
   setup () {
     const { dispatch, state } = useStore()
     dispatch('getAllProductTypes')
+    dispatch('getPoster')
     console.log(state)
     return {}
   }

@@ -37,7 +37,7 @@
             <div class="text-md text-left">
               {{ item.name_en }}
             </div>
-            <el-button @click="removeItemFromCart(item.Id)">
+            <el-button @click="removeItemFromCart(item)">
               {{ $t('remove') }}
             </el-button>
           </div>
@@ -130,7 +130,7 @@
           class="flex justify-between pt-3"
         >
           <el-button
-            @click="removeItemFromCart(item.Id)"
+            @click="removeItemFromCart(item)"
             plain
           >
             {{ $t('remove') }}
@@ -181,7 +181,7 @@
   </div>
 </template>
 <script lang="ts">
-import { ProductInCart } from '@/model/product'
+import { IProduct, ProductInCart } from '@/model/product'
 import { defineComponent } from 'vue'
 import { useStore } from 'vuex'
 
@@ -189,8 +189,8 @@ export default defineComponent({
   name: 'CartPage',
   setup () {
     const { commit, state } = useStore()
-    const removeItemFromCart = (id: number) => {
-      commit('removeCartItem', id)
+    const removeItemFromCart = (item: IProduct) => {
+      commit('removeCartItem', item.id)
     }
     const onEdit = (cartItem: ProductInCart) => {
       cartItem.is_editing = true
