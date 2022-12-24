@@ -48,7 +48,7 @@
           <div class="product-item-content flex flex-col">
             <span class="product-name">{{ product.name_en }}</span>
             <div class="inline font-bold">
-              <span :class="`${product.discount_for_display > 0 ? 'line-through' : ''} text-[#69727B]`">
+              <span :class="`${product.discount > 0 ? 'line-through' : ''} text-[#69727B]`">
                 ${{ product.price_for_display }}
               </span>
               <span
@@ -86,7 +86,7 @@
           <div class="product-item-content flex flex-col">
             <span class="product-name">{{ product.name_en }}</span>
             <div class="inline font-bold">
-              <span :class="`${product.discount_for_display > 0 ? 'line-through' : ''} text-[#69727B]`">
+              <span :class="`${product.discount > 0 ? 'line-through' : ''} text-[#69727B]`">
                 ${{ product.price_for_display }}
               </span>
               <span
@@ -179,6 +179,7 @@ export default defineComponent({
     const getNewProduct = async () => {
       isLoading.value = true
       const products = await apiService.getAllProducts()
+      console.log(products)
       if (products.length > 5) {
         newProducts.value = products.slice(0, 5)
       } else {
