@@ -10,7 +10,7 @@ export interface IUser {
   id: number,
   email: string,
   fullname: string,
-  phone_number: string,
+  'phone_number': string,
   facebook: string,
   location: string,
   lat: string,
@@ -33,6 +33,21 @@ export interface ILoginRequest {
 }
 
 export interface ILoginResponse {
+  accessToken: IToken,
+  user: IUser
+}
+export interface ISignUpRequest {
+  email: string,
+  password: string,
+  fullname: string,
+  'phone_number': string,
+  lat: string,
+  lng: string,
+  facebook: string,
+  location: string
+}
+
+export interface ISignUpResponse {
   accessToken: IToken,
   user: IUser
 }

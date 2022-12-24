@@ -3,21 +3,22 @@
     class="home"
     v-loading="isLoading"
   >
-    <el-carousel
-      class="banner"
+  <el-carousel
+      class="poster"
       :loop="true"
-      interval="5000"
+      interval="2000"
       :pause-on-hover="true"
     >
       <el-carousel-item
-        v-for="(item, index) in banners"
+        v-for="(item, index) in allPoster[0].poster_image"
         :key="index"
       >
         <div class="w-full flex justify-center items-center">
           <img
             class="max-w-full max-h-full"
-            :src="item"
-            :alt="`banner ${index}`"
+            :src="item.image_path_for_display"
+            @load="onImageLoad(item)"
+            :alt="poster ${index}"
           >
         </div>
       </el-carousel-item>
@@ -107,7 +108,7 @@
 .product-item {
   width: 14.4vw;
 }
-.banner {
+.poster {
   height: fit-content;
   .el-carousel__container {
     height: 45vw;
@@ -143,7 +144,7 @@
     align-items: center;
   }
 
-  .banner {
+  .poster {
     height: fit-content;
     .el-carousel__container {
       height: 55vw;
@@ -155,6 +156,7 @@
 <script lang="ts">
 import apiService from '@/libraries/apiService'
 import { ImageDto } from '@/model/image'
+import { IPoster, Poster } from '@/model/poster'
 import { IProduct, Product } from '@/model/product'
 import { ElCarousel, ElCarouselItem } from 'element-plus'
 import { defineComponent, ref } from 'vue'
@@ -172,6 +174,7 @@ export default defineComponent({
     const isLoading = ref(false)
     const newProducts = ref<Array<Product>>([])
     const bestSellingProducts = ref<Array<Product>>([])
+    const allPoster = ref<Array<IPoster>>([])
     const getNewProduct = async () => {
       isLoading.value = true
       const products = await apiService.getAllProducts()
@@ -193,18 +196,25 @@ export default defineComponent({
       }
       isLoading.value = false
     }
-
+    const getNewPoster = async () => {
+      isLoading.value = true
+      const poster = await apiService.getAllPoster()
+      allPoster.value = poster
+      isLoading.value = false
+    }
     const onImageLoad = (image: ImageDto) => {
       image.is_loading = false
     }
 
     getBestSellingProduct()
     getNewProduct()
+    getNewPoster()
     return {
       banners,
       bestSellingProducts,
       newProducts,
       isLoading,
+      allPoster,
       onImageLoad
     }
   }

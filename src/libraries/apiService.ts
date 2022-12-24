@@ -1,6 +1,7 @@
 import { IApiResponse, IAxiosPromise } from '@/model/api/apiResponse'
-import { ILoginRequest, ILoginResponse } from '@/model/auth'
+import { ILoginRequest, ILoginResponse, ISignUpRequest, ISignUpResponse } from '@/model/auth'
 import { Blog, IBlog } from '@/model/blog'
+import { IPoster, Poster } from '@/model/poster'
 import { IProduct, Product } from '@/model/product'
 import { IProductType } from '@/model/productType'
 import apiCalling from './apiCalling'
@@ -44,5 +45,13 @@ export default {
   },
   postLogin (payload: ILoginRequest): Promise<IApiResponse<ILoginResponse>> {
     return getResponse(apiCalling.postLogin(payload))
+  },
+  getAllPoster (): Promise<Array<Poster>> {
+    const responsePoster = getResponse(apiCalling.getAllPoster())
+    const poster = responsePoster.then((res) => res.data.map((item: IPoster) => new Poster(item)))
+    return poster
+  },
+  postSignUp (payload: ISignUpRequest): Promise<IApiResponse<ISignUpResponse>> {
+    return getResponse(apiCalling.postSignUp(payload))
   }
 }

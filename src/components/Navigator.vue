@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="desktop-nav flex h-[60px] items-center mt-auto justify-between px-5 z-10 bg-white w-full">
+    <div
+      class="desktop-nav flex h-[60px] items-center mt-auto justify-between px-5 z-10 bg-white w-full"
+    >
       <div class="mx-5 my-5 top-0 left-0">
         <router-link to="/">
-          <span class="font-bold text-2xl">
-            SOKOSKINS
-          </span>
+          <span class="font-bold text-2xl"> SOKOSKINS </span>
         </router-link>
       </div>
       <div class="flex gap-5 max-w-1/2">
@@ -36,10 +36,7 @@
                       v-if="item.hasOwnProperty('Children')"
                       class="gap-1 flex mt-1 flex-col"
                     >
-                      <li
-                        v-for="(innerItem, j) in item.Children"
-                        :key="j"
-                      >
+                      <li v-for="(innerItem, j) in item.Children" :key="j">
                         <router-link :to="innerItem.HyperLink">
                           {{ innerItem.Text }}
                         </router-link>
@@ -59,11 +56,7 @@
       </div>
       <div class="flex h-[30px] items-center gap-5 mr-5">
         <div class="w-[20vw] flex justify-end items-center">
-          <el-input
-            class="custom-input"
-            v-model="searchModel"
-            v-if="isSearch"
-          >
+          <el-input class="custom-input" v-model="searchModel" v-if="isSearch">
             <template #append>
               <font-awesome-icon
                 @click="onSearchIconClick"
@@ -89,11 +82,10 @@
         </div>
         <div class="relative cursor-pointer">
           <router-link to="/cart">
-            <font-awesome-icon
-              class="text-[20px]"
-              icon="cart-shopping"
-            />
-            <sup class="cart-count absolute top-[-10px] right-[-10px]">{{ $store.getters.getCountCartItem }}</sup>
+            <font-awesome-icon class="text-[20px]" icon="cart-shopping" />
+            <sup class="cart-count absolute top-[-10px] right-[-10px]">{{
+              $store.getters.getCountCartItem
+            }}</sup>
           </router-link>
         </div>
       </div>
@@ -102,9 +94,7 @@
       <div class="flex items-center justify-between px-3 z-10 bg-white w-full">
         <div class="my-3">
           <router-link to="/">
-            <span class="font-bold text-2xl">
-              SOKOSKINS
-            </span>
+            <span class="font-bold text-2xl"> SOKOSKINS </span>
           </router-link>
         </div>
         <div class="flex gap-5 items-center">
@@ -129,22 +119,29 @@
               icon="magnifying-glass"
             />
           </div>
-          <div>
+          <div @click="ProfileDropDownToggle = !ProfileDropDownToggle">
+            <font-awesome-icon
+              v-if="ProfileDropDownToggle"
+              @click="mobileDropDownToggle = false"
+              class="text-[20px]"
+              icon="user"
+            />
+            <font-awesome-icon v-else class="text-[20px]" icon="user" />
+          </div>
+          <!-- <div>
             <router-link :to="`${$store.getters.checkIsAuthenticated ? '/profile' : '/login'}`">
               <font-awesome-icon
                 class="text-[20px] cursor-pointer"
                 icon="user"
               />
             </router-link>
-          </div>
+          </div> -->
           <div class="relative cursor-pointer">
             <router-link to="/cart">
-              <font-awesome-icon
-                class="text-[20px]"
-                icon="cart-shopping"
-              />
-              <sup class="cart-count absolute top-[-7px] right-[-7px]"><span>{{ $store.getters.getCountCartItem
-              }}</span></sup>
+              <font-awesome-icon class="text-[20px]" icon="cart-shopping" />
+              <sup class="cart-count absolute top-[-7px] right-[-7px]"
+                ><span>{{ $store.getters.getCountCartItem }}</span></sup
+              >
             </router-link>
           </div>
           <div
@@ -153,14 +150,11 @@
           >
             <font-awesome-icon
               v-if="mobileDropDownToggle"
+              @click="ProfileDropDownToggle = false"
               class="text-[20px]"
               icon="xmark"
             />
-            <font-awesome-icon
-              v-else
-              class="text-[20px]"
-              icon="bars"
-            />
+            <font-awesome-icon v-else class="text-[20px]" icon="bars" />
           </div>
         </div>
       </div>
@@ -169,10 +163,7 @@
           class="bg-white border-b-[1px] shadow-md shadow-black"
           v-if="mobileDropDownToggle"
         >
-          <li
-            v-if="historyList.length > 0"
-            class="w-[100vw] h-[50px]"
-          >
+          <li v-if="historyList.length > 0" class="w-[100vw] h-[50px]">
             <div
               @click="backNavList"
               class="flex items-center pl-5 border-t-[1px] h-full justify-start"
@@ -187,12 +178,59 @@
             :key="index"
             class="w-[100vw] h-[50px]"
           >
-            <div class="flex items-center pl-5 border-t-[1px] h-full justify-start">
+            <div
+              class="flex items-center pl-5 border-t-[1px] h-full justify-start"
+            >
               <router-link
                 class="w-[100vw] flex flex-col justify-center items-start h-full"
                 :to="navItem.HyperLink"
                 v-if="!navItem.hasOwnProperty('Children')"
                 @click="mobileDropDownToggle = false"
+              >
+                <span class="my-auto">{{ navItem.Text }}</span>
+              </router-link>
+              <div
+                v-else
+                @click="openNavList(navItem.Children)"
+                class="flex justify-between w-[100vw] pr-5"
+              >
+                <span class="flex items-center">{{ navItem.Text }}</span>
+                <span class="border-l-[1px] h-[50px] flex pl-5 items-center">
+                  <font-awesome-icon icon="chevron-right" />
+                </span>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </transition>
+      <transition>
+        <ul
+          class="bg-white border-b-[1px] shadow-md shadow-black"
+          v-if="ProfileDropDownToggle"
+        >
+          <li v-if="historyList1.length > 0" class="w-[100vw] h-[50px]">
+            <div
+              @click="backNavList1"
+              class="flex items-center pl-5 border-t-[1px] h-full justify-start"
+            >
+              <span class="border-r-[1px] h-[50px] flex pr-5 items-center">
+                <font-awesome-icon icon="chevron-left" />
+              </span>
+            </div>
+          </li>
+          <li
+            v-for="(navItem, index) in navListForRender1"
+            :key="index"
+            class="w-[100vw] h-[50px]"
+          >
+            <div
+              class="flex items-center pl-5 border-t-[1px] h-full justify-start"
+            >
+              <router-link
+                class="w-[100vw] flex flex-col justify-center items-start h-full"
+                :to="navItem.HyperLink"
+                v-if="!navItem.hasOwnProperty('Children')"
+                @click="ProfileDropDownToggle = false"
               >
                 <span class="my-auto">{{ navItem.Text }}</span>
               </router-link>
@@ -314,21 +352,22 @@
 }
 </style>
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue'
-import INavigationData from '@/model/navigation'
-import _ from 'lodash'
+import { defineComponent, ref, watch} from "vue";
+import INavigationData from "@/model/navigation";
+import ProfileDropDownToggle from "@/model/profile";
+import _ from "lodash";
 
 export default defineComponent({
-  name: 'NavigatorComponent',
-  setup () {
+  name: "NavigatorComponent",
+  setup() {
     const navList = ref<Array<INavigationData>>([
       {
-        Text: 'New',
-        HyperLink: '/products/new'
+        Text: "New",
+        HyperLink: "/products/new",
       },
       {
-        Text: 'Best',
-        HyperLink: '/products/bestSelling'
+        Text: "Best",
+        HyperLink: "/products/bestSelling",
       },
       // {
       //   Text: 'Routine',
@@ -369,50 +408,91 @@ export default defineComponent({
       //   ]
       // },
       {
-        Text: 'Blog',
-        HyperLink: '/blogs'
-      }
-    ])
-    const navListForRender = ref(_.cloneDeep(navList.value))
-    const mobileDropDownToggle = ref(false)
-    const historyList = ref<Array<Array<INavigationData>>>([])
-    const isSearch = ref(false)
-    const searchModel = ref('')
+        Text: "Blog",
+        HyperLink: "/blogs",
+      },
+    ]);
+    const navList1 = ref<Array<ProfileDropDownToggle>>([
+      {
+        Text: "Account Detail",
+        HyperLink: "/profile",
+      },
+      {
+        Text: "Order History",
+        HyperLink: "#",
+      },
+      {
+        Text: "Logout",
+        HyperLink: "#",
+      },
+    ]);
+    const navListForRender = ref(_.cloneDeep(navList.value));
+    const navListForRender1 = ref(_.cloneDeep(navList1.value));
+    const mobileDropDownToggle = ref(false);
+    const ProfileDropDownToggle = ref(false);
+    const historyList = ref<Array<Array<INavigationData>>>([]);
+    const historyList1 = ref<Array<Array<ProfileDropDownToggle>>>([]);
+    const isSearch = ref(false);
+    const searchModel = ref("");
     watch(mobileDropDownToggle, (newVal) => {
       if (!newVal) {
-        navListForRender.value = navList.value
-        historyList.value = []
+        navListForRender.value = navList.value;
+        historyList.value = [];
+        console.log(navListForRender);
+        console.log(historyList);
       }
-    })
+    });
+    watch(ProfileDropDownToggle, (newVal) => {
+      if (!newVal) {
+        navListForRender1.value = navList1.value;
+        historyList1.value = [];
+      }
+    });
     const openNavList = (navItem: Array<INavigationData>) => {
-      historyList.value.push(navListForRender.value)
-      navListForRender.value = navItem
-    }
+      historyList.value.push(navListForRender.value);
+      navListForRender.value = navItem;
+    };
     const backNavList = () => {
       if (historyList.value.length < 2) {
-        navListForRender.value = navList.value
+        navListForRender.value = navList.value;
       } else {
-        navListForRender.value = historyList.value[historyList.value.length - 2]
+        navListForRender.value =
+          historyList.value[historyList.value.length - 2];
       }
-      historyList.value.pop()
-    }
+      historyList.value.pop();
+    };
+    const backNavList1 = () => {
+      if (historyList1.value.length < 2) {
+        navListForRender1.value = navList1.value;
+      } else {
+        navListForRender1.value =
+          historyList1.value[historyList1.value.length - 2];
+      }
+      historyList1.value.pop();
+    };
     const onSearchIconClick = () => {
-      isSearch.value = !isSearch.value
-    }
+      isSearch.value = !isSearch.value;
+    };
     watch(isSearch, () => {
-      searchModel.value = ''
-    })
+      searchModel.value = "";
+    });
+    
     return {
       navList,
+      navList1,
       mobileDropDownToggle,
+      ProfileDropDownToggle,
       navListForRender,
+      navListForRender1,
       historyList,
+      historyList1,
       openNavList,
       backNavList,
+      backNavList1,
       isSearch,
       onSearchIconClick,
-      searchModel
-    }
-  }
-})
+      searchModel,
+    };
+  },
+});
 </script>
