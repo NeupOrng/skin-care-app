@@ -186,30 +186,30 @@ export default defineComponent({
       rules,
       submitForm,
       isProcessing,
-      // ready: false,
-      // fallbackProcedure: "gps", //gps | geolocation | address | manually
-      // zoom: 17, //Default Zoom
-      // geolocation: {
-      //   // If GPS and Find by address fails then, map will be positioned by a default geolocation
-      //   lat: 31.73858,
-      //   lng: -35.98628,
-      //   zoom: 2,
-      // },
-      // address: {
-      //   query: "Albania, Tirane", //If GPS fails, Find by address is triggered
-      //   zoom: 10,
-      // },
-      // manually: {
-      //   address_description: "21 Dhjetori, Tirana, Albania",
-      //   city: "Tirana",
-      //   country: "Albania",
-      //   lat: 41.3267905,
-      //   lng: 19.8060475,
-      //   state: "Tirana County",
-      //   zip_code: "",
-      //   zoom: 17,
-      // },
-      // place: {},
+      ready: false,
+      fallbackProcedure: "gps", //gps | geolocation | address | manually
+      zoom: 17, //Default Zoom
+      geolocation: {
+        // If GPS and Find by address fails then, map will be positioned by a default geolocation
+        lat: 31.73858,
+        lng: -35.98628,
+        zoom: 2,
+      },
+      address: {
+        query: "Albania, Tirane", //If GPS fails, Find by address is triggered
+        zoom: 10,
+      },
+      manually: {
+        address_description: "21 Dhjetori, Tirana, Albania",
+        city: "Tirana",
+        country: "Albania",
+        lat: 41.3267905,
+        lng: 19.8060475,
+        state: "Tirana County",
+        zip_code: "",
+        zoom: 17,
+      },
+      place: {},
     };
   },
 });
