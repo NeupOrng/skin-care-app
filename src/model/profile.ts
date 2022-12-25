@@ -1,7 +1,7 @@
-interface ProfileDropDownToggle {
+interface IProfileData {
   Text: string;
   HyperLink: string;
-  Children?: Array<ProfileDropDownToggle>;
+  Children?: Array<IProfileData>;
 }
 
-export default ProfileDropDownToggle
+export default IProfileData
