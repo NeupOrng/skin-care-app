@@ -24,7 +24,10 @@
         </div>
       </el-carousel-item>
     </el-carousel>
-    <div class="w-[100vw] flex flex-col items-center product-show-container" v-if="newProducts.length > 0">
+    <div
+      class="w-[100vw] flex flex-col items-center product-show-container"
+      v-if="newProducts.length > 0"
+    >
       <div class="text-xl font-bold text-black uppercase">
         {{ $t('new_arrivals') }}
       </div>
@@ -62,7 +65,10 @@
         </router-link>
       </div>
     </div>
-    <div class="w-[100vw] flex flex-col items-center product-show-container mb-5" v-if="bestSellingProducts.length > 0">
+    <div
+      class="w-[100vw] flex flex-col items-center product-show-container mb-5"
+      v-if="bestSellingProducts.length > 0"
+    >
       <div class="text-xl font-bold text-black uppercase">
         {{ $t('best_selling') }}
       </div>

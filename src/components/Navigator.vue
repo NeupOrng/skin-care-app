@@ -79,13 +79,17 @@
             icon="magnifying-glass"
           />
         </div>
-        <div>
-          <router-link to="/profile">
-            <font-awesome-icon
-              class="text-[20px] cursor-pointer"
-              icon="user"
-            />
-          </router-link>
+        <div @click="desktopProfileDropDown = !desktopProfileDropDown">
+          <font-awesome-icon
+            v-if="desktopProfileDropDown"
+            class="text-[20px]"
+            icon="user"
+          />
+          <font-awesome-icon
+            v-else
+            class="text-[20px]"
+            icon="user"
+          />
         </div>
         <div class="relative cursor-pointer">
           <router-link to="/cart">
@@ -100,10 +104,73 @@
         </div>
       </div>
     </div>
+    <transition>
+      <ul
+        class="bg-white border-b-[1px] shadow-md shadow-black"
+        v-if="desktopProfileDropDown"
+      >
+        <li
+          v-if="historyProfileList.length > 0"
+          class="w-[100vw] h-[50px]"
+        >
+          <div
+            @click="backProfileList"
+            class="flex items-center pl-5 border-t-[1px] h-full justify-start"
+          >
+            <span class="border-r-[1px] h-[50px] flex pr-5 items-center">
+              <font-awesome-icon icon="chevron-left" />
+            </span>
+          </div>
+        </li>
+        <li
+          v-for="(navItem, index) in profileListForRender"
+          :key="index"
+          class="w-[100vw] h-[50px]"
+        >
+          <div
+            class="flex items-center pl-5 border-t-[1px] h-full justify-start"
+          >
+            <router-link
+              class="w-[100vw] flex flex-col justify-center items-start h-full"
+              :to="navItem.HyperLink"
+              v-if="!navItem.hasOwnProperty('Children')"
+              @click="desktopProfileDropDown = false"
+            >
+              <span class="my-auto">{{ navItem.Text }}</span>
+            </router-link>
+            <div
+              v-else
+              @click="openNavList(navItem.Children)"
+              class="flex justify-between w-[100vw] pr-5"
+            >
+              <span class="flex items-center">{{ navItem.Text }}</span>
+              <span class="border-l-[1px] h-[50px] flex pl-5 items-center">
+                <font-awesome-icon icon="chevron-right" />
+              </span>
+            </div>
+          </div>
+        </li>
+        <li class="w-[100vw] h-[50px]">
+          <div
+            class="flex items-center bg-red pl-5 border-t-[1px] h-full justify-start"
+          >
+            <el-button
+              text
+              @click="handleClose"
+            >
+              Logout
+            </el-button>
+          </div>
+        </li>
+      </ul>
+    </transition>
     <div class="mobile-nav h-[60px] relative z-10">
       <div class="flex items-center justify-between px-3 z-10 bg-white w-full">
         <div class="my-3">
-          <router-link to="/" v-if="!isSearch">
+          <router-link
+            to="/"
+            v-if="!isSearch"
+          >
             <span class="font-bold shop-name text-2xl"> RPP-Cosmestic </span>
           </router-link>
         </div>
@@ -131,8 +198,7 @@
           </div>
           <div @click="onProfilecClick">
             <font-awesome-icon
-              v-if="ProfileDropDownToggle"
-              @click="mobileDropDownToggle = false"
+              v-if="mobileProfileDropDown"
               class="text-[20px]"
               icon="user"
             />
@@ -165,7 +231,6 @@
           >
             <font-awesome-icon
               v-if="mobileDropDownToggle"
-              @click="ProfileDropDownToggle = false"
               class="text-[20px]"
               icon="xmark"
             />
@@ -228,14 +293,14 @@
       <transition>
         <ul
           class="bg-white border-b-[1px] shadow-md shadow-black"
-          v-if="ProfileDropDownToggle"
+          v-if="mobileProfileDropDown"
         >
           <li
-            v-if="historyList1.length > 0"
+            v-if="profileList.length > 0"
             class="w-[100vw] h-[50px]"
           >
             <div
-              @click="backNavList1"
+              @click="backProfileList"
               class="flex items-center pl-5 border-t-[1px] h-full justify-start"
             >
               <span class="border-r-[1px] h-[50px] flex pr-5 items-center">
@@ -244,7 +309,7 @@
             </div>
           </li>
           <li
-            v-for="(navItem, index) in navListForRender1"
+            v-for="(navItem, index) in profileListForRender"
             :key="index"
             class="w-[100vw] h-[50px]"
           >
@@ -255,7 +320,7 @@
                 class="w-[100vw] flex flex-col justify-center items-start h-full"
                 :to="navItem.HyperLink"
                 v-if="!navItem.hasOwnProperty('Children')"
-                @click="ProfileDropDownToggle = false"
+                @click="mobileProfileDropDown = false"
               >
                 <span class="my-auto">{{ navItem.Text }}</span>
               </router-link>
@@ -269,6 +334,18 @@
                   <font-awesome-icon icon="chevron-right" />
                 </span>
               </div>
+            </div>
+          </li>
+          <li class="w-[100vw] h-[50px]">
+            <div
+              class="flex items-center bg-red pl-5 border-t-[1px] h-full justify-start"
+            >
+              <el-button
+                text
+                @click="handleClose"
+              >
+                Logout
+              </el-button>
             </div>
           </li>
         </ul>
@@ -368,7 +445,26 @@
 .mobile-nav {
   display: none;
 }
-
+.dialog-footer button:first-child {
+  margin-right: 10px;
+}
+.el-button.is-text {
+  color: white !important;
+  background-color: red !important;
+}
+.el-message-box {
+  transform: translate(0, -150px);
+}
+.el-message-box__message {
+  font-weight: 500;
+  font-size: 20px;
+}
+.el-button > span {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 15px;
+}
 @media only screen and (max-width: 750px) {
   .desktop-nav {
     display: none !important;
@@ -382,9 +478,16 @@
 </style>
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue'
-import INavigationData from '@/model/navigation'
-import ProfileDropDownToggle from '@/model/profile'
+import { useStore } from 'vuex'
+import {
+  notification,
+  notificationType
+} from '@/libraries/helpers/notificationHelper'
+import router from '@/router'
+import IProfileData from '@/model/profile'
 import _ from 'lodash'
+import { ElMessageBox } from 'element-plus'
+import INavigationData from '@/model/navigation'
 
 export default defineComponent({
   name: 'NavigatorComponent',
@@ -441,7 +544,7 @@ export default defineComponent({
         HyperLink: '/blogs'
       }
     ])
-    const navList1 = ref<Array<ProfileDropDownToggle>>([
+    const profileList = ref<Array<IProfileData>>([
       {
         Text: 'Account Detail',
         HyperLink: '/profile'
@@ -449,32 +552,35 @@ export default defineComponent({
       {
         Text: 'Order History',
         HyperLink: '#'
-      },
-      {
-        Text: 'Logout',
-        HyperLink: '#'
       }
     ])
+    const { commit } = useStore()
     const navListForRender = ref(_.cloneDeep(navList.value))
-    const navListForRender1 = ref(_.cloneDeep(navList1.value))
+    const profileListForRender = ref(_.cloneDeep(profileList.value))
     const mobileDropDownToggle = ref(false)
-    const ProfileDropDownToggle = ref(false)
+    const mobileProfileDropDown = ref(false)
+    const desktopProfileDropDown = ref(false)
     const historyList = ref<Array<Array<INavigationData>>>([])
-    const historyList1 = ref<Array<Array<ProfileDropDownToggle>>>([])
+    const historyProfileList = ref<Array<Array<IProfileData>>>([])
     const isSearch = ref(false)
     const searchModel = ref('')
+    const dialogVisible = ref(false)
     watch(mobileDropDownToggle, (newVal) => {
       if (!newVal) {
         navListForRender.value = navList.value
         historyList.value = []
-        console.log(navListForRender)
-        console.log(historyList)
       }
     })
-    watch(ProfileDropDownToggle, (newVal) => {
+    watch(mobileProfileDropDown, (newVal) => {
       if (!newVal) {
-        navListForRender1.value = navList1.value
-        historyList1.value = []
+        profileListForRender.value = profileList.value
+        historyProfileList.value = []
+      }
+    })
+    watch(desktopProfileDropDown, (newVal) => {
+      if (!newVal) {
+        profileListForRender.value = profileList.value
+        historyProfileList.value = []
       }
     })
     const openNavList = (navItem: Array<INavigationData>) => {
@@ -490,14 +596,14 @@ export default defineComponent({
       }
       historyList.value.pop()
     }
-    const backNavList1 = () => {
-      if (historyList1.value.length < 2) {
-        navListForRender1.value = navList1.value
+    const backProfileList = () => {
+      if (historyProfileList.value.length < 2) {
+        profileListForRender.value = profileList.value
       } else {
-        navListForRender1.value =
-          historyList1.value[historyList1.value.length - 2]
+        profileListForRender.value =
+          historyProfileList.value[historyProfileList.value.length - 2]
       }
-      historyList1.value.pop()
+      historyProfileList.value.pop()
     }
     const onSearchIconClick = () => {
       isSearch.value = !isSearch.value
@@ -505,35 +611,50 @@ export default defineComponent({
     watch(isSearch, () => {
       searchModel.value = ''
     })
+    const handleClose = (done: () => void) => {
+      ElMessageBox.confirm('Do you wish to log out?')
+        .then(() => {
+          commit('removeToken')
+          notification(notificationType.Success, 'Logout')
+          desktopProfileDropDown.value = false
+          mobileProfileDropDown.value = false
+          router.push('/login')
+        })
+        .catch(() => {
+          console.log('error')
+        })
+    }
     const onProfilecClick = () => {
       if (mobileDropDownToggle.value) {
         mobileDropDownToggle.value = false
       }
-      ProfileDropDownToggle.value = !ProfileDropDownToggle.value
+      mobileProfileDropDown.value = !mobileProfileDropDown.value
     }
-
     const onHamburgerClick = () => {
-      if (ProfileDropDownToggle.value) {
-        ProfileDropDownToggle.value = false
+      if (mobileProfileDropDown.value) {
+        mobileProfileDropDown.value = false
       }
       mobileDropDownToggle.value = !mobileDropDownToggle.value
     }
 
     return {
       navList,
-      navList1,
+      profileList,
       mobileDropDownToggle,
-      ProfileDropDownToggle,
+      mobileProfileDropDown,
+      desktopProfileDropDown,
       navListForRender,
-      navListForRender1,
+      profileListForRender,
       historyList,
-      historyList1,
+      historyProfileList,
       openNavList,
       backNavList,
-      backNavList1,
+      backProfileList,
       isSearch,
       onSearchIconClick,
       searchModel,
+      handleClose,
+      dialogVisible,
       onProfilecClick,
       onHamburgerClick
     }

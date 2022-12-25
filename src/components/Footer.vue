@@ -24,43 +24,52 @@
     </div>
     <div class="border-t-[1px] text-white footer-bottom-container">
       <div class="flex gap-5 px-5 mb-5">
-        <a href="https://www.facebook.com/RRP.Cosmetic" target="_blank"><font-awesome-icon
+        <a
+          href="https://www.facebook.com/RRP.Cosmetic"
+          target="_blank"
+        ><font-awesome-icon
           class="text-[30px]"
           :icon="['fab', 'square-facebook']"
         /></a>
         <a
           target="_blank"
-          href="https://www.messenger.com/t/102925792139451/?messaging_source=source%3Apages%3Amessage_shortlink&source_id=1441792&recurring_notification=0"><font-awesome-icon
+          href="https://www.messenger.com/t/102925792139451/?messaging_source=source%3Apages%3Amessage_shortlink&source_id=1441792&recurring_notification=0"
+        ><font-awesome-icon
           class="text-[30px]"
           :icon="['fab', 'facebook-messenger']"
         /></a>
         <a
           target="_blank"
-          href="https://www.youtube.com/channel/UCyoDmZvJz_EQnlWxSpDKIHA"><font-awesome-icon
+          href="https://www.youtube.com/channel/UCyoDmZvJz_EQnlWxSpDKIHA"
+        ><font-awesome-icon
           class="text-[30px]"
           :icon="['fab', 'youtube']"
         /></a>
         <a
           target="_blank"
-          href="https://t.me/rrp_cosmetic"><font-awesome-icon
+          href="https://t.me/rrp_cosmetic"
+        ><font-awesome-icon
           class="text-[30px]"
           :icon="['fab', 'telegram']"
         /></a>
         <a
           target="_blank"
-          href="https://www.tiktok.com/@rrp.cosmetic?_t=8W56vzjeAF7&_r=1"><font-awesome-icon
+          href="https://www.tiktok.com/@rrp.cosmetic?_t=8W56vzjeAF7&_r=1"
+        ><font-awesome-icon
           class="text-[30px]"
           :icon="['fab', 'tiktok']"
         /></a>
         <a
           target="_blank"
-          href="https://www.instagram.com/rrp.cosmetic/"><font-awesome-icon
+          href="https://www.instagram.com/rrp.cosmetic/"
+        ><font-awesome-icon
           class="text-[30px]"
           :icon="['fab', 'instagram']"
         /></a>
         <a
           target="_blank"
-          href="https://www.google.com/maps/place/RRP-Cosmetic/@11.5629172,104.9081715,17z/data=!3m1!4b1!4m5!3m4!1s0x3109514513d23fe7:0xe27753f3745cc029!8m2!3d11.5629172!4d104.9081715"><font-awesome-icon
+          href="https://www.google.com/maps/place/RRP-Cosmetic/@11.5629172,104.9081715,17z/data=!3m1!4b1!4m5!3m4!1s0x3109514513d23fe7:0xe27753f3745cc029!8m2!3d11.5629172!4d104.9081715"
+        ><font-awesome-icon
           class="text-[30px]"
           icon="map-location-dot"
         /></a>

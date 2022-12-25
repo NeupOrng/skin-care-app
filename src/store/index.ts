@@ -118,8 +118,9 @@ const store = createStore<IState>({
     setUser (state, user: IUser): void {
       state.user = user
     },
-    setPoster (state, poster: IPoster): void {
-      state.poster = poster
+    removeToken (): void {
+      cookieHelper.removeCookie('access-token')
+      cookieHelper.removeCookie('refresh-token')
     }
   },
   actions: {
