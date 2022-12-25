@@ -1,17 +1,26 @@
 import { IApiResponse, IAxiosPromise } from '@/model/api/apiResponse'
-import { ILoginRequest, ILoginResponse, ISignUpRequest, ISignUpResponse } from '@/model/auth'
+import {
+  ILoginRequest,
+  ILoginResponse,
+  ISignUpRequest,
+  ISignUpResponse
+} from '@/model/auth'
 import { Blog, IBlog } from '@/model/blog'
 import { IPoster, Poster } from '@/model/poster'
 import { IProduct, IProductCartFromApi, Product } from '@/model/product'
 import { IProductType } from '@/model/productType'
+import { IProfile } from '@/model/userProfile'
 import apiCalling from './apiCalling'
 
-const getResponse = (response: IAxiosPromise) => response.then((value) => value.data)
+const getResponse = (response: IAxiosPromise) =>
+  response.then((value) => value.data)
 
 export default {
   getAllProducts (): Promise<Array<Product>> {
     const responseProducts = getResponse(apiCalling.getAllProducts())
-    const products = responseProducts.then((res) => res.data.map((item: IProduct) => new Product(item)))
+    const products = responseProducts.then((res) =>
+      res.data.map((item: IProduct) => new Product(item))
+    )
     return products
   },
   getProductById (id: string): Promise<Product> {
@@ -20,11 +29,15 @@ export default {
   },
   getProductByFilter (key: string): Promise<Array<Product>> {
     const response = getResponse(apiCalling.getProductByFilter(key))
-    return response.then((res) => res.data.map((item: IProduct) => new Product(item)))
+    return response.then((res) =>
+      res.data.map((item: IProduct) => new Product(item))
+    )
   },
   getProductByProductType (typeId: string): Promise<Array<Product>> {
     const response = getResponse(apiCalling.getProductByProductType(typeId))
-    return response.then((res) => res.data.map((item: IProduct) => new Product(item)))
+    return response.then((res) =>
+      res.data.map((item: IProduct) => new Product(item))
+    )
   },
   getAllProductType (): Promise<Array<IProductType>> {
     const response = getResponse(apiCalling.getAllProductType())
@@ -32,7 +45,9 @@ export default {
   },
   getAllBlogs (): Promise<Array<Blog>> {
     const responseBlogs = getResponse(apiCalling.getAllBlogs())
-    const blogs = responseBlogs.then((res) => res.data.map((item: IBlog) => new Blog(item)))
+    const blogs = responseBlogs.then((res) =>
+      res.data.map((item: IBlog) => new Blog(item))
+    )
     return blogs
   },
   getBlogById (id: string): Promise<Blog> {
@@ -46,9 +61,14 @@ export default {
   postLogin (payload: ILoginRequest): Promise<IApiResponse<ILoginResponse>> {
     return getResponse(apiCalling.postLogin(payload))
   },
+  postLogout (): Promise<IApiResponse> {
+    return getResponse(apiCalling.postLogout())
+  },
   getAllPoster (): Promise<Array<Poster>> {
     const responsePoster = getResponse(apiCalling.getAllPoster())
-    const poster = responsePoster.then((res) => res.data.map((item: IPoster) => new Poster(item)))
+    const poster = responsePoster.then((res) =>
+      res.data.map((item: IPoster) => new Poster(item))
+    )
     return poster
   },
   postSignUp (payload: ISignUpRequest): Promise<IApiResponse<ISignUpResponse>> {
@@ -58,5 +78,9 @@ export default {
     const response = getResponse(apiCalling.getAllProductsInCart())
     const cartProducts = response.then((res) => res.data)
     return cartProducts
+  },
+  getProfile (): Promise<Array<IProfile>> {
+    const response = getResponse(apiCalling.getProfile())
+    return response.then((res) => res.data)
   }
 }

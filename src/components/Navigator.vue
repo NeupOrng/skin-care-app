@@ -484,6 +484,7 @@ import {
   notificationType
 } from '@/libraries/helpers/notificationHelper'
 import router from '@/router'
+import apiService from '@/libraries/apiService'
 import IProfileData from '@/model/profile'
 import _ from 'lodash'
 import { ElMessageBox } from 'element-plus'
@@ -614,6 +615,7 @@ export default defineComponent({
     const handleClose = (done: () => void) => {
       ElMessageBox.confirm('Do you wish to log out?')
         .then(() => {
+          apiService.postLogout()
           commit('removeToken')
           notification(notificationType.Success, 'Logout')
           desktopProfileDropDown.value = false

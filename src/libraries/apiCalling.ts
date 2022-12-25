@@ -6,6 +6,7 @@ import { IProductType } from '@/model/productType'
 import { IPoster } from '@/model/poster'
 import axios from 'axios'
 import cookieHelper from './helpers/cookieHelper'
+import { IProfile } from '@/model/userProfile'
 
 const apiUrl = process.env.VUE_APP_ENDPOINT
 
@@ -46,6 +47,11 @@ export default {
   postLogin (payload: ILoginRequest): IAxiosPromise<ILoginResponse> {
     return axiosInstance.post('/v1/login', payload)
   },
+  postLogout (): IAxiosPromise {
+    // return axiosInstance.post('/v1/logout')
+    const token = cookieHelper.getCookie('access-token') ?? ''
+    return afterLoginAxiosInstance(token).post('/v1/logout')
+  },
   getAllPoster (): IAxiosPromise<Array<IPoster>> {
     return axiosInstance.get('/v1/poster/rrp_poster')
   },
@@ -55,5 +61,9 @@ export default {
   getAllProductsInCart (): IAxiosPromise<Array<IProductCartFromApi>> {
     const token = cookieHelper.getCookie('access-token') ?? ''
     return afterLoginAxiosInstance(token).get('/v1/cart')
+  },
+  getProfile (): IAxiosPromise<Array<IProfile>> {
+    const token = cookieHelper.getCookie('access-token') ?? ''
+    return afterLoginAxiosInstance(token).get('/v1/profile')
   }
 }
