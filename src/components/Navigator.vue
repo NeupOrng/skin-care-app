@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="desktop-nav flex h-[60px] items-center mt-auto justify-between px-5 z-10 bg-white w-full">
+    <div
+      class="desktop-nav flex h-[60px] items-center mt-auto justify-between px-5 z-10 bg-white w-full"
+    >
       <div class="mx-5 my-5 top-0 left-0">
         <router-link to="/">
-          <span class="font-bold text-2xl">
-            SOKOSKINS
-          </span>
+          <span class="font-bold shop-name text-2xl"> RPP-Cosmestic </span>
         </router-link>
       </div>
       <div class="flex gap-5 max-w-1/2">
@@ -79,13 +79,17 @@
             icon="magnifying-glass"
           />
         </div>
-        <div>
-          <router-link to="/profile">
-            <font-awesome-icon
-              class="text-[20px] cursor-pointer"
-              icon="user"
-            />
-          </router-link>
+        <div @click="desktopProfileDropDown = !desktopProfileDropDown">
+          <font-awesome-icon
+            v-if="desktopProfileDropDown"
+            class="text-[20px]"
+            icon="user"
+          />
+          <font-awesome-icon
+            v-else
+            class="text-[20px]"
+            icon="user"
+          />
         </div>
         <div class="relative cursor-pointer">
           <router-link to="/cart">
@@ -93,22 +97,85 @@
               class="text-[20px]"
               icon="cart-shopping"
             />
-            <sup class="cart-count absolute top-[-10px] right-[-10px]">{{ $store.getters.getCountCartItem }}</sup>
+            <sup class="cart-count absolute top-[-10px] right-[-10px]">{{
+              $store.getters.getCountCartItem
+            }}</sup>
           </router-link>
         </div>
       </div>
     </div>
+    <transition>
+      <ul
+        class="bg-white border-b-[1px] shadow-md shadow-black"
+        v-if="desktopProfileDropDown"
+      >
+        <li
+          v-if="historyProfileList.length > 0"
+          class="w-[100vw] h-[50px]"
+        >
+          <div
+            @click="backProfileList"
+            class="flex items-center pl-5 border-t-[1px] h-full justify-start"
+          >
+            <span class="border-r-[1px] h-[50px] flex pr-5 items-center">
+              <font-awesome-icon icon="chevron-left" />
+            </span>
+          </div>
+        </li>
+        <li
+          v-for="(navItem, index) in profileListForRender"
+          :key="index"
+          class="w-[100vw] h-[50px]"
+        >
+          <div
+            class="flex items-center pl-5 border-t-[1px] h-full justify-start"
+          >
+            <router-link
+              class="w-[100vw] flex flex-col justify-center items-start h-full"
+              :to="navItem.HyperLink"
+              v-if="!navItem.hasOwnProperty('Children')"
+              @click="desktopProfileDropDown = false"
+            >
+              <span class="my-auto">{{ navItem.Text }}</span>
+            </router-link>
+            <div
+              v-else
+              @click="openNavList(navItem.Children)"
+              class="flex justify-between w-[100vw] pr-5"
+            >
+              <span class="flex items-center">{{ navItem.Text }}</span>
+              <span class="border-l-[1px] h-[50px] flex pl-5 items-center">
+                <font-awesome-icon icon="chevron-right" />
+              </span>
+            </div>
+          </div>
+        </li>
+        <li class="w-[100vw] h-[50px]">
+          <div
+            class="flex items-center bg-red pl-5 border-t-[1px] h-full justify-start"
+          >
+            <el-button
+              text
+              @click="handleClose"
+            >
+              Logout
+            </el-button>
+          </div>
+        </li>
+      </ul>
+    </transition>
     <div class="mobile-nav h-[60px] relative z-10">
       <div class="flex items-center justify-between px-3 z-10 bg-white w-full">
         <div class="my-3">
-          <router-link to="/">
-            <span class="font-bold text-2xl">
-              SOKOSKINS
-            </span>
+          <router-link
+            to="/"
+            v-if="!isSearch"
+          >
+            <span class="font-bold shop-name text-2xl"> RPP-Cosmestic </span>
           </router-link>
         </div>
         <div class="flex gap-5 items-center">
-          <div class="w-[30vw] flex justify-end items-center">
+          <div :class="`${isSearch ? 'w-[55vw] my-[10.5px]' : 'w-fit'} flex justify-end items-center`">
             <el-input
               class="custom-input"
               v-model="searchModel"
@@ -129,26 +196,37 @@
               icon="magnifying-glass"
             />
           </div>
-          <div>
+          <div @click="onProfilecClick">
+            <font-awesome-icon
+              v-if="mobileProfileDropDown"
+              class="text-[20px]"
+              icon="user"
+            />
+            <font-awesome-icon
+              v-else
+              class="text-[20px]"
+              icon="user"
+            />
+          </div>
+          <!-- <div>
             <router-link :to="`${$store.getters.checkIsAuthenticated ? '/profile' : '/login'}`">
               <font-awesome-icon
                 class="text-[20px] cursor-pointer"
                 icon="user"
               />
             </router-link>
-          </div>
+          </div> -->
           <div class="relative cursor-pointer">
             <router-link to="/cart">
               <font-awesome-icon
                 class="text-[20px]"
                 icon="cart-shopping"
               />
-              <sup class="cart-count absolute top-[-7px] right-[-7px]"><span>{{ $store.getters.getCountCartItem
-              }}</span></sup>
+              <sup class="cart-count absolute top-[-7px] right-[-7px]"><span>{{ $store.getters.getCountCartItem }}</span></sup>
             </router-link>
           </div>
           <div
-            @click="mobileDropDownToggle = !mobileDropDownToggle"
+            @click="onHamburgerClick"
             class="w-[35px] flex justify-center items-center cursor-pointer"
           >
             <font-awesome-icon
@@ -187,7 +265,9 @@
             :key="index"
             class="w-[100vw] h-[50px]"
           >
-            <div class="flex items-center pl-5 border-t-[1px] h-full justify-start">
+            <div
+              class="flex items-center pl-5 border-t-[1px] h-full justify-start"
+            >
               <router-link
                 class="w-[100vw] flex flex-col justify-center items-start h-full"
                 :to="navItem.HyperLink"
@@ -206,6 +286,66 @@
                   <font-awesome-icon icon="chevron-right" />
                 </span>
               </div>
+            </div>
+          </li>
+        </ul>
+      </transition>
+      <transition>
+        <ul
+          class="bg-white border-b-[1px] shadow-md shadow-black"
+          v-if="mobileProfileDropDown"
+        >
+          <li
+            v-if="profileList.length > 0"
+            class="w-[100vw] h-[50px]"
+          >
+            <div
+              @click="backProfileList"
+              class="flex items-center pl-5 border-t-[1px] h-full justify-start"
+            >
+              <span class="border-r-[1px] h-[50px] flex pr-5 items-center">
+                <font-awesome-icon icon="chevron-left" />
+              </span>
+            </div>
+          </li>
+          <li
+            v-for="(navItem, index) in profileListForRender"
+            :key="index"
+            class="w-[100vw] h-[50px]"
+          >
+            <div
+              class="flex items-center pl-5 border-t-[1px] h-full justify-start"
+            >
+              <router-link
+                class="w-[100vw] flex flex-col justify-center items-start h-full"
+                :to="navItem.HyperLink"
+                v-if="!navItem.hasOwnProperty('Children')"
+                @click="mobileProfileDropDown = false"
+              >
+                <span class="my-auto">{{ navItem.Text }}</span>
+              </router-link>
+              <div
+                v-else
+                @click="openNavList(navItem.Children)"
+                class="flex justify-between w-[100vw] pr-5"
+              >
+                <span class="flex items-center">{{ navItem.Text }}</span>
+                <span class="border-l-[1px] h-[50px] flex pl-5 items-center">
+                  <font-awesome-icon icon="chevron-right" />
+                </span>
+              </div>
+            </div>
+          </li>
+          <li class="w-[100vw] h-[50px]">
+            <div
+              class="flex items-center bg-red pl-5 border-t-[1px] h-full justify-start"
+            >
+              <el-button
+                text
+                @click="handleClose"
+              >
+                Logout
+              </el-button>
             </div>
           </li>
         </ul>
@@ -247,6 +387,10 @@
   }
 }
 
+.shop-name {
+  color: var(--theme-color) !important;
+}
+
 .nav-item:hover {
   padding-bottom: 0px;
   border-bottom: 2px solid black;
@@ -283,7 +427,7 @@
 }
 
 .cart-count {
-  background: #0088cc;
+  background: var(--theme-color);
   color: white;
   padding: 3px;
   font-size: 11pxs;
@@ -301,7 +445,26 @@
 .mobile-nav {
   display: none;
 }
-
+.dialog-footer button:first-child {
+  margin-right: 10px;
+}
+.el-button.is-text {
+  color: white !important;
+  background-color: red !important;
+}
+.el-message-box {
+  transform: translate(0, -150px);
+}
+.el-message-box__message {
+  font-weight: 500;
+  font-size: 20px;
+}
+.el-button > span {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 15px;
+}
 @media only screen and (max-width: 750px) {
   .desktop-nav {
     display: none !important;
@@ -315,8 +478,16 @@
 </style>
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue'
-import INavigationData from '@/model/navigation'
+import { useStore } from 'vuex'
+import {
+  notification,
+  notificationType
+} from '@/libraries/helpers/notificationHelper'
+import router from '@/router'
+import IProfileData from '@/model/profile'
 import _ from 'lodash'
+import { ElMessageBox } from 'element-plus'
+import INavigationData from '@/model/navigation'
 
 export default defineComponent({
   name: 'NavigatorComponent',
@@ -373,15 +544,43 @@ export default defineComponent({
         HyperLink: '/blogs'
       }
     ])
+    const profileList = ref<Array<IProfileData>>([
+      {
+        Text: 'Account Detail',
+        HyperLink: '/profile'
+      },
+      {
+        Text: 'Order History',
+        HyperLink: '#'
+      }
+    ])
+    const { commit } = useStore()
     const navListForRender = ref(_.cloneDeep(navList.value))
+    const profileListForRender = ref(_.cloneDeep(profileList.value))
     const mobileDropDownToggle = ref(false)
+    const mobileProfileDropDown = ref(false)
+    const desktopProfileDropDown = ref(false)
     const historyList = ref<Array<Array<INavigationData>>>([])
+    const historyProfileList = ref<Array<Array<IProfileData>>>([])
     const isSearch = ref(false)
     const searchModel = ref('')
+    const dialogVisible = ref(false)
     watch(mobileDropDownToggle, (newVal) => {
       if (!newVal) {
         navListForRender.value = navList.value
         historyList.value = []
+      }
+    })
+    watch(mobileProfileDropDown, (newVal) => {
+      if (!newVal) {
+        profileListForRender.value = profileList.value
+        historyProfileList.value = []
+      }
+    })
+    watch(desktopProfileDropDown, (newVal) => {
+      if (!newVal) {
+        profileListForRender.value = profileList.value
+        historyProfileList.value = []
       }
     })
     const openNavList = (navItem: Array<INavigationData>) => {
@@ -392,9 +591,19 @@ export default defineComponent({
       if (historyList.value.length < 2) {
         navListForRender.value = navList.value
       } else {
-        navListForRender.value = historyList.value[historyList.value.length - 2]
+        navListForRender.value =
+          historyList.value[historyList.value.length - 2]
       }
       historyList.value.pop()
+    }
+    const backProfileList = () => {
+      if (historyProfileList.value.length < 2) {
+        profileListForRender.value = profileList.value
+      } else {
+        profileListForRender.value =
+          historyProfileList.value[historyProfileList.value.length - 2]
+      }
+      historyProfileList.value.pop()
     }
     const onSearchIconClick = () => {
       isSearch.value = !isSearch.value
@@ -402,16 +611,52 @@ export default defineComponent({
     watch(isSearch, () => {
       searchModel.value = ''
     })
+    const handleClose = (done: () => void) => {
+      ElMessageBox.confirm('Do you wish to log out?')
+        .then(() => {
+          commit('removeToken')
+          notification(notificationType.Success, 'Logout')
+          desktopProfileDropDown.value = false
+          mobileProfileDropDown.value = false
+          router.push('/login')
+        })
+        .catch(() => {
+          console.log('error')
+        })
+    }
+    const onProfilecClick = () => {
+      if (mobileDropDownToggle.value) {
+        mobileDropDownToggle.value = false
+      }
+      mobileProfileDropDown.value = !mobileProfileDropDown.value
+    }
+    const onHamburgerClick = () => {
+      if (mobileProfileDropDown.value) {
+        mobileProfileDropDown.value = false
+      }
+      mobileDropDownToggle.value = !mobileDropDownToggle.value
+    }
+
     return {
       navList,
+      profileList,
       mobileDropDownToggle,
+      mobileProfileDropDown,
+      desktopProfileDropDown,
       navListForRender,
+      profileListForRender,
       historyList,
+      historyProfileList,
       openNavList,
       backNavList,
+      backProfileList,
       isSearch,
       onSearchIconClick,
-      searchModel
+      searchModel,
+      handleClose,
+      dialogVisible,
+      onProfilecClick,
+      onHamburgerClick
     }
   }
 })

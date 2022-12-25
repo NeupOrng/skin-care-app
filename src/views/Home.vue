@@ -4,25 +4,30 @@
     v-loading="isLoading"
   >
     <el-carousel
-      class="banner"
+      class="poster"
       :loop="true"
-      interval="5000"
+      interval="2000"
       :pause-on-hover="true"
+      height="31.25vw"
     >
       <el-carousel-item
-        v-for="(item, index) in banners"
+        v-for="(item, index) in $store.getters.getPoster.poster_image"
         :key="index"
       >
         <div class="w-full flex justify-center items-center">
           <img
             class="max-w-full max-h-full"
-            :src="item"
-            :alt="`banner ${index}`"
+            :src="item.image_path_for_display"
+            @load="onImageLoad(item)"
+            :alt="`poster ${index}`"
           >
         </div>
       </el-carousel-item>
     </el-carousel>
-    <div class="w-[100vw] flex flex-col items-center product-show-container">
+    <div
+      class="w-[100vw] flex flex-col items-center product-show-container"
+      v-if="newProducts.length > 0"
+    >
       <div class="text-xl font-bold text-black uppercase">
         {{ $t('new_arrivals') }}
       </div>
@@ -46,12 +51,12 @@
           <div class="product-item-content flex flex-col">
             <span class="product-name">{{ product.name_en }}</span>
             <div class="inline font-bold">
-              <span :class="`${product.discount_for_display > 0 ? 'line-through' : ''} text-[#69727B]`">
+              <span :class="`${product.discount > 0 ? 'line-through' : ''} text-[#69727B]`">
                 ${{ product.price_for_display }}
               </span>
               <span
                 v-if="product.discount > 0"
-                class="mx-2 text-[#197bbd]"
+                class="mx-2 text-[var(--theme-color)]"
               >
                 ${{ product.discount_for_display }}
               </span>
@@ -60,9 +65,12 @@
         </router-link>
       </div>
     </div>
-    <div class="w-[100vw] flex flex-col items-center product-show-container">
+    <div
+      class="w-[100vw] flex flex-col items-center product-show-container mb-5"
+      v-if="bestSellingProducts.length > 0"
+    >
       <div class="text-xl font-bold text-black uppercase">
-        {{ $t('must_try') }}
+        {{ $t('best_selling') }}
       </div>
       <div class="products-container gap-[2vw]">
         <router-link
@@ -84,12 +92,12 @@
           <div class="product-item-content flex flex-col">
             <span class="product-name">{{ product.name_en }}</span>
             <div class="inline font-bold">
-              <span :class="`${product.discount_for_display > 0 ? 'line-through' : ''} text-[#69727B]`">
+              <span :class="`${product.discount > 0 ? 'line-through' : ''} text-[#69727B]`">
                 ${{ product.price_for_display }}
               </span>
               <span
                 v-if="product.discount > 0"
-                class="mx-2 text-[#197bbd]"
+                class="mx-2 text-[var(--theme-color)]"
               >
                 ${{ product.discount_for_display }}
               </span>
@@ -104,10 +112,8 @@
 .product-show-container {
   padding: 25px 0 0;
 }
-.product-item {
-  width: 14.4vw;
-}
-.banner {
+
+.poster {
   height: fit-content;
   .el-carousel__container {
     height: 45vw;
@@ -136,14 +142,32 @@
   }
   .product-item {
     width: 44vw;
+    height: 60vw;
     padding: 5vw;
     display: flex;
     box-sizing: border-box;
     flex-direction: column;
     align-items: center;
+
+    .product-item-image {
+      width: 43vw;
+      height: 43vw;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      border-radius: 10px;
+      img {
+        max-width: 100%;
+      }
+    }
+    .product-item-content {
+      width: 43vw;
+      height: 17vw;
+    }
   }
 
-  .banner {
+  .poster {
     height: fit-content;
     .el-carousel__container {
       height: 55vw;
@@ -155,6 +179,7 @@
 <script lang="ts">
 import apiService from '@/libraries/apiService'
 import { ImageDto } from '@/model/image'
+import { IPoster, Poster } from '@/model/poster'
 import { IProduct, Product } from '@/model/product'
 import { ElCarousel, ElCarouselItem } from 'element-plus'
 import { defineComponent, ref } from 'vue'
@@ -172,9 +197,11 @@ export default defineComponent({
     const isLoading = ref(false)
     const newProducts = ref<Array<Product>>([])
     const bestSellingProducts = ref<Array<Product>>([])
+    const allPoster = ref<IPoster>()
     const getNewProduct = async () => {
       isLoading.value = true
       const products = await apiService.getAllProducts()
+      console.log(products)
       if (products.length > 5) {
         newProducts.value = products.slice(0, 5)
       } else {
@@ -193,7 +220,6 @@ export default defineComponent({
       }
       isLoading.value = false
     }
-
     const onImageLoad = (image: ImageDto) => {
       image.is_loading = false
     }

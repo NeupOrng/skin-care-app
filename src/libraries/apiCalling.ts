@@ -1,8 +1,9 @@
 import { IApiResponse, IAxiosPromise } from '@/model/api/apiResponse'
-import { ILoginRequest, ILoginResponse } from '@/model/auth'
+import { ILoginRequest, ILoginResponse, ISignUpRequest, ISignUpResponse } from '@/model/auth'
 import { IBlog } from '@/model/blog'
 import { IProduct } from '@/model/product'
 import { IProductType } from '@/model/productType'
+import { IPoster } from '@/model/poster'
 import axios from 'axios'
 
 const apiUrl = process.env.VUE_APP_ENDPOINT
@@ -35,5 +36,11 @@ export default {
   },
   postLogin (payload: ILoginRequest): IAxiosPromise<ILoginResponse> {
     return axiosInstance.post('/v1/login', payload)
+  },
+  getAllPoster (): IAxiosPromise<Array<IPoster>> {
+    return axiosInstance.get('/v1/poster/rrp_poster')
+  },
+  postSignUp (payload: ISignUpRequest): IAxiosPromise<ISignUpResponse> {
+    return axiosInstance.post('/v1/register', payload)
   }
 }

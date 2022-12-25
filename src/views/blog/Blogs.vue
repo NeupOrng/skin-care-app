@@ -18,7 +18,7 @@
         <span class="text-sm my-5">
           {{ item.updated_at }}
         </span>
-        <div class="w-full flex flex-row items-start relative">
+        <div class="blog-image flex flex-row items-start relative">
           <img
             class="object-fit"
             :src="item.blog_image[0].image_path_for_display"
@@ -95,9 +95,15 @@ export default defineComponent({
   align-items: start;
   justify-content: center;
 }
+.blog-image {
+  width: 35vw;
+}
 @media only screen and (max-width: 750px) {
   .blogs-body {
     padding: 0px 5vw 25px;
+  }
+  .blog-image {
+    width: 100%;
   }
 }
 </style>

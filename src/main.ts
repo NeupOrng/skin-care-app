@@ -8,6 +8,8 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import i18n from '@/libraries/vue-i18n'
 import './assets/index.css'
 import 'element-plus/dist/index.css'
+// import VueGeolocation from 'vue3-geolocation';
+// import GMaps from 'vuejs3-google-maps';
 import {
   faMagnifyingGlass,
   faUser,
@@ -15,12 +17,18 @@ import {
   faBars,
   faXmark,
   faChevronRight,
-  faChevronLeft
+  faChevronLeft,
+  faMapLocationDot
 } from '@fortawesome/free-solid-svg-icons'
 import {
   faFacebook,
   faSquareFacebook,
-  faTwitter
+  faTwitter,
+  faFacebookMessenger,
+  faYoutube,
+  faTelegram,
+  faTiktok,
+  faInstagram
 } from '@fortawesome/free-brands-svg-icons'
 
 library.add(
@@ -33,12 +41,25 @@ library.add(
   faChevronRight,
   faChevronLeft,
   faSquareFacebook,
-  faTwitter
+  faTwitter,
+  faFacebookMessenger,
+  faYoutube,
+  faTelegram,
+  faTiktok,
+  faInstagram,
+  faMapLocationDot
 )
 createApp(App)
   .use(store)
   .use(router)
   .use(ElementPlus)
   .use(i18n)
+  // .use(VueGeolocation)
+  // .use(GMaps, {
+  //   load: {
+  //     apiKey: 'AIzaSyCb-Cr081cGsWBbI8agi4iNQPJK0qcnCI8&libraries=places,geometry&callback=mapApiInitialized',
+  //     libraries: ["places"],
+  //   },
+  // })
   .component('font-awesome-icon', FontAwesomeIcon)
   .mount('#app')

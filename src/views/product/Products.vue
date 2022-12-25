@@ -51,7 +51,7 @@
             </span>
             <span
               v-if="product.discount > 0"
-              class="mx-2 text-[#197bbd]"
+              class="mx-2 text-[var(--theme-color)]"
             >
               ${{ product.discount_for_display }}
             </span>
