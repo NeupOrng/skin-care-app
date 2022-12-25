@@ -2,7 +2,7 @@ import { IApiResponse, IAxiosPromise } from '@/model/api/apiResponse'
 import { ILoginRequest, ILoginResponse, ISignUpRequest, ISignUpResponse } from '@/model/auth'
 import { Blog, IBlog } from '@/model/blog'
 import { IPoster, Poster } from '@/model/poster'
-import { IProduct, Product } from '@/model/product'
+import { IProduct, IProductCartFromApi, Product } from '@/model/product'
 import { IProductType } from '@/model/productType'
 import apiCalling from './apiCalling'
 
@@ -53,5 +53,10 @@ export default {
   },
   postSignUp (payload: ISignUpRequest): Promise<IApiResponse<ISignUpResponse>> {
     return getResponse(apiCalling.postSignUp(payload))
+  },
+  getAllProductsInCart (): Promise<Array<IProductCartFromApi>> {
+    const response = getResponse(apiCalling.getAllProductsInCart())
+    const cartProducts = response.then((res) => res.data)
+    return cartProducts
   }
 }

@@ -188,7 +188,7 @@ import { useStore } from 'vuex'
 export default defineComponent({
   name: 'CartPage',
   setup () {
-    const { commit, state } = useStore()
+    const { commit, dispatch } = useStore()
     const removeItemFromCart = (item: IProduct) => {
       commit('removeCartItem', item.id)
     }
@@ -203,6 +203,7 @@ export default defineComponent({
       cartItem.is_editing = false
       cartItem.updateAmount()
     }
+    dispatch('getCartProductsInCart')
     return {
       removeItemFromCart,
       onEdit,

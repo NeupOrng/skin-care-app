@@ -101,7 +101,12 @@ const store = createStore<IState>({
         state.cartItem.find((item) => item.id === productObj.id)?.addAmount(payload.amount)
       }
     },
+    addCartItemFromApi (state, payload: Array<ProductInCart>): void {
+      state.cartItem = payload
+    },
     removeCartItem (state, productId: number): void {
+      console.log(productId)
+      console.log(state.cartItem)
       state.cartItem = state.cartItem.filter((item) => item.id !== productId)
     },
     setToken (state, token: IToken): void {
@@ -136,6 +141,11 @@ const store = createStore<IState>({
       if (poster.length) {
         this.commit('setPoster', poster[0])
       }
+    },
+    async getCartProductsInCart () {
+      const productsInCartFromApi = await apiService.getAllProductsInCart()
+      const productInCart: Array<ProductInCart> = productsInCartFromApi.map((product) => new ProductInCart(product))
+      this.commit('addCartItemFromApi', productInCart)
     }
   },
   modules: {
