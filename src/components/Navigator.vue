@@ -5,7 +5,7 @@
     >
       <div class="mx-5 my-5 top-0 left-0">
         <router-link to="/">
-          <span class="font-bold text-2xl"> SOKOSKINS </span>
+          <span class="font-bold shop-name text-2xl"> RPP-Cosmestic </span>
         </router-link>
       </div>
       <div class="flex gap-5 max-w-1/2">
@@ -104,7 +104,7 @@
       <div class="flex items-center justify-between px-3 z-10 bg-white w-full">
         <div class="my-3">
           <router-link to="/" v-if="!isSearch">
-            <span class="font-bold text-2xl"> SOKOSKINS </span>
+            <span class="font-bold shop-name text-2xl"> RPP-Cosmestic </span>
           </router-link>
         </div>
         <div class="flex gap-5 items-center">
@@ -310,6 +310,10 @@
   }
 }
 
+.shop-name {
+  color: var(--theme-color) !important;
+}
+
 .nav-item:hover {
   padding-bottom: 0px;
   border-bottom: 2px solid black;
@@ -346,7 +350,7 @@
 }
 
 .cart-count {
-  background: #0088cc;
+  background: var(--theme-color);
   color: white;
   padding: 3px;
   font-size: 11pxs;

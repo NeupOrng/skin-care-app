@@ -29,6 +29,10 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
+:root {
+  --theme-color: rgb(24, 197, 180);
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -40,4 +44,51 @@ export default defineComponent({
   width: 100vw;
   min-height: calc(100vh - 60px);
 }
+.product-item {
+  width: 14.4vw;
+  height: 18vw;
+
+  .product-item-image {
+    width: 14vw;
+    height: 12vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 10px;
+    img {
+      max-width: 100%;
+    }
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  .product-item {
+    width: 44vw;
+    height: 60vw;
+    padding: 5vw;
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    align-items: center;
+
+    .product-item-image {
+      width: 43vw;
+      height: 43vw;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      border-radius: 10px;
+      img {
+        max-width: 100%;
+      }
+    }
+    .product-item-content {
+      width: 43vw;
+      height: 17vw;
+    }
+  }
+}
+
 </style>

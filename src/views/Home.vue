@@ -53,7 +53,7 @@
               </span>
               <span
                 v-if="product.discount > 0"
-                class="mx-2 text-[#197bbd]"
+                class="mx-2 text-[var(--theme-color)]"
               >
                 ${{ product.discount_for_display }}
               </span>
@@ -62,7 +62,7 @@
         </router-link>
       </div>
     </div>
-    <div class="w-[100vw] flex flex-col items-center product-show-container" v-if="bestSellingProducts.length > 0">
+    <div class="w-[100vw] flex flex-col items-center product-show-container mb-5" v-if="bestSellingProducts.length > 0">
       <div class="text-xl font-bold text-black uppercase">
         {{ $t('best_selling') }}
       </div>
@@ -91,7 +91,7 @@
               </span>
               <span
                 v-if="product.discount > 0"
-                class="mx-2 text-[#197bbd]"
+                class="mx-2 text-[var(--theme-color)]"
               >
                 ${{ product.discount_for_display }}
               </span>
@@ -106,9 +106,7 @@
 .product-show-container {
   padding: 25px 0 0;
 }
-.product-item {
-  width: 14.4vw;
-}
+
 .poster {
   height: fit-content;
   .el-carousel__container {
@@ -138,11 +136,29 @@
   }
   .product-item {
     width: 44vw;
+    height: 60vw;
     padding: 5vw;
     display: flex;
     box-sizing: border-box;
     flex-direction: column;
     align-items: center;
+
+    .product-item-image {
+      width: 43vw;
+      height: 43vw;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      border-radius: 10px;
+      img {
+        max-width: 100%;
+      }
+    }
+    .product-item-content {
+      width: 43vw;
+      height: 17vw;
+    }
   }
 
   .poster {
