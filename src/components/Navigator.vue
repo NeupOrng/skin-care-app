@@ -79,7 +79,7 @@
             icon="magnifying-glass"
           />
         </div>
-        <div @click="desktopProfileDropDown = !desktopProfileDropDown">
+        <div @click="onProfileDesktopClick" class="cursor-pointer">
           <font-awesome-icon
             v-if="desktopProfileDropDown"
             class="text-[20px]"
@@ -554,7 +554,7 @@ export default defineComponent({
         HyperLink: '#'
       }
     ])
-    const { commit } = useStore()
+    const { commit, getters } = useStore()
     const navListForRender = ref(_.cloneDeep(navList.value))
     const profileListForRender = ref(_.cloneDeep(profileList.value))
     const mobileDropDownToggle = ref(false)
@@ -625,16 +625,28 @@ export default defineComponent({
         })
     }
     const onProfilecClick = () => {
-      if (mobileDropDownToggle.value) {
-        mobileDropDownToggle.value = false
+      console.log(getters.checkIsAuthenticated)
+      if (getters.checkIsAuthenticated) {
+        if (mobileDropDownToggle.value) {
+          mobileDropDownToggle.value = false
+        }
+        mobileProfileDropDown.value = !mobileProfileDropDown.value
+      } else {
+        router.push('/login')
       }
-      mobileProfileDropDown.value = !mobileProfileDropDown.value
     }
     const onHamburgerClick = () => {
       if (mobileProfileDropDown.value) {
         mobileProfileDropDown.value = false
       }
       mobileDropDownToggle.value = !mobileDropDownToggle.value
+    }
+    const onProfileDesktopClick = () => {
+      if (getters.checkIsAuthenticated) {
+        desktopProfileDropDown.value = !desktopProfileDropDown.value
+      } else {
+        router.push('/login')
+      }
     }
 
     return {
@@ -656,7 +668,8 @@ export default defineComponent({
       handleClose,
       dialogVisible,
       onProfilecClick,
-      onHamburgerClick
+      onHamburgerClick,
+      onProfileDesktopClick
     }
   }
 })
