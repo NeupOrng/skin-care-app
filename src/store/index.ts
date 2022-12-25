@@ -121,6 +121,9 @@ const store = createStore<IState>({
     removeToken (): void {
       cookieHelper.removeCookie('access-token')
       cookieHelper.removeCookie('refresh-token')
+    },
+    setPoster (state, poster: IPoster): void {
+      state.poster = poster
     }
   },
   actions: {
@@ -142,6 +145,5 @@ const store = createStore<IState>({
 export default store
 
 export function useStore (): Store<IState> {
-  console.log(key)
   return baseUseStore(key)
 }
