@@ -61,6 +61,7 @@ interface IProductCartFromApi {
 
 class ProductInCart extends Product {
   amount: number;
+  'cart_id': number;
   'is_editing': boolean;
   'amount_model': number;
 
@@ -91,6 +92,7 @@ class ProductInCart extends Product {
     if ('product' in init) {
       const productCartFromApi = init as IProductCartFromApi
       super(productCartFromApi.product)
+      this.cart_id = productCartFromApi.id
       this.amount = productCartFromApi.quantity
     } else {
       super(init as IProduct)
@@ -102,9 +104,15 @@ class ProductInCart extends Product {
   }
 }
 
+interface ICreateProductRequest {
+  product_id: number,
+  quantity: number
+}
+
 export {
   IProduct,
   Product,
   ProductInCart,
   IProductCartFromApi,
+  ICreateProductRequest
 }

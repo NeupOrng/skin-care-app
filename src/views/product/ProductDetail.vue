@@ -86,13 +86,14 @@
 }
 </style>
 <script lang="ts">
-import { IProduct, Product } from '@/model/product'
+import { ICreateProductRequest, IProduct, Product } from '@/model/product'
 import { defineComponent, ref } from 'vue'
 import { useStore } from 'vuex'
 import router from '@/router'
 import { useRoute } from 'vue-router'
 import apiService from '@/libraries/apiService'
 import { IImage, ImageDto } from '@/model/image'
+import { notification, notificationType } from '@/libraries/helpers/notificationHelper'
 
 export default defineComponent({
   name: 'ProductDetailPage',
@@ -114,9 +115,18 @@ export default defineComponent({
     const onImageClick = (params: IImage) => {
       activeImage.value = params
     }
-    const addToCart = () => {
-      commit('addCartItem', { product: product.value, amount: amount.value })
-      router.push('/cart')
+    const addToCart = async () => {
+      const request: ICreateProductRequest = {
+        product_id: product.value?.id ?? 0,
+        quantity: amount.value
+      }
+      const isAddSuccess = await apiService.addProductToCart(request)
+      if (isAddSuccess) {
+        commit('addCartItem', { product: product.value, amount: amount.value })
+        router.push('/cart')
+      } else {
+        notification(notificationType.Error, 'Error')
+      }
     }
     return {
       product,

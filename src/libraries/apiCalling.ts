@@ -1,7 +1,7 @@
 import { IApiResponse, IAxiosPromise } from '@/model/api/apiResponse'
 import { ILoginRequest, ILoginResponse, ISignUpRequest, ISignUpResponse } from '@/model/auth'
 import { IBlog } from '@/model/blog'
-import { IProduct, IProductCartFromApi } from '@/model/product'
+import { ICreateProductRequest, IProduct, IProductCartFromApi } from '@/model/product'
 import { IProductType } from '@/model/productType'
 import { IPoster } from '@/model/poster'
 import axios from 'axios'
@@ -55,5 +55,13 @@ export default {
   getAllProductsInCart (): IAxiosPromise<Array<IProductCartFromApi>> {
     const token = cookieHelper.getCookie('access-token') ?? ''
     return afterLoginAxiosInstance(token).get('/v1/cart')
+  },
+  addProductToCart (payload: ICreateProductRequest): IAxiosPromise<string> {
+    const token = cookieHelper.getCookie('access-token') ?? ''
+    return afterLoginAxiosInstance(token).post('/v1/cart', payload)
+  },
+  removeProductFromCart (cartId: number): IAxiosPromise<string> {
+    const token = cookieHelper.getCookie('access-token') ?? ''
+    return afterLoginAxiosInstance(token).delete(`/v1/cart/${cartId}`)
   }
 }

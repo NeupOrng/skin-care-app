@@ -184,13 +184,20 @@
 import { IProduct, ProductInCart } from '@/model/product'
 import { defineComponent } from 'vue'
 import { useStore } from 'vuex'
+import apiService from '@/libraries/apiService'
+import { notification, notificationType } from '@/libraries/helpers/notificationHelper'
 
 export default defineComponent({
   name: 'CartPage',
   setup () {
     const { commit, dispatch } = useStore()
-    const removeItemFromCart = (item: IProduct) => {
-      commit('removeCartItem', item.id)
+    const removeItemFromCart = async (item: ProductInCart) => {
+      const isSuccess = await apiService.removeProductFromCart(item.cart_id)
+      if (isSuccess) {
+        commit('removeCartItem', item.id)
+      } else {
+        notification(notificationType.Error, 'Error')
+      }
     }
     const onEdit = (cartItem: ProductInCart) => {
       cartItem.is_editing = true

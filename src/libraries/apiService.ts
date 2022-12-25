@@ -2,7 +2,7 @@ import { IApiResponse, IAxiosPromise } from '@/model/api/apiResponse'
 import { ILoginRequest, ILoginResponse, ISignUpRequest, ISignUpResponse } from '@/model/auth'
 import { Blog, IBlog } from '@/model/blog'
 import { IPoster, Poster } from '@/model/poster'
-import { IProduct, IProductCartFromApi, Product } from '@/model/product'
+import { ICreateProductRequest, IProduct, IProductCartFromApi, Product } from '@/model/product'
 import { IProductType } from '@/model/productType'
 import apiCalling from './apiCalling'
 
@@ -58,5 +58,15 @@ export default {
     const response = getResponse(apiCalling.getAllProductsInCart())
     const cartProducts = response.then((res) => res.data)
     return cartProducts
+  },
+  addProductToCart (payload: ICreateProductRequest): Promise<boolean> {
+    const response = getResponse(apiCalling.addProductToCart(payload))
+    const isSucces = response.then((res) => res.status === 'success')
+    return isSucces
+  },
+  removeProductFromCart (cartId: number): Promise<boolean> {
+    const response = getResponse(apiCalling.removeProductFromCart(cartId))
+    const isSucces = response.then((res) => res.status === 'success')
+    return isSucces
   }
 }
