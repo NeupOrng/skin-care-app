@@ -104,6 +104,10 @@ const store = createStore<IState>({
     },
     setUser (state, user: IUser): void {
       state.user = user
+    },
+    removeToken (): void {
+      cookieHelper.removeCookie('access-token')
+      cookieHelper.removeCookie('refresh-token')
     }
   },
   actions: {
