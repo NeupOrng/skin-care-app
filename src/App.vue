@@ -19,10 +19,12 @@ export default defineComponent({
     FooterComponent
   },
   setup () {
-    const { dispatch, state } = useStore()
+    const { dispatch, getters } = useStore()
     dispatch('getAllProductTypes')
     dispatch('getPoster')
-    console.log(state)
+    if (getters.checkIsAuthenticated) {
+      dispatch('getCartProductsInCart')
+    }
     return {}
   }
 })

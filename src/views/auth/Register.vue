@@ -95,6 +95,8 @@
           >
           </PlaceSearch>
         </div> -->
+        <div ref="mapDiv" />
+        {{ currentPosition }} {{ isSupported }}
         <div class="flex flex-col items-center justify-center">
           <el-button
             type="primary"
@@ -110,7 +112,7 @@
 
 <script lang="ts">
 import { FormInstance } from 'element-plus'
-import { defineComponent, ref, reactive } from 'vue'
+import { defineComponent, ref, reactive, computed, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import { ISignUpRequest } from '@/model/auth'
 import apiService from '@/libraries/apiService'
@@ -120,6 +122,10 @@ import {
 } from '@/libraries/helpers/notificationHelper'
 import router from '@/router'
 import { useStore } from 'vuex'
+import useGeoLocation from '@/libraries/useGeoLocation'
+import { Loader } from '@googlemaps/js-api-loader'
+
+const GOOGLE_MAP_API_KEY = 'AIzaSyCb-Cr081cGsWBbI8agi4iNQPJK0qcnCI8&libraries=places,geometry&callback=mapApiInitialized'
 
 /* eslint-disable */
 export default defineComponent({
@@ -211,11 +217,26 @@ export default defineComponent({
         }
       })
     }
-    const getMapData = (place: any) => {
-      console.log(place)
-      place = place
-    }
+    // const getMapData = (place: any) => {
+    //   console.log(place)
+    //   place = place
+    // }
+    const { coords, isSupported } = useGeoLocation()
+    const currentPosition = computed(() => ({
+      lat: coords.value.latitude,
+      lng: coords.value.longitude
+    }))
 
+    const loader = new Loader({ apiKey: GOOGLE_MAP_API_KEY })
+    const mapDiv = ref<HTMLElement>()
+    onMounted(async () => {
+      await loader.load()
+      // @ts-ignore
+      new google.maps.Map(mapDiv.value, {
+        center: currentPosition.value,
+        zoom: 7
+      })
+    })
     return {
       formModel,
       ruleFormRef,
@@ -231,6 +252,9 @@ export default defineComponent({
         lng: -35.98628,
         zoom: 2
       },
+      currentPosition,
+      isSupported,
+      mapDiv,
       address: {
         query: 'Albania, Tirane', // If GPS fails, Find by address is triggered
         zoom: 10

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { addAccountingFormat } from '@/libraries/helpers/numberHelper'
 import { IImage, ImageDto } from './image'
 
@@ -34,18 +35,28 @@ class Product implements IProduct {
   'status_id' = 0;
   'product_image': Array<IImage> = [];
 
-  get 'price_for_display' (): string {
+  get 'price_for_display'(): string {
     return addAccountingFormat(this.price)
   }
 
-  get 'discount_for_display' (): string {
+  get 'discount_for_display'(): string {
     return addAccountingFormat(this.price - (this.price * this.discount / 100))
   }
 
-  constructor (init: IProduct) {
+  constructor(init: IProduct) {
     Object.assign(this, init)
     this.product_image = init.product_image.map((item) => new ImageDto(item))
   }
+}
+
+interface IProductCartFromApi {
+  'id': number,
+  'user_id': number,
+  'quantity': number,
+  'product_id': number,
+  'status_id': number,
+  'created_at': string,
+  product: IProduct
 }
 
 class ProductInCart extends Product {
@@ -53,40 +64,47 @@ class ProductInCart extends Product {
   'is_editing': boolean;
   'amount_model': number;
 
-  addAmount (amount: number): void {
+  addAmount(amount: number): void {
     this.amount += amount
   }
 
-  get 'total_price' (): string {
+  get 'total_price'(): string {
     return addAccountingFormat(Number(this.discount_for_display) * Number(this.amount))
   }
 
-  updateAmount (): void {
+  updateAmount(): void {
     this.amount = this.amount_model
   }
 
-  cancelEditAmount (): void {
+  cancelEditAmount(): void {
     this.amount_model = this.amount
   }
 
-  substractAmount (amount: number): void {
+  substractAmount(amount: number): void {
     this.amount -= amount
     if (this.amount < 0) {
       this.amount = 0
     }
   }
 
-  constructor (init: IProduct, amount = 1) {
-    super(init)
-    Object.assign(this, init)
-    this.amount = amount
+  constructor(init: IProduct | IProductCartFromApi, amount = 1) {
+    if ('product' in init) {
+      const productCartFromApi = init as IProductCartFromApi
+      super(productCartFromApi.product)
+      this.amount = productCartFromApi.quantity
+    } else {
+      super(init as IProduct)
+      Object.assign(this, init)
+      this.amount = amount
+    }
     this.is_editing = false
-    this.amount_model = amount
+    this.amount_model = this.amount
   }
 }
 
 export {
   IProduct,
   Product,
-  ProductInCart
+  ProductInCart,
+  IProductCartFromApi,
 }
