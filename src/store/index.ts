@@ -13,6 +13,7 @@ interface IState {
   products: Array<IProduct>,
   productTypes: Array<IProductType>,
   isAuthenticated: boolean,
+  isPageLoading: boolean,
   user: IUser,
   poster: IPoster
 }
@@ -52,7 +53,8 @@ const store = createStore<IState>({
       updated_at: '',
       status_id: 0,
       poster_image: []
-    }
+    },
+    isPageLoading: false
   },
   getters: {
     getCountCartItem (state): number {
@@ -133,19 +135,25 @@ const store = createStore<IState>({
   },
   actions: {
     async getAllProductTypes () {
+      this.state.isPageLoading = true
       const productType = await apiService.getAllProductType()
       this.commit('setProductTypes', productType)
+      this.state.isPageLoading = false
     },
     async getPoster () {
+      this.state.isPageLoading = true
       const poster = await apiService.getAllPoster()
       if (poster.length) {
         this.commit('setPoster', poster[0])
       }
+      this.state.isPageLoading = false
     },
     async getCartProductsInCart () {
+      this.state.isPageLoading = true
       const productsInCartFromApi = await apiService.getAllProductsInCart()
       const productInCart: Array<ProductInCart> = productsInCartFromApi.map((product) => new ProductInCart(product))
       this.commit('addCartItemFromApi', productInCart)
+      this.state.isPageLoading = false
     }
   },
   modules: {

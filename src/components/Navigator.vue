@@ -79,7 +79,10 @@
             icon="magnifying-glass"
           />
         </div>
-        <div @click="onProfileDesktopClick" class="cursor-pointer">
+        <div
+          @click="onProfileDesktopClick"
+          class="cursor-pointer"
+        >
           <font-awesome-icon
             v-if="desktopProfileDropDown"
             class="text-[20px]"

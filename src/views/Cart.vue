@@ -1,5 +1,8 @@
 <template>
-  <div class="your-cart w-[100vw]">
+  <div
+    class="your-cart w-[100vw]"
+    v-loading="$store.state.isPageLoading"
+  >
     <div
       class="w-full desktop-container"
       v-if="$store.getters.getCountCartItem > 0"
@@ -37,9 +40,19 @@
             <div class="text-md text-left">
               {{ item.name_en }}
             </div>
-            <el-button @click="removeItemFromCart(item)">
-              {{ $t('remove') }}
-            </el-button>
+            <div class="">
+              <el-button @click="removeItemFromCart(item)">
+                {{ $t('remove') }}
+              </el-button>
+              <el-button
+                v-if="item.amount != item.amount_model"
+                @click="onUpdate(item)"
+                type="primary"
+                :loading="isProcessing"
+              >
+                {{ $t('update') }}
+              </el-button>
+            </div>
           </div>
         </div>
         <div class="flex items-center justify-center">
@@ -51,7 +64,8 @@
             class="custom-input-number"
             controls-position="right"
             :min="0"
-            v-model="item.amount"
+            :disable="isProcessing"
+            v-model="item.amount_model"
           />
         </div>
         <div class="flex items-center justify-end px-5">
@@ -135,9 +149,10 @@
           >
             {{ $t('remove') }}
           </el-button>
-          <el-input-number v-model="item.amount_model" />
+          <el-input-number :disable="isProcessing" v-model="item.amount_model" />
           <el-button
             type="primary"
+            :loading="isProcessing"
             @click="onUpdate(item)"
           >
             {{ $t('update') }}
@@ -182,7 +197,7 @@
 </template>
 <script lang="ts">
 import { IProduct, ProductInCart } from '@/model/product'
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { useStore } from 'vuex'
 import apiService from '@/libraries/apiService'
 import { notification, notificationType } from '@/libraries/helpers/notificationHelper'
@@ -191,6 +206,7 @@ export default defineComponent({
   name: 'CartPage',
   setup () {
     const { commit, dispatch } = useStore()
+    const isProcessing = ref(false)
     const removeItemFromCart = async (item: ProductInCart) => {
       const isSuccess = await apiService.removeProductFromCart(item.cart_id)
       if (isSuccess) {
@@ -206,16 +222,26 @@ export default defineComponent({
       cartItem.is_editing = false
       cartItem.cancelEditAmount()
     }
-    const onUpdate = (cartItem: ProductInCart) => {
-      cartItem.is_editing = false
-      cartItem.updateAmount()
+    const onUpdate = async (cartItem: ProductInCart) => {
+      isProcessing.value = true
+      const response = await apiService.updateProductInCart(cartItem)
+      if (response) {
+        notification(notificationType.Success, 'Save')
+        cartItem.is_editing = false
+        console.log(cartItem)
+        cartItem.updateAmount()
+      } else {
+        notification(notificationType.Error, 'Error')
+      }
+      isProcessing.value = false
     }
     dispatch('getCartProductsInCart')
     return {
       removeItemFromCart,
       onEdit,
       onCancel,
-      onUpdate
+      onUpdate,
+      isProcessing
     }
   }
 })

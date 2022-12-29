@@ -1,11 +1,12 @@
 import { IApiResponse, IAxiosPromise } from '@/model/api/apiResponse'
 import { ILoginRequest, ILoginResponse, ISignUpRequest, ISignUpResponse } from '@/model/auth'
 import { IBlog } from '@/model/blog'
-import { ICreateProductRequest, IProduct, IProductCartFromApi } from '@/model/product'
+import { ICreateProductRequest, IProduct, IProductCartFromApi, ProductInCart } from '@/model/product'
 import { IProductType } from '@/model/productType'
 import { IPoster } from '@/model/poster'
 import axios from 'axios'
 import cookieHelper from './helpers/cookieHelper'
+import { pa } from 'element-plus/es/locale'
 
 const apiUrl = process.env.VUE_APP_ENDPOINT
 
@@ -63,5 +64,13 @@ export default {
   removeProductFromCart (cartId: number): IAxiosPromise<string> {
     const token = cookieHelper.getCookie('access-token') ?? ''
     return afterLoginAxiosInstance(token).delete(`/v1/cart/${cartId}`)
+  },
+  updateProductInCart (param: ProductInCart): IAxiosPromise<string> {
+    const token = cookieHelper.getCookie('access-token') ?? ''
+    const request = {
+      product_id: param.id,
+      quantity: param.amount
+    }
+    return afterLoginAxiosInstance(token).put(`/v1/cart/${param.cart_id}`, request)
   }
 }
