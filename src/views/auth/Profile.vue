@@ -1,234 +1,125 @@
 <template>
-  <div class="container rounded bg-white mt-5 mb-5">
-    <div class="row">
-      <div class="col-md-3 border-right">
-        <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+  <!-- Full-width fluid until the `md` breakpoint, then lock to container -->
+  <div class="md:container md:mx-auto">
+    <!-- ... -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-white">
+      <div>
+        <div class="flex flex-col items-center text-center p-3 py-5">
           <img
-            class="rounded-circle mt-5"
-            width="150px"
+            class="rounded-full w-32 h-32"
             src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"
-          /><span class="font-weight-bold">Edogaru</span
-          ><span class="text-black-50">edogaru@mail.com.my</span><span> </span>
+          ><span class="font-bold">{{ formModel.FullName }}</span><span class="text-black-50">{{ formModel.Email }}</span>
         </div>
       </div>
-      <div class="col-md-5 border-right">
-        <div class="p-3 py-5">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4 class="text-right">Profile Settings</h4>
-          </div>
-          <div class="row mt-2">
-            <div class="col-md-6">
-              <label class="labels">Name</label
-              ><input
-                type="text"
-                class="form-control"
-                placeholder="first name"
-                value=""
-              />
-            </div>
-            <div class="col-md-6">
-              <label class="labels">Surname</label
-              ><input
-                type="text"
-                class="form-control"
-                value=""
-                placeholder="surname"
-              />
-            </div>
-          </div>
-          <div class="row mt-3">
-            <div class="col-md-12">
-              <label class="labels">Mobile Number</label
-              ><input
-                type="text"
-                class="form-control"
-                placeholder="enter phone number"
-                value=""
-              />
-            </div>
-            <div class="col-md-12">
-              <label class="labels">Address Line 1</label
-              ><input
-                type="text"
-                class="form-control"
-                placeholder="enter address line 1"
-                value=""
-              />
-            </div>
-            <div class="col-md-12">
-              <label class="labels">Address Line 2</label
-              ><input
-                type="text"
-                class="form-control"
-                placeholder="enter address line 2"
-                value=""
-              />
-            </div>
-            <div class="col-md-12">
-              <label class="labels">Postcode</label
-              ><input
-                type="text"
-                class="form-control"
-                placeholder="enter address line 2"
-                value=""
-              />
-            </div>
-            <div class="col-md-12">
-              <label class="labels">State</label
-              ><input
-                type="text"
-                class="form-control"
-                placeholder="enter address line 2"
-                value=""
-              />
-            </div>
-            <div class="col-md-12">
-              <label class="labels">Area</label
-              ><input
-                type="text"
-                class="form-control"
-                placeholder="enter address line 2"
-                value=""
-              />
-            </div>
-            <div class="col-md-12">
-              <label class="labels">Email ID</label
-              ><input
-                type="text"
-                class="form-control"
-                placeholder="enter email id"
-                value=""
-              />
-            </div>
-            <div class="col-md-12">
-              <label class="labels">Education</label
-              ><input
-                type="text"
-                class="form-control"
-                placeholder="education"
-                value=""
-              />
-            </div>
-          </div>
-          <div class="row mt-3">
-            <div class="col-md-6">
-              <label class="labels">Country</label
-              ><input
-                type="text"
-                class="form-control"
-                placeholder="country"
-                value=""
-              />
-            </div>
-            <div class="col-md-6">
-              <label class="labels">State/Region</label
-              ><input
-                type="text"
-                class="form-control"
-                value=""
-                placeholder="state"
-              />
-            </div>
-          </div>
-          <div class="mt-5 text-center">
-            <button class="btn btn-primary profile-button" type="button">
-              Save Profile
-            </button>
-          </div>
+      <!-- ... -->
+      <div class="p-3 py-5">
+        <div class="flex justify-between items-center mt-5 mb-3">
+          <h4 class="text-right text-2xl font-bold">Profile Settings</h4>
         </div>
-      </div>
-      <div class="col-md-4">
-        <div class="p-3 py-5">
-          <div
-            class="d-flex justify-content-between align-items-center experience"
-          >
-            <span>Edit Experience</span
-            ><span class="border px-3 p-1 add-experience"
-              ><i class="fa fa-plus"></i>&nbsp;Experience</span
-            >
-          </div>
-          <br />
-          <div class="col-md-12">
-            <label class="labels">Experience in Designing</label
-            ><input
-              type="text"
-              class="form-control"
-              placeholder="experience"
-              value=""
-            />
-          </div>
-          <br />
-          <div class="col-md-12">
-            <label class="labels">Additional Details</label
-            ><input
-              type="text"
-              class="form-control"
-              placeholder="additional details"
-              value=""
-            />
-          </div>
+        <div class="row-auto mt-5">
+          <el-form ref="ruleFormRef" :model="formModel" label-position="top">
+            <el-form-item prop="FullName" label="FullName">
+              <el-input v-model="formModel.FullName" placeholder="FullName" />
+            </el-form-item>
+            <el-form-item prop="Facebook" label="Facebook">
+              <el-input v-model="formModel.Facebook" placeholder="Facebook" />
+            </el-form-item>
+            <el-form-item prop="PhoneNumber" label="Phone Number">
+              <el-input
+                v-model="formModel.PhoneNumber"
+                placeholder="Phone Number"
+                type="text"
+              />
+            </el-form-item>
+            <el-form-item prop="Location" label="Detail Location">
+              <el-input
+                v-model="formModel.Location"
+                placeholder="Detail Location"
+              />
+            </el-form-item>
+            <div class="items-center justify-center">
+              <el-button type="primary" @click="submitForm(ruleFormRef)">
+                Edit
+              </el-button>
+              <el-button type="danger" @click="$router.back()">
+                Cancel
+              </el-button>
+            </div>
+          </el-form>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref, reactive } from 'vue'
 import apiService from '@/libraries/apiService'
+import { FormInstance } from 'element-plus'
+import {
+  notification,
+  notificationType
+} from '@/libraries/helpers/notificationHelper'
 
 export default defineComponent({
-  name: "ProfilePage",
-  setup() {
-    const response = apiService.getProfile()
-    console.log(response)
-    return {};
-  },
-});
+  name: 'ProfilePage',
+  setup () {
+    const formModel = reactive({
+      Email: '',
+      FullName: '',
+      Location: '',
+      PhoneNumber: '',
+      Facebook: '',
+      Lat: '',
+      Lng: ''
+    })
+    const isLoading = ref(false)
+    const isProcessing = ref(false)
+    const onSubmit = async () => {
+      isProcessing.value = true
+      notification(notificationType.Success, 'Success')
+      // const response = await apiService.postSignUp(request);
+      // if (response.status === "success") {
+      //   notification(notificationType.Success, "Success");
+      // }
+      isProcessing.value = false
+    }
+    const submitForm = (formEl: FormInstance | undefined) => {
+      if (!formEl) return
+      formEl.validate((valid) => {
+        if (valid) {
+          onSubmit()
+        }
+      })
+    }
+    const ruleFormRef = ref<FormInstance>()
+    const getProfile = async () => {
+      isLoading.value = true;
+      const profile = await apiService.getProfile()
+      // if (profile) {
+      formModel.Email = profile['email'];
+      formModel.FullName = profile['fullname'];
+      formModel.Facebook = profile['facebook'];
+      formModel.PhoneNumber = profile['phone_number'];
+      formModel.Location = profile['location'];
+      formModel.Lat = profile['lat'];
+      formModel.Lng = profile['lng'];
+      // }
+      isLoading.value = false;
+    }
+    getProfile()
+    return {
+      formModel,
+      ruleFormRef,
+      isLoading,
+      isProcessing,
+      submitForm
+    }
+  }
+})
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 body {
-    background: rgb(99, 39, 120)
-}
-
-.form-control:focus {
-    box-shadow: none;
-    border-color: #BA68C8
-}
-
-.profile-button {
-    background: rgb(99, 39, 120);
-    box-shadow: none;
-    border: none
-}
-
-.profile-button:hover {
-    background: #682773
-}
-
-.profile-button:focus {
-    background: #682773;
-    box-shadow: none
-}
-
-.profile-button:active {
-    background: #682773;
-    box-shadow: none
-}
-
-.back:hover {
-    color: #682773;
-    cursor: pointer
-}
-
-.labels {
-    font-size: 11px
-}
-
-.add-experience:hover {
-    background: #BA68C8;
-    color: #fff;
-    cursor: pointer;
-    border: solid 1px #BA68C8
+  background: rgb(24, 197, 180);
 }
 </style>

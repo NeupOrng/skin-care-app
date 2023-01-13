@@ -1,6 +1,6 @@
-import { IImage, ImageDto } from './image'
+import { IMeeting, Meeting } from './meeting'
 
-interface IProfile {
+interface IMeetingHistory {
   'id': number,
   'email': string,
   'fullname': string,
@@ -11,9 +11,10 @@ interface IProfile {
   'lng': string,
   'updated_at': string,
   'status_id': number,
+  'meeting': Array<IMeeting>
 }
 
-class Profile implements IProfile {
+class MeetingHistory implements IMeetingHistory {
   'id': number;
   'email': string;
   'fullname': string;
@@ -24,12 +25,14 @@ class Profile implements IProfile {
   'lng': string;
   'updated_at': string;
   'status_id': number;
-  constructor (init: IProfile) {
+  'meeting': Array<Meeting>;
+  constructor (init: IMeetingHistory) {
     Object.assign(this, init)
+    this.meeting = init.meeting.map((item) => new Meeting(item))
   }
 }
 
 export {
-  IProfile,
-  Profile
+  IMeetingHistory,
+  MeetingHistory
 }

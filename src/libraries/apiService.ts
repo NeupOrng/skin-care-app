@@ -10,6 +10,8 @@ import { IPoster, Poster } from '@/model/poster'
 import { IProduct, IProductCartFromApi, Product } from '@/model/product'
 import { IProductType } from '@/model/productType'
 import { IProfile } from '@/model/userProfile'
+import { IOrder } from '@/model/order'
+import { IMeetingHistory } from '@/model/meetingHistory'
 import apiCalling from './apiCalling'
 
 const getResponse = (response: IAxiosPromise) =>
@@ -81,6 +83,14 @@ export default {
   },
   getProfile (): Promise<Array<IProfile>> {
     const response = getResponse(apiCalling.getProfile())
+    return response.then((res) => res.data)
+  },
+  getOrder (): Promise<Array<IOrder>> {
+    const response = getResponse(apiCalling.getOrder())
+    return response.then((res) => res.data)
+  },
+  getMeeting (): Promise<Array<IMeetingHistory>> {
+    const response = getResponse(apiCalling.getMeeting())
     return response.then((res) => res.data)
   }
 }

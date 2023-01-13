@@ -1,35 +1,38 @@
-import { IImage, ImageDto } from './image'
+import { ISell, Sell } from './sell'
 
-interface IProfile {
+interface IOrder {
   'id': number,
   'email': string,
   'fullname': string,
   'phone_number': string,
   'facebook': string,
   'location': string,
-  'lat': string,
-  'lng': string,
+  'lat': number,
+  'lng': number,
   'updated_at': string,
   'status_id': number,
+  'sell': Array<ISell>
 }
 
-class Profile implements IProfile {
+class Order implements IOrder {
   'id': number;
   'email': string;
   'fullname': string;
   'phone_number': string;
   'facebook': string;
   'location': string;
-  'lat': string;
-  'lng': string;
+  'lat': number;
+  'lng': number;
   'updated_at': string;
   'status_id': number;
-  constructor (init: IProfile) {
+  'sell': Array<Sell>;
+  constructor (init: IOrder) {
     Object.assign(this, init)
+    this.sell = init.sell.map((item) => new Sell(item))
   }
 }
 
 export {
-  IProfile,
-  Profile
+  IOrder,
+  Order
 }

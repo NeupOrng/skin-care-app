@@ -106,7 +106,7 @@
     </div>
     <transition>
       <ul
-        class="bg-white border-b-[1px] shadow-md shadow-black"
+        class="bg-white border-b-[1px] shadow-black"
         v-if="desktopProfileDropDown"
       >
         <li
@@ -502,44 +502,44 @@ export default defineComponent({
         Text: 'Best',
         HyperLink: '/products/bestSelling'
       },
-      // {
-      //   Text: 'Routine',
-      //   HyperLink: '',
-      //   Children: [
-      //     {
-      //       Text: 'Triple-Cleanse',
-      //       HyperLink: '/products/triple-cleanse',
-      //       Children: [
-      //         {
-      //           Text: 'Oil Cleaners',
-      //           HyperLink: '/products/oil-cleaners'
-      //         },
-      //         {
-      //           Text: 'Water Based Cleaners',
-      //           HyperLink: '/products/water-based-cleaners'
-      //         },
-      //         {
-      //           Text: 'Cleansing Water',
-      //           HyperLink: '/products/cleansing water'
-      //         }
-      //       ]
-      //     },
-      //     {
-      //       Text: 'Exfoliators',
-      //       HyperLink: '/products/exfoliators',
-      //       Children: [
-      //         {
-      //           Text: 'Physical Exfoliators',
-      //           HyperLink: '/products/physical-exfoliators'
-      //         },
-      //         {
-      //           Text: 'Chemical Exfoliators',
-      //           HyperLink: '/products/chemical-exfoliators'
-      //         }
-      //       ]
-      //     }
-      //   ]
-      // },
+      {
+        Text: 'Routine',
+        HyperLink: '',
+        Children: [
+          {
+            Text: 'Triple-Cleanse',
+            HyperLink: '/products/triple-cleanse',
+            Children: [
+              {
+                Text: 'Oil Cleaners',
+                HyperLink: '/products/oil-cleaners'
+              },
+              {
+                Text: 'Water Based Cleaners',
+                HyperLink: '/products/water-based-cleaners'
+              },
+              {
+                Text: 'Cleansing Water',
+                HyperLink: '/products/cleansing water'
+              }
+            ]
+          },
+          {
+            Text: 'Exfoliators',
+            HyperLink: '/products/exfoliators',
+            Children: [
+              {
+                Text: 'Physical Exfoliators',
+                HyperLink: '/products/physical-exfoliators'
+              },
+              {
+                Text: 'Chemical Exfoliators',
+                HyperLink: '/products/chemical-exfoliators'
+              }
+            ]
+          }
+        ]
+      },
       {
         Text: 'Blog',
         HyperLink: '/blogs'
@@ -552,7 +552,11 @@ export default defineComponent({
       },
       {
         Text: 'Order History',
-        HyperLink: '#'
+        HyperLink: '/history'
+      },
+      {
+        Text: 'Meeting',
+        HyperLink: '/meeting'
       }
     ])
     const { commit, getters } = useStore()

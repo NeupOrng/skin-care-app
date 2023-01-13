@@ -43,6 +43,22 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
+    path: '/history',
+    name: 'History',
+    component: () => import(/* webpackChunkName: "Profile" */ '../views/auth/History.vue'),
+    meta: {
+      isAuth: true
+    }
+  },
+  {
+    path: '/meeting',
+    name: 'Meeting',
+    component: () => import(/* webpackChunkName: "Profile" */ '../views/auth/Meeting.vue'),
+    meta: {
+      isAuth: true
+    }
+  },
+  {
     path: '/blogs',
     name: 'Blogs',
     component: () => import(/* webpackChunkName: "Blogs" */ '../views/blog/Blogs.vue')

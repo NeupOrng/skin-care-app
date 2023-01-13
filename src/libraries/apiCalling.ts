@@ -7,6 +7,8 @@ import { IPoster } from '@/model/poster'
 import axios from 'axios'
 import cookieHelper from './helpers/cookieHelper'
 import { IProfile } from '@/model/userProfile'
+import { IOrder } from '@/model/order'
+import { IMeetingHistory } from '@/model/meetingHistory'
 
 const apiUrl = process.env.VUE_APP_ENDPOINT
 
@@ -65,5 +67,13 @@ export default {
   getProfile (): IAxiosPromise<Array<IProfile>> {
     const token = cookieHelper.getCookie('access-token') ?? ''
     return afterLoginAxiosInstance(token).get('/v1/profile')
+  },
+  getOrder (): IAxiosPromise<Array<IOrder>> {
+    const token = cookieHelper.getCookie('access-token') ?? ''
+    return afterLoginAxiosInstance(token).get('/v1/BuyHistory')
+  },
+  getMeeting (): IAxiosPromise<Array<IMeetingHistory>> {
+    const token = cookieHelper.getCookie('access-token') ?? ''
+    return afterLoginAxiosInstance(token).get('/v1/meetingHistory')
   }
 }
